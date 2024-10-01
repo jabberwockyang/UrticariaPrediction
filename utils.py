@@ -14,6 +14,7 @@ import re
 import yaml
 from preprocessor import Preprocessor
 from joblib import dump, load
+import random
 
 # 数据加载
 def load_data(filepath):
@@ -160,6 +161,8 @@ def reverse_y_scaling(y, scale_factor, log_transform):
     preprocesor = Preprocessor()
     return preprocesor.reverse_scalingY(y, scale_factor, log_transform)
 
+
+       
 # 模型评估
 def evaluate_model(model, model_type, X_test, y_test, sw_test,
                   scale_factor, log_transform):
