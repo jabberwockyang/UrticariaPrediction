@@ -1,0 +1,15 @@
+nni:
+  exp_stp: 'nni9_explog'
+  best_exp_id: 
+  sequence_id: 
+train:
+  exp_stp: 'extval_explog'
+  filepath: 'output/dataforxgboost_timeseries.csv'
+  target_column: 'VisitDuration'
+  feature_list:
+  grouping_parameter_id: '1'
+  groupingparams: 
+    bins: [0, 2, 6, 12, 25, 55, 150]
+    labels: ['0-2', '2-6', '6-12', '12-25', '25-55', '55+']
+  label_toTrain: ['all']
+

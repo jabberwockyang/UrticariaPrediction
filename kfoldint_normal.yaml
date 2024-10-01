@@ -1,0 +1,17 @@
+nni:
+  metric_to_optimize: 
+    - ["default", "maximize"]
+  number_of_trials: 100
+  sequence_id:
+train:
+  exp_stp: 'kfoldint_explog'
+  filepath: 'output/dataforxgboost.csv'
+  target_column: 'VisitDuration'
+  grouping_parameter_id: '1'
+  groupingparams: 
+    bins: [0, 2, 6, 12, 25, 55, 150]
+    labels: ['0-2', '2-6', '6-12', '12-25', '25-55', '55+']
+  label_toTrain: ['all']
+  kfold_k: 5
+  kfold_reps: 5
+

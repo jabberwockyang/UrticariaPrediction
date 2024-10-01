@@ -1,0 +1,32 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "runborutadebugger",
+            "type": "debugpy",
+            "request": "launch",
+            "cwd":"/root/ClinicalXgboost",
+            "python": "/root/.conda/envs/nni/bin/python3",
+            "program": "runboruta.py",
+            "env": {
+                "best_expid": "BD3oGFia",
+                "best_db_path": "nni5_explog/$best_expid/db/nni.sqlite"
+            },
+            "args": [
+                "--filepath",
+                "output/dataforxgboost_ac.csv",
+                "--target_column",
+                "VisitDuration",
+                "--log_dir",
+                "boruta_explog",
+                "--groupingparams",
+                "groupingsetting.yml",
+                "--best_db_path",
+                "$best_db_path",
+                "--features_for_derivation",
+                "boruta_explog/09647097-60b1-4c47-bc04-47eb678f73ea/confirmed_vars.txt"
+            ],
+            "console": "integratedTerminal"
+        }
+    ]
+}

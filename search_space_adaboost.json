@@ -1,0 +1,12 @@
+{
+  "model": {"_type": "choice", "_value": ["adaboost"]},
+  
+  "scale_factor": {"_type": "choice", "_value": [1, 2, 5, 10]},
+  "log_transform": {"_type": "choice", "_value": ["None", "log2", "log10"]},
+  "row_na_threshold" : {"_type": "uniform", "_value": [0, 1]},
+  "col_na_threshold" : {"_type": "uniform", "_value": [0, 0.25]},
+
+  "n_estimators": {"_type": "randint", "_value": [50, 500]},
+  "learning_rate": {"_type": "uniform", "_value": [0.01, 1.0]},
+  "loss": {"_type": "choice", "_value": ["linear", "square", "exponential"]}
+}

@@ -1,0 +1,14 @@
+{
+  "model": {"_type": "choice", "_value": ["svm"]},
+  
+  "scale_factor": {"_type": "choice", "_value": [1, 2, 5, 10]},
+  "log_transform": {"_type": "choice", "_value": ["None", "log2", "log10"]},
+  "row_na_threshold" : {"_type": "uniform", "_value": [0, 1]},
+  "col_na_threshold" : {"_type": "uniform", "_value": [0, 0.25]},
+
+  "C": {"_type": "uniform", "_value": [0.01, 10]},
+  "kernel": {"_type": "choice", "_value": ["linear", "poly", "rbf", "sigmoid"]},
+  "degree": {"_type": "choice", "_value": [2, 3, 4, 5], "_condition": {"kernel": "poly"}},
+  "gamma": {"_type": "choice", "_value": ["scale", "auto"], "_condition": {"kernel": ["poly", "rbf", "sigmoid"]}},
+  "coef0": {"_type": "uniform", "_value": [0, 10], "_condition": {"kernel": ["poly", "sigmoid"]}}
+}
