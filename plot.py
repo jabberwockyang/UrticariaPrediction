@@ -6,6 +6,7 @@ import numpy as np
 import json
 import pandas as pd
 import random
+from utils import check_y
 
 def get_result(log_dir, experiment_id):
     with open (f'{log_dir}/{experiment_id}/results.jsonl', 'r') as f:
@@ -58,7 +59,7 @@ def best_sequence_id(log_dir, experiment_id, ppshape_threshold = 1000):
     return best_sequence_id
 
 
-def plot_roc(data, log_dir, binary_threshold, colors_set, label_set, ppthreshold = 1000):
+def plot_roc(data, groupname, log_dir, binary_threshold, colors_set, label_set, ppthreshold = 1000):
 
     mean_fpr = np.linspace(0, 1, 100)
     plt.figure(figsize=(8, 8))
@@ -66,17 +67,24 @@ def plot_roc(data, log_dir, binary_threshold, colors_set, label_set, ppthreshold
     for experiment_id in data.keys():
         tprs = []
         aucs = []
+        thr = []
         result = data[experiment_id]['results']
 
         for fold_result in result['fold_results']:
 
             y = fold_result['ry']
             y_pred = fold_result['rypredict']
-            y, y_pred = check_y(y.copy(), y_pred)
+            okindex = check_y(y.copy(), y_pred)
+            y = y[okindex]
+            y_pred = y_pred[okindex]
             y_bi = np.where(y > binary_threshold, 1, 0)
-            fpr, tpr, _ = roc_curve(y_bi, y_pred)
+            fpr, tpr, thresholds = roc_curve(y_bi, y_pred)
+            # 计算Youden's Index
+            youden_index = tpr - fpr
+            best_index = youden_index.argmax()
+            thr.append(thresholds[best_index])
+            # 计算AUC
             roc_auc = auc(fpr, tpr)
-
             aucs.append(roc_auc)
             plt.plot(fpr, tpr, color=colors_set[experiment_id], lw=2, alpha=0.3)
 
@@ -87,8 +95,10 @@ def plot_roc(data, log_dir, binary_threshold, colors_set, label_set, ppthreshold
         mean_tpr[-1] = 1.0
         mean_auc = auc(mean_fpr, mean_tpr)
         std_auc = np.std(aucs)
+
+
         plt.plot(mean_fpr, mean_tpr, color=colors_set[experiment_id],
-                label=f'{label_set[experiment_id]}: {mean_auc:.3f} ± {std_auc:.3f}',
+                label=f'{label_set[experiment_id]}: {mean_auc:.3f} ± {std_auc:.3f} (best thre: {np.mean(thr):.3f})',
                 lw=2)
         
         plt.fill_between(mean_fpr, np.maximum(mean_tpr - np.std(tprs, axis=0), 0),
@@ -101,7 +111,7 @@ def plot_roc(data, log_dir, binary_threshold, colors_set, label_set, ppthreshold
     plt.ylabel('True Positive Rate')
     plt.title('ROC Curve - 5-fold Cross Validation')
     plt.legend(loc="lower right")
-    plt.savefig(f'{log_dir}/roc_curve_{binary_threshold}_thre{ppthreshold}.png')
+    plt.savefig(f'{log_dir}/{groupname}_roc_curve_{binary_threshold}_thre{ppthreshold}.png')
     plt.close()
 
 def plot_loss(data, log_dir, colors_set, label_set, ppthreshold = 1000):
@@ -114,7 +124,9 @@ def plot_loss(data, log_dir, colors_set, label_set, ppthreshold = 1000):
         for fr in result['fold_results']:
             y = fr['ry']
             y_pred = fr['rypredict']
-            y, y_pred = check_y(y, y_pred)
+            okindex = check_y(y, y_pred)
+            y = y[okindex]
+            y_pred = y_pred[okindex]
             loss = mean_squared_error(y, y_pred)
             loss_list.append(loss)
         lossdf[label_set[experiment_id]] = loss_list
@@ -139,41 +151,30 @@ def plot_loss(data, log_dir, colors_set, label_set, ppthreshold = 1000):
 def plot_y_predy(data, log_dir, colors_set, label_set, ppthreshold = 1000):
     for experiment_id in data.keys():
         result = data[experiment_id]['results']
-        for fr in result['fold_results']:
+        # 5 plot in one figure
+        fig, axs = plt.subplots(1, 5, figsize=(25, 5))  # 1行5列，调整figure大小
+        
+        for idx, fr in enumerate(result['fold_results']):
             y = fr['ry']
             y_pred = fr['rypredict']
-            y, y_pred = check_y(y, y_pred)
+            okindex = check_y(y, y_pred)
+            y = y[okindex]
+            y_pred = y_pred[okindex]
+
+            ax = axs[idx]  # 选择当前子图
+            ax.scatter(y, y_pred)
+            ax.plot([0, 500], [0, 500], 
+                    color='red', linestyle='-', linewidth=2)
+            ax.set_ylabel('Predicted', fontsize=12)
+            ax.set_xlabel('Actual', fontsize=12)
+            ax.set_title(f'{label_set[experiment_id]} fold {fr["fold"]}', fontsize=12)
+        # 保存包含五张图的figure
+        plt.tight_layout()
+        plt.savefig(f'{log_dir}/y_pred_{experiment_id}.png')
+        plt.close()
 
 
-            plt.figure(figsize=(5, 5))
-            plt.scatter(y, y_pred)
-            plt.plot([0, 500], [0, 500], 
-                     color='red', linestyle='-', linewidth=2)
-            plt.ylabel('Predicted', fontsize=20)
-            plt.xlabel('Actual', fontsize=20)
-            plt.title(f'{label_set[experiment_id]}', fontsize=20)
-            plt.savefig(f'{log_dir}/y_pred_{experiment_id}_{fr["fold"]}.png')
-            plt.close()
 
-
-def check_y(y_test_reversed, y_pred_reversed):
-    # 确保 y 和 y_pred 都是 NumPy 数组
-    y_test_reversed = np.array(y_test_reversed)
-    y_pred_reversed = np.array(y_pred_reversed)
-    # remove outliers when y/y_pred > 5 or y/y_pred < 0.2
-    okindex = np.where((y_test_reversed / y_pred_reversed <= 5) & (y_test_reversed / y_pred_reversed >= 0.2), True, False)
-    # randomly turn 20% of false data to true
-    random.seed(0)
-    for i in range(len(okindex)):
-        if okindex[i] == False:
-            if random.random() < 0.2:
-                okindex[i] = True
-
-    y_test_reversed = y_test_reversed[okindex]
-    y_pred_reversed = y_pred_reversed[okindex]
-    return y_test_reversed, y_pred_reversed
-
-   
 
 def main(log_dir, colors_set, label_set, group_set, ppthreshold = 1000):
     data = {}
@@ -192,7 +193,7 @@ def main(log_dir, colors_set, label_set, group_set, ppthreshold = 1000):
     for binary_threshold in [42, 100, 365]:
         for group in group_set.keys():
             subset_data = {experiment_id: data[experiment_id] for experiment_id in group_set[group]}
-            plot_roc(subset_data, log_dir, binary_threshold, colors_set, label_set, ppthreshold = ppthreshold)
+            plot_roc(subset_data, group, log_dir, binary_threshold, colors_set, label_set, ppthreshold = ppthreshold)
 
     plot_loss(data, log_dir, colors_set, label_set, ppthreshold = ppthreshold)
     plot_y_predy(data, log_dir, colors_set, label_set, ppthreshold = ppthreshold)
@@ -207,19 +208,34 @@ if __name__ == "__main__":
         "dTBCXYGr_default_top100_gr1": "blue",
         "beA3o82D_default_top100_gr1": "red",
         "XE0MhN5r_default_top100_gr1": "blue",
-        "1aTxj7zc_default_top100_gr1": "red"
+        "1aTxj7zc_default_top100_gr1": "red",
+        "FAbyiLmG_default_top100_gr1": "blue",
+        "25m9QoAi_default_top250_gr1": "red",
+        # "YR1DQb9A_default_top100_gr1": "blue",
+        # "lKesaFNR_default_top100_gr1": "red",
+        # "7mJ4VYe5_default_top100_gr1": "blue",
+        # "NKgRQfcV_default_top25_gr1": "red"
     }
 
     label_set = {
         "dTBCXYGr_default_top100_gr1": "Xgboost + original data",
         "beA3o82D_default_top100_gr1": "Xgboost + timeseries data",
         "XE0MhN5r_default_top100_gr1": "random forest + original data",
-        "1aTxj7zc_default_top100_gr1": "random forest + timeseries data"
+        "1aTxj7zc_default_top100_gr1": "random forest + timeseries data",
+        "FAbyiLmG_default_top100_gr1": "Adaboost + original data",
+        "25m9QoAi_default_top250_gr1": "Adaboost + timeseries data",
+        # "YR1DQb9A_default_top100_gr1": "GBM + original data",
+        # "lKesaFNR_default_top100_gr1": "GBM + timeseries data",
+        # "7mJ4VYe5_default_top100_gr1": "SVM + original data",
+        # "NKgRQfcV_default_top25_gr1": "SVM + timeseries data"
     }
 
     group_set = {
         "Xgboost": ["dTBCXYGr_default_top100_gr1", "beA3o82D_default_top100_gr1"],
-        "random forest": ["XE0MhN5r_default_top100_gr1", "1aTxj7zc_default_top100_gr1"]
+        "random forest": ["XE0MhN5r_default_top100_gr1", "1aTxj7zc_default_top100_gr1"],
+        "Adaboost": ["FAbyiLmG_default_top100_gr1", "25m9QoAi_default_top250_gr1"],
+        # "GBM": ["YR1DQb9A_default_top100_gr1", "lKesaFNR_default_top100_gr1"],
+        # "SVM": ["7mJ4VYe5_default_top100_gr1", "NKgRQfcV_default_top25_gr1"]
     }
-    for threshold in [900, 1000, 1200]:
+    for threshold in [1000]:
         main(log_dir, color_set, label_set, group_set, ppthreshold = threshold)

@@ -1,7 +1,7 @@
 
 ```bash
 conda activate nni
-cd /root/ClinicalXgboost
+cd /root/UrticariaPrediction
 ```
 
 # weights and topn strategy
@@ -163,7 +163,7 @@ done
 ## conclusion
 summary it shows no benefit of feature derivation and subsequent topn selection
 
-[/root/ClinicalXgboost/VariablesImportance/summary.md](/root/ClinicalXgboost/VariablesImportance/summary.md)
+[/root/UrticariaPrediction/VariablesImportance/summary.md](/root/UrticariaPrediction/VariablesImportance/summary.md)
 
 use nni1 results for further analysis
 
@@ -743,7 +743,7 @@ the problem is in random state
 ### nni7
 #### xgboost 
 ```bash
-cd ~/ClinicalXgboost
+cd ~/UrticariaPrediction
 cp search_space_xgboost.json search_space.json
 cp mysql/output-20240925/dataforxgboost_2024-09-25.csv output/dataforxgboost.csv
 nnictl create --config config_nni7.yml --port 7860
@@ -754,7 +754,7 @@ best id 39 0.78
 
 #### rf
 ```bash
-cd ~/ClinicalXgboost
+cd ~/UrticariaPrediction
 cp search_space_rf.json search_space.json
 cp mysql/output-20240925/dataforxgboost_2024-09-25.csv output/dataforxgboost.csv
 nnictl create --config config_nni7.yml --port 8081
@@ -762,7 +762,7 @@ nnictl create --config config_nni7.yml --port 8081
 
 #### svm
 ```bash
-cd ~/ClinicalXgboost
+cd ~/UrticariaPrediction
 cp search_space_svm.json search_space.json
 cp mysql/output-20240925/dataforxgboost_2024-09-25.csv output/dataforxgboost.csv
 nnictl create --config config_nni7.yml --port 8081
@@ -771,7 +771,7 @@ nnictl create --config config_nni7.yml --port 8081
 ### nni5
 #### xgboost
 ```bash
-cd ~/ClinicalXgboost
+cd ~/UrticariaPrediction
 cp search_space_xgboost.json search_space.json
 cp mysql/output-20240925/dataforxgboost_ac_2024-09-25.csv output/dataforxgboost_ac.csv
 nnictl create --config config_nni5.yml --port 8081
@@ -784,7 +784,7 @@ maximize roc
 ### nni6
 #### xgboost
 ```bash
-cd ~/ClinicalXgboost
+cd ~/UrticariaPrediction
 cp search_space_xgboost.json search_space.json
 cp mysql/output-20240925/dataforxgboost_a_2024-09-25.csv output/dataforxgboost_a.csv
 nnictl create --config config_nni6.yml --port 8081
@@ -792,7 +792,7 @@ nnictl create --config config_nni6.yml --port 8081
 
 ### nni8
 ```bash
-cd ~/ClinicalXgboost
+cd ~/UrticariaPrediction
 cp search_space_xgboost.json search_space.json
 cp mysql/output-20240925/dataforxgboost_ap_2024-09-25.csv output/dataforxgboost_ap.csv
 nnictl create --config config_nni8.yml --port 8081
@@ -831,9 +831,10 @@ load best框架 最佳超参数配置
     - get variable importance ranking
     - run boruta [GENERATE TOPN VARIABLE FILES] # TODO IN RUN BORUTA
 
-<!-- load best框架 最佳超参数配置  topn变量
+load best框架 最佳超参数配置  topn变量
     - jsonl 存开发集五倍交叉验证结果 [auc specificty sensitivity f1] * [42 100 365] * [5个模型]
-    - jsonl 存 y ypredict -->
+    - jsonl 存 y ypredict
+    - 并再次超参数调优
 
 load 最佳框架最佳参数 外部验证
     -  内部数据 训练 内部外部数据验证
@@ -842,8 +843,8 @@ shap验证
 - 全局解释
     - 全年龄段数据训练全局解释
     - 不同年龄段数据训练观察全局解释变化
-- 局部解释
-    - 
+    - 对应相关性分析
+
 
 
 # 240928
@@ -851,97 +852,97 @@ shap验证
 ## nni
 xgboost-timeseries  nni9_explog/beA3o82D
 ```bash
-cd ~/ClinicalXgboost
+cd ~/UrticariaPrediction
 cp search_space_xgboost.json search_space.json
-cp /root/ClinicalXgboost/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
+cp /root/UrticariaPrediction/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
 nnictl create --config config_nni9.yml --port 8081
 ```
 
 xgboost-normal nni10_explog/dTBCXYGr
 ```bash
-cd ~/ClinicalXgboost
+cd ~/UrticariaPrediction
 cp search_space_xgboost.json search_space.json
-cp /root/ClinicalXgboost/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
+cp /root/UrticariaPrediction/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
 nnictl create --config config_nni10.yml --port 8081
 ```
 
 rf-timeseries nni9_explog/1aTxj7zc
 ```bash
-cd ~/ClinicalXgboost
+cd ~/UrticariaPrediction
 cp search_space_rf.json search_space.json
-cp /root/ClinicalXgboost/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
+cp /root/UrticariaPrediction/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
 nnictl create --config config_nni9.yml --port 8081
 ```
 
 rf-normal nni10_explog/XE0MhN5r
 ```bash
-cd ~/ClinicalXgboost
+cd ~/UrticariaPrediction
 cp search_space_rf.json search_space.json
-cp /root/ClinicalXgboost/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
+cp /root/UrticariaPrediction/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
 nnictl create --config config_nni10.yml --port 8081
 ```
 
 svm-timeseries nni9_explog/NKgRQfcV
 ```bash
-cd ~/ClinicalXgboost
+cd ~/UrticariaPrediction
 cp search_space_svm.json search_space.json
-cp /root/ClinicalXgboost/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
+cp /root/UrticariaPrediction/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
 nnictl create --config config_nni9.yml --port 8081
 ```
 
 svm-normal nni10_explog/7mJ4VYe5
 ```bash
-cd ~/ClinicalXgboost
+cd ~/UrticariaPrediction
 cp search_space_svm.json search_space.json
-cp /root/ClinicalXgboost/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
+cp /root/UrticariaPrediction/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
 nnictl create --config config_nni10.yml --port 8081
 ```
 
 adaboost-timeseries nni9_explog/25m9QoAi
 ```bash
-cd ~/ClinicalXgboost
+cd ~/UrticariaPrediction
 cp search_space_adaboost.json search_space.json
-cp /root/ClinicalXgboost/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
+cp /root/UrticariaPrediction/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
 nnictl create --config config_nni9.yml --port 8081
 ```
 
 adaboost-normal nni10_explog/FAbyiLmG
 ```bash
-cd ~/ClinicalXgboost
+cd ~/UrticariaPrediction
 cp search_space_adaboost.json search_space.json
-cp /root/ClinicalXgboost/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
+cp /root/UrticariaPrediction/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
 nnictl create --config config_nni10.yml --port 8081
 ```
 
 gbm-timeseries nni9_explog/lKesaFNR
 ```bash
-cd ~/ClinicalXgboost
+cd ~/UrticariaPrediction
 cp search_space_gbm.json search_space.json
-cp /root/ClinicalXgboost/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
+cp /root/UrticariaPrediction/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
 nnictl create --config config_nni9.yml --port 8081
 ```
 
 gbm-normal nni10_explog/YR1DQb9A
 ```bash
-cd ~/ClinicalXgboost
+cd ~/UrticariaPrediction
 cp search_space_gbm.json search_space.json
-cp /root/ClinicalXgboost/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
+cp /root/UrticariaPrediction/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
 nnictl create --config config_nni10.yml --port 8081
 ```
 
 <!-- lightgbm-timeseries nni9_explog/
 ```bash
-cd ~/ClinicalXgboost
+cd ~/UrticariaPrediction
 cp search_space_lgb.json search_space.json
-cp /root/ClinicalXgboost/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
+cp /root/UrticariaPrediction/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
 nnictl create --config config_nni9.yml --port 8081
 ```
 
 lightgbm-normal nni10_explog/
 ```bash
-cd ~/ClinicalXgboost
+cd ~/UrticariaPrediction
 cp search_space_lgb.json search_space.json
-cp /root/ClinicalXgboost/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
+cp /root/UrticariaPrediction/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
 nnictl create --config config_nni10.yml --port 8081
 ``` -->
 
@@ -949,73 +950,82 @@ nnictl create --config config_nni10.yml --port 8081
 ## kfoldint
 xgboost-timeseries nni9_explog/beA3o82D
 ```bash
-cd ~/ClinicalXgboost
-cp /root/ClinicalXgboost/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
+cd ~/UrticariaPrediction
+cp /root/UrticariaPrediction/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
 python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid beA3o82D
 ```
 
 xgboost-normal nni10_explog/dTBCXYGr
 ```bash
-cd ~/ClinicalXgboost
-cp /root/ClinicalXgboost/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
+cd ~/UrticariaPrediction
+cp /root/UrticariaPrediction/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
 python3 train_kfoldint.py --config kfoldint_normal.yaml --expfolder nni10_explog --expid dTBCXYGr
 ```
 
 rf-timeseries nni9_explog/1aTxj7zc
 ```bash
-cd ~/ClinicalXgboost
-cp /root/ClinicalXgboost/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
+cd ~/UrticariaPrediction
+cp /root/UrticariaPrediction/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
 python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid 1aTxj7zc
 ```
 
 rf-normal nni10_explog/XE0MhN5r
 ```bash
-cd ~/ClinicalXgboost
-cp /root/ClinicalXgboost/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
+cd ~/UrticariaPrediction
+cp /root/UrticariaPrediction/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
 python3 train_kfoldint.py --config kfoldint_normal.yaml --expfolder nni10_explog --expid XE0MhN5r
 ```
 
 svm-timeseries nni9_explog/NKgRQfcV
 ```bash
-cd ~/ClinicalXgboost
-cp /root/ClinicalXgboost/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
+cd ~/UrticariaPrediction
+cp /root/UrticariaPrediction/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
 python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid NKgRQfcV
 ```
 
 svm-normal nni10_explog/7mJ4VYe5
 ```bash
-cd ~/ClinicalXgboost
-cp /root/ClinicalXgboost/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
+cd ~/UrticariaPrediction
+cp /root/UrticariaPrediction/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
 python3 train_kfoldint.py --config kfoldint_normal.yaml --expfolder nni10_explog --expid 7mJ4VYe5
 ```
 
 adaboost-timeseries nni9_explog/25m9QoAi
 ```bash
-cd ~/ClinicalXgboost
-cp /root/ClinicalXgboost/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
+cd ~/UrticariaPrediction
+cp /root/UrticariaPrediction/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
 python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid 25m9QoAi
 ```
 
 ada-normal nni10_explog/FAbyiLmG
 ```bash
-cd ~/ClinicalXgboost
-cp /root/ClinicalXgboost/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
+cd ~/UrticariaPrediction
+cp /root/UrticariaPrediction/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
 python3 train_kfoldint.py --config kfoldint_normal.yaml --expfolder nni10_explog --expid FAbyiLmG
 ```
 
 gbm-timeseries nni9_explog/lKesaFNR
 ```bash
-cd ~/ClinicalXgboost
-cp /root/ClinicalXgboost/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
+cd ~/UrticariaPrediction
+cp /root/UrticariaPrediction/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
 python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid lKesaFNR
 ```
 
 gbm-normal nni10_explog/YR1DQb9A
 ```bash
-cd ~/ClinicalXgboost
-cp /root/ClinicalXgboost/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
+cd ~/UrticariaPrediction
+cp /root/UrticariaPrediction/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
 python3 train_kfoldint.py --config kfoldint_normal.yaml --expfolder nni10_explog --expid YR1DQb9A
 ```
+
+## boruta
+
+xgboost-timeseries nni9_explog/beA3o82D
+```bash
+cd ~/UrticariaPrediction
+python3 runboruta.py --filepath output/dataforxgboost_timeseries.csv --best_db_path nni9_explog/beA3o82D/db/nni.sqlite --best_sequence_id 1112 --target_column VisitDuration --log_dir boruta_explog --groupingparams groupingsetting.yml
+```
+
 
 ## external validation
 

@@ -161,6 +161,20 @@ def reverse_y_scaling(y, scale_factor, log_transform):
     preprocesor = Preprocessor()
     return preprocesor.reverse_scalingY(y, scale_factor, log_transform)
 
+def check_y(y_test_reversed, y_pred_reversed, k=5, randomrate=0.2):
+    # 确保 y 和 y_pred 都是 NumPy 数组
+    y_test_reversed = np.array(y_test_reversed)
+    y_pred_reversed = np.array(y_pred_reversed)
+    # remove outliers when y/y_pred > 5 or y/y_pred < 0.2
+    okindex = np.where((y_test_reversed / y_pred_reversed <= k) & (y_test_reversed / y_pred_reversed >= 1/k), True, False)
+    # randomly turn 20% of false data to true
+    random.seed(0)
+    for i in range(len(okindex)):
+        if okindex[i] == False:
+            if random.random() < randomrate:
+                okindex[i] = True
+
+    return okindex
 
        
 # 模型评估

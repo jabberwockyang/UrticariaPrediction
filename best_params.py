@@ -76,7 +76,7 @@ def get_best_params(df, metric_to_optimize:list=[('roc_auc',"maximize")], number
     logger.info(f"top {number_of_trials} best params: {best_parameter_id_list[:5]}")
     return best_parameter_id_list
 
-def get_params_by_sequence_id(df, sequence_ids):
+def get_params_by_sequence_id(df, sequence_ids:list):
     best_parameter_id_list = []
     # 找到最优的参数
     for sequence_id in sequence_ids:

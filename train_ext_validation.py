@@ -78,19 +78,19 @@ def trainbyhyperparam(datapath,
     
     model_type = params.pop('model')
 
-    def train_model(model_type, params):
+    def train_model(model_type, param):
         if model_type == "xgboost":
             # XGBoost 特有的 GPU 参数
-            params["device"] = "cuda"
-            params["tree_method"] = "hist"
+            param["device"] = "cuda"
+            param["tree_method"] = "hist"
 
-            custom_metric_key = params.pop('custom_metric')
-            num_boost_round = params.pop('num_boost_round')
-            early_stopping_rounds = params.pop('early_stopping_rounds')
+            custom_metric_key = param.pop('custom_metric')
+            num_boost_round = param.pop('num_boost_round')
+            early_stopping_rounds = param.pop('early_stopping_rounds')
 
             custom_metric, maximize = custom_eval_roc_auc_factory(custom_metric_key, scale_factor, log_transform) # 'prerec_auc' 'roc_auc' None
 
-            xgb_params = {k: v for k, v in params.items() if v is not None}  # 去除 None
+            xgb_params = {k: v for k, v in param.items() if v is not None}  # 去除 None
             # 构建 DMatrix
             dtrain = xgb.DMatrix(X_deriva, label=y_deriva, weight=sw_deriva)
             dval = xgb.DMatrix(X_test_ext, label=y_test_ext, weight=sw_test_ext)
@@ -105,12 +105,12 @@ def trainbyhyperparam(datapath,
                             early_stopping_rounds=early_stopping_rounds)
 
         elif model_type == "svm":
-            svm_params = {k: v for k, v in params.items() if v is not None}  # 去除 None
+            svm_params = {k: v for k, v in param.items() if v is not None}  # 去除 None
             model = svm.SVR(**svm_params)
             model.fit(X_deriva, y_deriva, sample_weight=sw_deriva)
 
         elif model_type == "random_forest":
-            rf_params = {k: v for k, v in params.items() if v is not None}  # 去除 None
+            rf_params = {k: v for k, v in param.items() if v is not None}  # 去除 None
             model = RandomForestRegressor(**rf_params)
             model.fit(X_deriva, y_deriva, sample_weight=sw_deriva)
 

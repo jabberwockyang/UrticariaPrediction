@@ -56,11 +56,15 @@ def select_model(model_type, params):
 def main(filepath,  params, preprocessor, experiment_name, log_dir, max_iteration = 50):
     scale_factor = params.pop('scale_factor') # 用于线性缩放目标变量
     log_transform = params.pop('log_transform') # 是否对目标变量进行对数变换
+    row_na_threshold = params.pop('row_na_threshold') # 丢弃缺失值比例超过阈值的样本
+    col_na_threshold = params.pop('col_na_threshold') # 丢弃缺失值比例超过阈值的特征
 
     data = load_data(filepath)
-    X, y, sample_weight = preprocessor.preprocess(data,
+    X, y, sample_weight,_,_ = preprocessor.preprocess(data,
                                                   scale_factor,
                                                   log_transform,
+                                                    row_na_threshold,
+                                                    col_na_threshold,
                                                   pick_key= 'all')
     # 权重
     logger.info(f"Before augmentation: {X.shape}, {y.shape}")
@@ -68,7 +72,7 @@ def main(filepath,  params, preprocessor, experiment_name, log_dir, max_iteratio
     logger.info(f"After augmentation: {X.shape}, {y.shape}")
 
     # 初始化一个 树模型
-    modeltype = params.pop('modeltype')
+    modeltype = params.pop('model')
     model = select_model(modeltype, params)
     # 初始化一个 DataFrame 来存储特征排名
     ranking_df = pd.DataFrame(columns=X.columns)
@@ -176,7 +180,7 @@ def argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument('--filepath', type=str)
     parser.add_argument('--best_db_path', type=str)
-    parser.add_argument('--best_sequence_id', type=str)
+    parser.add_argument('--best_sequence_id', type=int)
     parser.add_argument('--max_iteration', type=int, default=50)
 
     parser.add_argument('--target_column', type=str, default='VisitDuration')
@@ -202,7 +206,7 @@ if __name__ == "__main__":
 
     
     df  = opendb(args.best_db_path)
-    best_param = get_params_by_sequence_id(df, args.best_sequence_id)
+    paramid, best_param, sequenceid = get_params_by_sequence_id(df, [args.best_sequence_id])[0]
     
     # save copy of best_param
     with open(os.path.join(log_dir, 'best_param.json'), 'w') as f:

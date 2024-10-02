@@ -1,42 +1,24 @@
-# todo 全部数据用作validation
-# 全部数据用作画图结果
+
 import xgboost as xgb
 from sklearn.model_selection import train_test_split
-import argparse
 import yaml
-import os
-import json
 from loguru import logger
    
-from best_params import opendb, get_best_params, get_params_by_sequence_id
-from utils import load_data, custom_eval_roc_auc_factory, evaluate_model, convert_floats
-from preprocessor import Preprocessor, FeatureDrivator, FeatureFilter
-from sklearn.model_selection import KFold
+from best_params import opendb, get_params_by_sequence_id
+from utils import load_data, custom_eval_roc_auc_factory,check_y, reverse_y_scaling
+from preprocessor import Preprocessor, FeatureFilter
+
 from sklearn.ensemble import RandomForestRegressor
 from sklearn import svm
-import numpy as np
-import shap
 
 
 # 主函数
-def trainbyhyperparam(datapath, 
-                      log_dir,
-                      experiment_id, sequence_id, params,
-                      preprocessor: Preprocessor, subsetlabel: str = 'all',
-                      n_splits=5, 
-                      n_repeats=1,
+def trainbyhyperparam(datapath,  params,
+                      preprocessor: Preprocessor, 
+                      subsetlabel: str = 'all',
                       topn = None):
 
-    hyperparameters = {
-        "experiment_id": experiment_id,
-        "sequence_id": sequence_id,
-        "params": params,
-        'functionparmas': locals()  
-    }
-    with open(f'{log_dir}/{experiment_id}/hyperparameters.jsonl', 'a') as f:
-        json.dump(convert_floats(hyperparameters), f, ensure_ascii=False)
-        f.write('\n')
-    
+    paramscopy = params.copy()
     # 从超参数中提取预处理参数
     scale_factor = params.pop('scale_factor') # 用于线性缩放目标变量
     log_transform = params.pop('log_transform') # 是否对目标变量进行对数变换
@@ -46,38 +28,18 @@ def trainbyhyperparam(datapath,
     # 加载数据
     data = load_data(datapath)
     # 预处理数据
-    X, y, sample_weight, avg_missing_perc_row, avg_missing_perc_col = preprocessor.preprocess(data, 
-                                                                            scale_factor,
-                                                                            log_transform,
-                                                                            row_na_threshold,
-                                                                            col_na_threshold,
-                                                                            pick_key= subsetlabel,
-                                                                            topn=topn)
+    X, y, sample_weight, _, _ = preprocessor.preprocess(data, 
+                                                        scale_factor,
+                                                        log_transform,
+                                                        row_na_threshold,
+                                                        col_na_threshold,
+                                                        pick_key= subsetlabel,
+                                                        topn=topn)
     
-    if X.shape[0] == 0:
-        logger.warning(f"No data for {subsetlabel}")
-        return
+    if X.shape[0] < 800:
+        logger.warning(f"less than 800 data for {subsetlabel}")
+        return None, None, None
        
-    # 备份数据
-    Xy = X.copy()
-    Xy['target'] = y
-    Xy.to_csv(f'{log_dir}/{experiment_id}/datapreprocessed.csv', index=False)
-    ppshape = {
-        "experiment_id": experiment_id,
-        "sequence_id" : sequence_id,
-        'functionparmas': locals(),
-        'pp_params':{'row_na_threshold': row_na_threshold, 'col_na_threshold': col_na_threshold},
-        'ppresults':{
-            'shape': [Xy.shape[0], Xy.shape[1]],
-            'avg_missing_perc_row': avg_missing_perc_row,
-            'avg_missing_perc_col': avg_missing_perc_col
-        }
-    }
-    # 预处理结果保存
-    with open(f'{log_dir}/{experiment_id}/ppshape.jsonl', 'a') as f:
-        json.dump(convert_floats(ppshape), f, ensure_ascii=False)
-        f.write('\n')
-
     
     # external test set split
     X_deriva, X_test_ext, y_deriva, y_test_ext, sw_deriva, sw_test_ext = train_test_split(X, y, sample_weight, test_size=0.3, random_state=42)   
@@ -119,6 +81,23 @@ def trainbyhyperparam(datapath,
             rf_params = {k: v for k, v in param.items() if v is not None}  # 去除 None
             model = RandomForestRegressor(**rf_params)
             model.fit(X, y, sample_weight=sample_weight)
+        # elif model_type == "lightgbm":
+        #     from lightgbm import LGBMRegressor
+        #     lgb_params = {k: v for k, v in params.items() if v is not None}  # 去除 None
+        #     model = LGBMRegressor(**lgb_params)
+        #     model.fit(X, y, sample_weight=sample_weight)
+
+        elif model_type == "gbm":
+            from sklearn.ensemble import GradientBoostingRegressor
+            gbm_params = {k: v for k, v in params.items() if v is not None}  # 去除 None
+            model = GradientBoostingRegressor(**gbm_params)
+            model.fit(X_deriva, y_deriva, sample_weight=sw_deriva)
+
+        elif model_type == "adaboost":
+            from sklearn.ensemble import AdaBoostRegressor
+            ada_params = {k: v for k, v in params.items() if v is not None}  # 去除 None
+            model = AdaBoostRegressor(**ada_params)
+            model.fit(X_deriva, y_deriva, sample_weight=sw_deriva)
 
         else:
             raise ValueError(f"Unsupported model type: {model_type}")
@@ -127,49 +106,7 @@ def trainbyhyperparam(datapath,
 
     model = train_model(model_type, params.copy())  # 传入超参数
 
-    loss, roc_auc_json, prerec_auc_json= evaluate_model(model, model_type, 
-                                                        X_test_ext, y_test_ext, sw_test_ext, 
-                                                        scale_factor, log_transform)
-
-    fold_results = [{
-            'fold': 0,
-            'loss': loss,
-            'roc_auc_json': roc_auc_json,
-            'avg_roc_auc': np.mean([roc_obj["roc_auc"] for roc_obj in roc_auc_json]),
-            'roc_auc_42': [roc_obj for roc_obj in roc_auc_json if roc_obj["binary_threshold"] == 42][0],
-            'prerec_auc_json': prerec_auc_json,
-            'avg_prerec_auc': np.mean([prerec_obj["prerec_auc"] for prerec_obj in prerec_auc_json]),
-            'prerec_auc_42': [prerec_obj for prerec_obj in prerec_auc_json if prerec_obj["binary_threshold"] == 42][0]
-        }]
-
-    # 保存实验 id 超参数 和 结果 # 逐行写入
-    result = {
-        "experiment_id": experiment_id,
-        'sequence_id': sequence_id,
-        'functionparmas': locals(),
-        'fold_results': fold_results
-    }
-
-    with open(f'{log_dir}/{experiment_id}/results.jsonl', 'a') as f:
-        json.dump(convert_floats(result), f, ensure_ascii=False)
-        f.write('\n')
-    
-    avg_loss = np.mean([result['loss'] for result in fold_results])
-    avg_42_roc_auc = np.mean([result['roc_auc_42'] for result in fold_results])
-    avg_100_roc_auc = np.mean([result['roc_auc_json'] for result in fold_results])
-
-    
-
-    return avg_loss, avg_42_roc_auc, avg_100_roc_auc
-
-
-def parse_args():
-    parser = argparse.ArgumentParser(description='Run XGBoost Model Training with Grouping Parameters')
-    parser.add_argument('--config', type=str, required=True, help='Path to the configuration YAML file')
-    parser.add_argument('--expid', type=str, default=None, help='Experiment ID of nni results to run grouped training')
-    
-    args = parser.parse_args()
-    return args
+    return model
 
 def load_config(config_path):
     with open(config_path, 'r') as file:
@@ -178,67 +115,80 @@ def load_config(config_path):
         train_config = config['train']
     return config, nni_config, train_config
 
-if __name__ == "__main__":
-    args = parse_args()
-    config, nni_config, train_config = load_config(args.config)
+def get_data_for_Shap(model, filepath, parmas, preprocessor: Preprocessor, k, randomrate):
+    # filter x, y for shap explainer
+    scale_factor = parmas['scale_factor'] # 用于线性缩放目标变量
+    log_transform = parmas['log_transform'] # 是否对目标变量进行对数变换
+    row_na_threshold =  parmas['row_na_threshold'] # 用于删除缺失值过多的行
+    col_na_threshold =  parmas['col_na_threshold'] # 用于删除缺失值过多的列
+
+    # 加载数据
+    data = load_data(filepath)
+    # 预处理数据
+    X, y, sampleweight, _, _ = preprocessor.preprocess(data, 
+                                scale_factor,
+                                log_transform,
+                                row_na_threshold,
+                                col_na_threshold,
+                                pick_key= 'all'
+                                )
+    
+    # predict 
+    dtest = xgb.DMatrix(X, label=y)
+    y_pred = model.predict(dtest)
+    okindex = check_y(y, y_pred, k, randomrate)
+    X = X[okindex]
+    return X
+
+
+def get_model_data_for_shap(config, expid, sequenceid):
+
+    config, nni_config, train_config = load_config(config)
 
     # 读取nni实验中最佳超参数
     former_exp_stp = nni_config['exp_stp']
-    # if expid not provided in arg then use the one in config
-    
-
-    best_exp_id = args.expid if args.expid else nni_config['best_exp_id']
+    best_exp_id = expid
     best_db_path = f'{former_exp_stp}/{best_exp_id}/db/nni.sqlite'
     df = opendb(best_db_path)
-
-    if nni_config['sequence_id'] is not None:
-        ls_of_params = get_params_by_sequence_id(df, nni_config['sequence_id'])
-    else:
-        metric_to_optimize = nni_config['metric_to_optimize']
-        number_of_trials = nni_config['number_of_trials']
-        ls_of_params = get_best_params(df, metric_to_optimize, number_of_trials)
     
+    paramid, parmas, sequenceid = get_params_by_sequence_id(df, [sequenceid])[0]
 
     # 训练数据相关参数
-    current_exp_stp = train_config['exp_stp']
-    if not os.path.exists(current_exp_stp):
-        os.makedirs(current_exp_stp)
     filepath = train_config['filepath']
     target_column = train_config['target_column']
 
-    kfold_k = train_config['kfold_k']
-    kfold_reps = train_config['kfold_reps']
-    assert kfold_k >= kfold_reps, "kfold_k should be greater than or equal to kfold_reps"
-    assert isinstance(kfold_k, int) and isinstance(kfold_reps, int), "kfold_k and kfold_reps should be integers"
-
-    # 分组参数
-    label_toTrain = train_config['label_toTrain']
     groupingparams = {'grouping_parameter_id': train_config['grouping_parameter_id'],
                       'bins': train_config['groupingparams']['bins'],
                       'labels': train_config['groupingparams']['labels']}
 
     
     # 实例化预处理器
-    featurelistpath = train_config['features_list']
-    featurelist = open(featurelistpath, 'r').read().splitlines()
-
+    featurelistpath = train_config['feature_list'] 
+    featurelist = open(featurelistpath, 'r').read().splitlines() if featurelistpath else None
     ff = FeatureFilter(target_column= target_column, 
                        method = 'selection',
-                       featurelist=featurelist)
+                       featurelist=featurelist) if featurelist else None
     pp = Preprocessor(target_column, groupingparams, FeaturFilter=ff)
-    # 实验日志目录
-    experiment_id = f'{best_exp_id}_{"&".join([m[0] for m in metric_to_optimize])}_top{number_of_trials}_gr{train_config["grouping_parameter_id"]}'
+
+    model = trainbyhyperparam(filepath, parmas.copy(), pp, 'all')
     
-    for best_param_id, best_params, sequence_ids in ls_of_params:
-        for label in label_toTrain:
-            sequence_id = str(best_exp_id)+ '_' + str(sequence_ids[0]) + '_' + str(train_config['grouping_parameter_id']) + '_' + label
-            avg_loss, avg_42_roc_auc, avg_100_roc_auc = trainbyhyperparam(filepath, 
-                                                                          current_exp_stp,
-                                                                          experiment_id, sequence_id, best_params,
-                                                                          pp, label, n_splits=kfold_k, n_repeats=kfold_reps)
-
-
+    # fmodel, params, X, pp, fp
+    return model, parmas.copy(), pp, filepath
         
 
+class ModelReversingY():
+    def __init__(self, model, params: dict):
+        self.model = model
+        self.params = params
+        self.scale_factor = params['scale_factor']
+        self.log_transform = params['log_transform']
+    def predict(self, X_test):
+        dtest = xgb.DMatrix(X_test)
+        y = self.model.predict(dtest)
+        ry = reverse_y_scaling(y, self.scale_factor, self.log_transform)
+        return ry
 
-
+if __name__ == '__main__':
+    # beA3o82D_1112_1_all
+    fmodel, preprocessor, X, y= get_model_data_for_shap('trainshap_timeseries.yaml', 'beA3o82D', 1112)
+    model = ModelReversingY(fmodel, preprocessor)
