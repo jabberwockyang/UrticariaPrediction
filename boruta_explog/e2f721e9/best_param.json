@@ -1,0 +1,17 @@
+{
+    "model": "xgboost",
+    "scale_factor": 5,
+    "log_transform": "log2",
+    "row_na_threshold": 0.16350405562838605,
+    "col_na_threshold": 0.00161670089858287,
+    "max_depth": 2,
+    "min_child_weight": 3.0549513175101266,
+    "gamma": 5.751852928497929,
+    "colsample_bytree": 0.7289907443799563,
+    "learning_rate": 0.1,
+    "alpha": 0.2,
+    "objective": "reg:squaredlogerror",
+    "num_boost_round": 400,
+    "custom_metric": "roc_auc",
+    "early_stopping_rounds": 100
+}

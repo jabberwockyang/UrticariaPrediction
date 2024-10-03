@@ -134,6 +134,7 @@ class FeatureFilter:
                     selected features number: {len(features_to_use)}
                     """)
         df = df[features_to_use + [self.target_column, 'sample_weight','agegroup', 'visitdurationgroup']]
+        logger.info(f"features now in use: {df.columns}")
         return df
 
 class Preprocessor:
@@ -151,7 +152,7 @@ class Preprocessor:
         self.feature_filter = FeaturFilter
 
 
-    def _dropna(self, df: pd.DataFrame,row_na_threshold: float = 0.5, col_na_threshold: float = 0.5):
+    def _dropna(self, df: pd.DataFrame,row_na_threshold: float = 0.5, col_na_threshold: float = 0.5, common_blood_test: bool = False):
         logger.info(f"Dropping NaN values")
         # dropna
 
@@ -160,15 +161,20 @@ class Preprocessor:
         # df = df.drop(columns=[col for col in df.columns if df[col].nunique() == 1])
 
         ## remove rows with more than 50% NaN values in CommonBloodTest
-        # namelist = [x[1] for x in self.ExaminationItemClass['CommonBloodTest']]
-        # result_cols2 = df.columns[df.columns.str.contains("|".join(namelist))]
-        df = df.dropna(axis=0, thresh= int(row_na_threshold * len(df.columns)))
+        
+        if common_blood_test:
+            namelist = [x[1] for x in self.ExaminationItemClass['CommonBloodTest']]
+            result_cols2 = df.columns[df.columns.str.contains("|".join(namelist))]
+            df = df.dropna(subset= result_cols2, thresh= int(row_na_threshold * len(result_cols2)))
+        else: # default
+            df = df.dropna(axis=0, thresh= int(row_na_threshold * len(df.columns)))
 
         ## remove rows with any NaN values in Gender,FirstVisitAge,VisitDuration,CIndU
         df = df.dropna(subset= ['Gender','FirstVisitAge','VisitDuration','CIndU'], how='any', axis=0)
         df = df.dropna(subset = [self.target_column], how='any', axis=0)
         
         # reset index
+
         df = df.reset_index()
         # print the columns with NaN values
         logger.info(f"Columns with NaN values: {df.columns[df.isna().any()]}")
@@ -270,8 +276,10 @@ class Preprocessor:
         logger.info(f"Scaling the X data by min-max")
         result_cols = df.columns[df.columns.str.contains('Avg|Count|Sum|Max|Min|Median|Std|Skew|Kurt|Pct')]
         for col in result_cols:
-            df[col] = (df[col] - df[col].min()) / (df[col].max() - df[col].min())
-        df = df.dropna(axis=1, how='all')
+            if df[col].nunique() > 1:
+                df[col] = (df[col] - df[col].min()) / (df[col].max() - df[col].min())
+            else:
+                df[col] = 0
 
         # logger.debug(f"""
         #             {df.head()}
@@ -315,9 +323,10 @@ class Preprocessor:
                     row_na_threshold: float = 0.5,
                     col_na_threshold: float = 0.5,
                     pick_key = '0-2',
-                    topn: int|float|None = None):
+                    topn: int|float|None = None,
+                    common_blood_test: bool = False):
         # dropna
-        df, avg_missing_perc_row, avg_missing_perc_col = self._dropna(df, row_na_threshold, col_na_threshold)
+        df, avg_missing_perc_row, avg_missing_perc_col = self._dropna(df, row_na_threshold, col_na_threshold, common_blood_test)
 
         # Missing value imputation
         df = self._imputation(df)
@@ -344,6 +353,8 @@ class Preprocessor:
         # if no filterer is instanced then all features are used
         logger.info(f"Preprocessed data head: {df.head()}")
         
+        if 'index' in df.columns:
+            df = df.drop(columns=['index'])
         X = df.drop(columns=[self.target_column, 'sample_weight','agegroup', 'visitdurationgroup'])
         y = df[self.target_column]
         sample_weight = df['sample_weight']
@@ -359,10 +370,11 @@ if __name__ == "__main__":
     from sklearn.model_selection import train_test_split
     import xgboost as xgb
     from utils import load_config
-    df = pd.read_csv('output/dataforxgboost_ac.csv')
+    df = pd.read_csv('output/dataforxgboost.csv')
     groupingparams = load_config('groupingsetting.yml')['groupingparams']
     pp = Preprocessor(target_column='VisitDuration', groupingparams=groupingparams)
-    X, y, sample_weight = pp.preprocess(df, scale_factor=1, log_transform='log2', pick_key='all', topn=None)
-
+    X, y, sample_weight, _, _ = pp.preprocess(df, scale_factor=1, log_transform='log2', pick_key='all', topn=None, row_na_threshold=0.2, col_na_threshold=0.01)
+    # if 'index' in X.columns:
+    print(X.columns)
     reversed_y = pp.reverse_scalingY(y.values, scale_factor=1, log_transform='log2')
 

@@ -71,14 +71,15 @@ def plot_roc(data, groupname, log_dir, binary_threshold, colors_set, label_set, 
         result = data[experiment_id]['results']
 
         for fold_result in result['fold_results']:
+            # to array and check y
+            y_array = np.array(fold_result['ry'])
+            y_pred_array = np.array(fold_result['rypredict'])
+            okindex = check_y(y_array, y_pred_array)
 
-            y = fold_result['ry']
-            y_pred = fold_result['rypredict']
-            okindex = check_y(y.copy(), y_pred)
-            y = y[okindex]
-            y_pred = y_pred[okindex]
-            y_bi = np.where(y > binary_threshold, 1, 0)
-            fpr, tpr, thresholds = roc_curve(y_bi, y_pred)
+            y_array = y_array[okindex]
+            y_pred_array = y_pred_array[okindex]
+            y_bi = np.where(y_array > binary_threshold, 1, 0)
+            fpr, tpr, thresholds = roc_curve(y_bi, y_pred_array)
             # 计算Youden's Index
             youden_index = tpr - fpr
             best_index = youden_index.argmax()
@@ -122,12 +123,13 @@ def plot_loss(data, log_dir, colors_set, label_set, ppthreshold = 1000):
         result = data[experiment_id]['results']
         loss_list = []
         for fr in result['fold_results']:
-            y = fr['ry']
-            y_pred = fr['rypredict']
-            okindex = check_y(y, y_pred)
-            y = y[okindex]
-            y_pred = y_pred[okindex]
-            loss = mean_squared_error(y, y_pred)
+            y_array = np.array(fr['ry'])
+            y_pred_array = np.array(fr['rypredict'])
+            okindex = check_y(y_array, y_pred_array)
+
+            y_array = y_array[okindex]
+            y_pred_array = y_pred_array[okindex]
+            loss = mean_squared_error(y_array, y_pred_array)
             loss_list.append(loss)
         lossdf[label_set[experiment_id]] = loss_list
 
@@ -155,14 +157,14 @@ def plot_y_predy(data, log_dir, colors_set, label_set, ppthreshold = 1000):
         fig, axs = plt.subplots(1, 5, figsize=(25, 5))  # 1行5列，调整figure大小
         
         for idx, fr in enumerate(result['fold_results']):
-            y = fr['ry']
-            y_pred = fr['rypredict']
-            okindex = check_y(y, y_pred)
-            y = y[okindex]
-            y_pred = y_pred[okindex]
+            y_array = np.array(fr['ry'])
+            y_pred_array = np.array(fr['rypredict'])
+            okindex = check_y(y_array, y_pred_array)
+            y_array = y_array[okindex]
+            y_pred_array = y_pred_array[okindex]
 
             ax = axs[idx]  # 选择当前子图
-            ax.scatter(y, y_pred)
+            ax.scatter(y_array, y_pred_array, color=colors_set[experiment_id], alpha=0.3)
             ax.plot([0, 500], [0, 500], 
                     color='red', linestyle='-', linewidth=2)
             ax.set_ylabel('Predicted', fontsize=12)
@@ -207,10 +209,10 @@ if __name__ == "__main__":
     color_set = {
         "dTBCXYGr_default_top100_gr1": "blue",
         "beA3o82D_default_top100_gr1": "red",
-        "XE0MhN5r_default_top100_gr1": "blue",
-        "1aTxj7zc_default_top100_gr1": "red",
-        "FAbyiLmG_default_top100_gr1": "blue",
-        "25m9QoAi_default_top250_gr1": "red",
+        # "XE0MhN5r_default_top100_gr1": "blue",
+        # "1aTxj7zc_default_top100_gr1": "red",
+        # "FAbyiLmG_default_top100_gr1": "blue",
+        # "25m9QoAi_default_top250_gr1": "red",
         # "YR1DQb9A_default_top100_gr1": "blue",
         # "lKesaFNR_default_top100_gr1": "red",
         # "7mJ4VYe5_default_top100_gr1": "blue",
@@ -220,10 +222,10 @@ if __name__ == "__main__":
     label_set = {
         "dTBCXYGr_default_top100_gr1": "Xgboost + original data",
         "beA3o82D_default_top100_gr1": "Xgboost + timeseries data",
-        "XE0MhN5r_default_top100_gr1": "random forest + original data",
-        "1aTxj7zc_default_top100_gr1": "random forest + timeseries data",
-        "FAbyiLmG_default_top100_gr1": "Adaboost + original data",
-        "25m9QoAi_default_top250_gr1": "Adaboost + timeseries data",
+        # "XE0MhN5r_default_top100_gr1": "random forest + original data",
+        # "1aTxj7zc_default_top100_gr1": "random forest + timeseries data",
+        # "FAbyiLmG_default_top100_gr1": "Adaboost + original data",
+        # "25m9QoAi_default_top250_gr1": "Adaboost + timeseries data",
         # "YR1DQb9A_default_top100_gr1": "GBM + original data",
         # "lKesaFNR_default_top100_gr1": "GBM + timeseries data",
         # "7mJ4VYe5_default_top100_gr1": "SVM + original data",
@@ -232,8 +234,8 @@ if __name__ == "__main__":
 
     group_set = {
         "Xgboost": ["dTBCXYGr_default_top100_gr1", "beA3o82D_default_top100_gr1"],
-        "random forest": ["XE0MhN5r_default_top100_gr1", "1aTxj7zc_default_top100_gr1"],
-        "Adaboost": ["FAbyiLmG_default_top100_gr1", "25m9QoAi_default_top250_gr1"],
+        # "random forest": ["XE0MhN5r_default_top100_gr1", "1aTxj7zc_default_top100_gr1"],
+        # "Adaboost": ["FAbyiLmG_default_top100_gr1", "25m9QoAi_default_top250_gr1"],
         # "GBM": ["YR1DQb9A_default_top100_gr1", "lKesaFNR_default_top100_gr1"],
         # "SVM": ["7mJ4VYe5_default_top100_gr1", "NKgRQfcV_default_top25_gr1"]
     }

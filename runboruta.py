@@ -111,9 +111,9 @@ def main(filepath,  params, preprocessor, experiment_name, log_dir, max_iteratio
                 raise ValueError(f"Invalid item type: {type(item)}")
 
     # 使用多线程执行 Boruta
-    with ThreadPoolExecutor(max_workers=12) as executor:
+    with ThreadPoolExecutor(max_workers=6) as executor:
         consumer = executor.submit(get_and_write, output_queue)
-        producers = [executor.submit(run_boruta, X, y, i) for i in range(20)]
+        producers = [executor.submit(run_boruta, X, y, i) for i in range(18)]
         for future in producers:
             future.result()  # 等待所有线程完成
         logger.info(f"All threads finished, sending PoisonPill...")
@@ -124,57 +124,6 @@ def main(filepath,  params, preprocessor, experiment_name, log_dir, max_iteratio
         logger.info(f"Consumer result: {re}")
         
 
-
-def plot_boruta(ranking_df,log_dir, name = 'boruta'):
-    numeric_ranking_df = ranking_df.apply(pd.to_numeric, errors='coerce')
-
-    median_values = numeric_ranking_df.median()
-    sorted_columns = median_values.sort_values().index
-
-    # 设置绘图风格
-    plt.figure(figsize=(25, 8))
-    sns.set_theme(style="whitegrid")
-
-    # 绘制箱线图
-    sns.boxplot(data=numeric_ranking_df[sorted_columns], palette="Greens")
-    # invert the y axis
-    plt.gca().invert_yaxis()
-    plt.xticks(rotation=90)
-    plt.title("Sorted Feature Ranking Distribution by Boruta", fontsize=16)
-    plt.xlabel("Attributes", fontsize=14)
-    plt.ylabel("Importance", fontsize=14)
-    plt.tight_layout()
-    plt.savefig(os.path.join(log_dir, f'{name}.png'))
-    plt.close()
-
-def plot_boruta_by_group(ranking_df, log_dir):
-    numeric_ranking_df = ranking_df.apply(pd.to_numeric, errors='coerce')
-    features = numeric_ranking_df.columns
-    groups = set([f.split('_')[0] for f in features])
-    # make a new df to store the median ranking for each group
-    group_ranking_df = pd.DataFrame(columns=list(groups))   
-
-    for group in groups:
-        # Filter features for the current group
-        group_features = [f for f in features if f.startswith(group)]
-        group_ranking_df[group] = numeric_ranking_df[group_features].max(axis=1)
-    
-    plot_boruta(group_ranking_df, log_dir, name='boruta_by_group')
-
-def generate_topN_features(ranking_df, confirmed_vars_file, log_dir):
-    confirmed_vars = load_feature_list_from_boruta_file(confirmed_vars_file)
-    nvars = len(confirmed_vars)
-    numeric_ranking_df = ranking_df.apply(pd.to_numeric, errors='coerce')
-
-    median_values = numeric_ranking_df.median()
-    sorted_columns = median_values.sort_values().index
-    # rank confirmed vars by ranking_df
-    confirmed_vars = [f for f in sorted_columns if f in confirmed_vars]
-    for i in range(3, nvars, 3) + [nvars]:
-        topN_vars = confirmed_vars[:i]
-        with open(os.path.join(log_dir, f'top{i}_confirmed_vars.txt'), 'w') as f:
-            f.write('\n'.join(topN_vars))
-    
 
 def argparser():
     parser = argparse.ArgumentParser()
@@ -219,8 +168,3 @@ if __name__ == "__main__":
     max_iteration = args.max_iteration
     main(filepath, best_param, preprocessor, experiment_name, log_dir, max_iteration)
 
-    ranking_df = pd.read_csv(os.path.join(log_dir, 'ranking_df.csv'))
-    plot_boruta(ranking_df, log_dir)
-    plot_boruta_by_group(ranking_df, log_dir)
-
-    generate_topN_features(ranking_df, os.path.join(log_dir, 'confirmed_vars.txt'), log_dir)

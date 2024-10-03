@@ -1,0 +1,15 @@
+EosinophilsPercentage
+MonocytesPercentage
+Hemoglobin
+NeutrophilsPercentage
+AbsoluteLymphocyteCount
+AbsoluteEosinophilCount
+CReactiveProtein
+AntiJo1
+Nucleosome
+BasophilsPercentage
+RibosomalPProtein
+PlateletCount
+EosinophilCountAbsolute
+LymphocytesPercentage
+MeanPlateletVolume

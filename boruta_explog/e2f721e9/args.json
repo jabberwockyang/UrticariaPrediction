@@ -1,0 +1,9 @@
+{
+    "filepath": "output/dataforxgboost_timeseries.csv",
+    "best_db_path": "nni9_explog/beA3o82D/db/nni.sqlite",
+    "best_sequence_id": 1112,
+    "max_iteration": 50,
+    "target_column": "VisitDuration",
+    "log_dir": "boruta_explog",
+    "groupingparams": "groupingsetting.yml"
+}

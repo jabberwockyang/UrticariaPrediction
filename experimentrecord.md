@@ -1026,6 +1026,20 @@ cd ~/UrticariaPrediction
 python3 runboruta.py --filepath output/dataforxgboost_timeseries.csv --best_db_path nni9_explog/beA3o82D/db/nni.sqlite --best_sequence_id 1112 --target_column VisitDuration --log_dir boruta_explog --groupingparams groupingsetting.yml
 ```
 
+```bash
+cd ~/UrticariaPrediction
+python3 plot_boruta.py --log_dir boruta_explog --experiment_name e2f721e9
+```
+
+## topn 
+
+
+
 
 ## external validation
+xgboost-timeseries nni9_explog/beA3o82D
 
+```bash
+cd ~/UrticariaPrediction
+python3 train_ext_validation.py --config extval_timeseries.yaml --expid beA3o82D --sequenceid 1112 --featurelistfolder boruta_explog/e2f721e9
+```

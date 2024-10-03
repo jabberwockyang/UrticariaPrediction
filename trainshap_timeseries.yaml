@@ -5,7 +5,7 @@ nni:
 train:
   filepath: 'output/dataforxgboost_timeseries.csv'
   target_column: 'VisitDuration'
-  feature_list:
+  feature_list: 'boruta_explog/e2f721e9/top10_confirmed_vars.txt'
   grouping_parameter_id: '1'
   groupingparams: 
     bins: [0, 2, 6, 12, 25, 55, 150]

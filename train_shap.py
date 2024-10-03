@@ -18,7 +18,6 @@ def trainbyhyperparam(datapath,  params,
                       subsetlabel: str = 'all',
                       topn = None):
 
-    paramscopy = params.copy()
     # 从超参数中提取预处理参数
     scale_factor = params.pop('scale_factor') # 用于线性缩放目标变量
     log_transform = params.pop('log_transform') # 是否对目标变量进行对数变换
@@ -115,12 +114,13 @@ def load_config(config_path):
         train_config = config['train']
     return config, nni_config, train_config
 
-def get_data_for_Shap(model, filepath, parmas, preprocessor: Preprocessor, k, randomrate):
+def get_data_for_Shap(model, filepath, parmas, 
+                      row_na_threshold,
+                      preprocessor: Preprocessor, k, randomrate, pick_key):
     # filter x, y for shap explainer
     scale_factor = parmas['scale_factor'] # 用于线性缩放目标变量
     log_transform = parmas['log_transform'] # 是否对目标变量进行对数变换
-    row_na_threshold =  parmas['row_na_threshold'] # 用于删除缺失值过多的行
-    col_na_threshold =  parmas['col_na_threshold'] # 用于删除缺失值过多的列
+    col_na_threshold = parmas['col_na_threshold'] # 用于删除缺失值过多的列
 
     # 加载数据
     data = load_data(filepath)
@@ -130,10 +130,12 @@ def get_data_for_Shap(model, filepath, parmas, preprocessor: Preprocessor, k, ra
                                 log_transform,
                                 row_na_threshold,
                                 col_na_threshold,
-                                pick_key= 'all'
+                                pick_key= pick_key,
+                                common_blood_test= True,
                                 )
     
     # predict 
+
     dtest = xgb.DMatrix(X, label=y)
     y_pred = model.predict(dtest)
     okindex = check_y(y, y_pred, k, randomrate)
@@ -167,7 +169,7 @@ def get_model_data_for_shap(config, expid, sequenceid):
     featurelist = open(featurelistpath, 'r').read().splitlines() if featurelistpath else None
     ff = FeatureFilter(target_column= target_column, 
                        method = 'selection',
-                       featurelist=featurelist) if featurelist else None
+                       features_list=featurelist) if featurelist else None
     pp = Preprocessor(target_column, groupingparams, FeaturFilter=ff)
 
     model = trainbyhyperparam(filepath, parmas.copy(), pp, 'all')

@@ -20,7 +20,8 @@ import numpy as np
 def trainbyhyperparam(datapath, 
                       log_dir,
                       experiment_id, sequence_id, params,
-                      preprocessor: Preprocessor, subsetlabel: str = 'all',
+                      preprocessor: Preprocessor,
+                      subsetlabel: str = 'all',
                       topn = None):
     functionparmas = locals()
     functionparmas.pop('preprocessor')
@@ -176,7 +177,7 @@ def trainbyhyperparam(datapath,
     
     avg_loss = np.mean([result['loss'] for result in fold_results])
     avg_42_roc_auc = np.mean([result['roc_auc_42'] for result in fold_results])
-    avg_100_roc_auc = np.mean([result['roc_auc_json'] for result in fold_results])
+    avg_100_roc_auc = np.mean([result['roc_auc_100'] for result in fold_results])
 
 
     return avg_loss, avg_42_roc_auc, avg_100_roc_auc
@@ -187,7 +188,7 @@ def parse_args():
     parser.add_argument('--config', type=str, required=True, help='Path to the configuration YAML file')
     parser.add_argument('--expid', type=str, default=None, help='Experiment ID of nni results to run external validation')
     parser.add_argument('--sequenceid', type=int, default=0, help='Sequence ID of nni results to run external validation')
-    
+    parser.add_argument('--featurelistfolder', type=str, default=None, help='Folder containing feature lists')
     
     args = parser.parse_args()
     return args
@@ -211,7 +212,7 @@ if __name__ == "__main__":
     best_sequence_id = args.sequenceid if args.sequenceid else nni_config['sequence_id']
 
     df = opendb(f'{former_exp_stp}/{best_exp_id}/db/nni.sqlite')
-    ls_of_params = get_params_by_sequence_id(df, best_sequence_id)
+    paramid, parmas, sequenceid = get_params_by_sequence_id(df, [best_sequence_id])[0]
     
 
     # 训练数据相关参数
@@ -229,27 +230,32 @@ if __name__ == "__main__":
 
     
     # 实例化预处理器
-    featurelistpath = train_config['features_list']
-    featurelist = open(featurelistpath, 'r').read().splitlines() if featurelistpath else None
-
-    ff = FeatureFilter(target_column= target_column, 
-                       method = 'selection',
-                       featurelist=featurelist) if featurelist else None
-    pp = Preprocessor(target_column, groupingparams, FeaturFilter=ff)
-
-    # 实验日志目录
-    experiment_id = f'{best_exp_id}_extval_gr{train_config["grouping_parameter_id"]}'
     
-    for best_param_id, best_params, sequence_ids in ls_of_params:
-        for label in label_toTrain:
-            sequence_id = str(best_exp_id)+ '_' + str(sequence_ids[0]) + '_' + str(train_config['grouping_parameter_id']) + '_' + label
-            avg_loss, avg_42_roc_auc, avg_100_roc_auc = trainbyhyperparam(filepath, 
-                                                                          current_exp_stp,
-                                                                          experiment_id, sequence_id, best_params,
-                                                                          pp, label)
+    featurelistfolder = args.featurelistfolder if args.featurelistfolder else train_config['featurelistfolder']
+    # find all '{featurelistfolder}/top*_confirmed_vars.txt' by os by matching _confirmed_vars.txt
+    featurelistpaths = [os.path.join(featurelistfolder, f) for f in os.listdir(featurelistfolder) if f.endswith('_confirmed_vars.txt')]
+
+    for featurelistpath in featurelistpaths:
+        featurelist = open(featurelistpath, 'r').read().splitlines()
+        featurelist_name = os.path.basename(featurelistpath).split('_')[0]
+        ff = FeatureFilter(target_column= target_column, 
+                        method = 'selection',
+                        features_list=featurelist)
+        pp = Preprocessor(target_column, groupingparams, FeaturFilter=ff)
+
+        # 实验日志目录
+        experiment_id = f'{best_exp_id}_{best_sequence_id}_extval_gr{train_config["grouping_parameter_id"]}_{featurelist_name}'
+        sequence_id = f"{best_exp_id}_{best_sequence_id}_gr{train_config['grouping_parameter_id']}"
+        if not os.path.exists(f'{current_exp_stp}/{experiment_id}'):
+            os.makedirs(f'{current_exp_stp}/{experiment_id}')
+    
+        avg_loss, avg_42_roc_auc, avg_100_roc_auc = trainbyhyperparam(filepath, 
+                                                                            current_exp_stp,
+                                                                            experiment_id, sequence_id, parmas.copy(),
+                                                                            pp, 'all')
 
 
-            logger.info(f"Experiment ID: {experiment_id}, Sequence ID: {sequence_id}, Label: {label}, Loss: {avg_loss}, ROC AUC 42: {avg_42_roc_auc}, ROC AUC 100: {avg_100_roc_auc}")
+        logger.info(f"Experiment ID: {experiment_id}, Sequence ID: {best_sequence_id }, feature_list: {featurelistpath}, Loss: {avg_loss}, ROC AUC 42: {avg_42_roc_auc}, ROC AUC 100: {avg_100_roc_auc}")
 
 
 

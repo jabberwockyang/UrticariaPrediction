@@ -1,0 +1,5 @@
+EosinophilsPercentage
+MonocytesPercentage
+Hemoglobin
+NeutrophilsPercentage
+AbsoluteLymphocyteCount
