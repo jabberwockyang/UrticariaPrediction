@@ -10,7 +10,7 @@ from loguru import logger
    
 from best_params import opendb, get_best_params, get_params_by_sequence_id
 from utils import load_data, custom_eval_roc_auc_factory, evaluate_model, convert_floats, load_feature_list_from_boruta_file
-from preprocessor import Preprocessor, FeatureDrivator, FeatureFilter
+from preprocessor import Preprocessor
 from sklearn.model_selection import KFold
 from sklearn.ensemble import RandomForestRegressor
 from sklearn import svm

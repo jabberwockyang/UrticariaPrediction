@@ -8,7 +8,7 @@ import os
 import json
 from loguru import logger
    
-from best_params import opendb, get_best_params, get_params_by_sequence_id
+from best_params import opendb, get_params_by_sequence_id
 from utils import load_data, custom_eval_roc_auc_factory, evaluate_model, convert_floats
 from preprocessor import Preprocessor, FeatureDrivator, FeatureFilter
 from sklearn.model_selection import KFold

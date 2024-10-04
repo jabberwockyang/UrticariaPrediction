@@ -1,6 +1,5 @@
 # only ignore nni1_explog in the root directory .gitignore file   
 /nni*_explog
-/gr_explog
-/kfoldint_explog*
+/kfoldint_explog/*top*_gr1
 .vscode
 mysql/db/urticaria.db

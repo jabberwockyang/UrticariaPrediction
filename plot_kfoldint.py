@@ -209,35 +209,35 @@ if __name__ == "__main__":
     color_set = {
         "dTBCXYGr_default_top100_gr1": "blue",
         "beA3o82D_default_top100_gr1": "red",
-        # "XE0MhN5r_default_top100_gr1": "blue",
-        # "1aTxj7zc_default_top100_gr1": "red",
-        # "FAbyiLmG_default_top100_gr1": "blue",
-        # "25m9QoAi_default_top250_gr1": "red",
-        # "YR1DQb9A_default_top100_gr1": "blue",
-        # "lKesaFNR_default_top100_gr1": "red",
-        # "7mJ4VYe5_default_top100_gr1": "blue",
-        # "NKgRQfcV_default_top25_gr1": "red"
+        "XE0MhN5r_default_top100_gr1": "blue",
+        "1aTxj7zc_default_top100_gr1": "red",
+        "FAbyiLmG_default_top100_gr1": "blue",
+        "25m9QoAi_default_top250_gr1": "red",
+        "YR1DQb9A_default_top100_gr1": "blue",
+        "lKesaFNR_default_top100_gr1": "red",
+        "7mJ4VYe5_default_top100_gr1": "blue",
+        "NKgRQfcV_default_top25_gr1": "red"
     }
 
     label_set = {
         "dTBCXYGr_default_top100_gr1": "Xgboost + original data",
         "beA3o82D_default_top100_gr1": "Xgboost + timeseries data",
-        # "XE0MhN5r_default_top100_gr1": "random forest + original data",
-        # "1aTxj7zc_default_top100_gr1": "random forest + timeseries data",
-        # "FAbyiLmG_default_top100_gr1": "Adaboost + original data",
-        # "25m9QoAi_default_top250_gr1": "Adaboost + timeseries data",
-        # "YR1DQb9A_default_top100_gr1": "GBM + original data",
-        # "lKesaFNR_default_top100_gr1": "GBM + timeseries data",
-        # "7mJ4VYe5_default_top100_gr1": "SVM + original data",
-        # "NKgRQfcV_default_top25_gr1": "SVM + timeseries data"
+        "XE0MhN5r_default_top100_gr1": "random forest + original data",
+        "1aTxj7zc_default_top100_gr1": "random forest + timeseries data",
+        "FAbyiLmG_default_top100_gr1": "Adaboost + original data",
+        "25m9QoAi_default_top250_gr1": "Adaboost + timeseries data",
+        "YR1DQb9A_default_top100_gr1": "GBM + original data",
+        "lKesaFNR_default_top100_gr1": "GBM + timeseries data",
+        "7mJ4VYe5_default_top100_gr1": "SVM + original data",
+        "NKgRQfcV_default_top25_gr1": "SVM + timeseries data"
     }
 
     group_set = {
         "Xgboost": ["dTBCXYGr_default_top100_gr1", "beA3o82D_default_top100_gr1"],
-        # "random forest": ["XE0MhN5r_default_top100_gr1", "1aTxj7zc_default_top100_gr1"],
-        # "Adaboost": ["FAbyiLmG_default_top100_gr1", "25m9QoAi_default_top250_gr1"],
-        # "GBM": ["YR1DQb9A_default_top100_gr1", "lKesaFNR_default_top100_gr1"],
-        # "SVM": ["7mJ4VYe5_default_top100_gr1", "NKgRQfcV_default_top25_gr1"]
+        "random forest": ["XE0MhN5r_default_top100_gr1", "1aTxj7zc_default_top100_gr1"],
+        "Adaboost": ["FAbyiLmG_default_top100_gr1", "25m9QoAi_default_top250_gr1"],
+        "GBM": ["YR1DQb9A_default_top100_gr1", "lKesaFNR_default_top100_gr1"],
+        "SVM": ["7mJ4VYe5_default_top100_gr1", "NKgRQfcV_default_top25_gr1"]
     }
     for threshold in [1000]:
         main(log_dir, color_set, label_set, group_set, ppthreshold = threshold)
