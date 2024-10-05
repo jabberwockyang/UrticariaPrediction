@@ -13,7 +13,7 @@ def get_asso_feat(feat, featlist):
     feat: str, feature to be associated
     featlist: list of str, list of features to be associated with feat
     '''
-    assofeat = [f for f in featlist if feat in f]
+    assofeat = [f for f in featlist if feat == f.split('_')[0]]
     return assofeat
 
 class FeatureDrivator:

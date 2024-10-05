@@ -244,8 +244,8 @@ if __name__ == "__main__":
         pp = Preprocessor(target_column, groupingparams, FeaturFilter=ff)
 
         # 实验日志目录
-        experiment_id = f'{best_exp_id}_{best_sequence_id}_extval_gr{train_config["grouping_parameter_id"]}_{featurelist_name}'
-        sequence_id = f"{best_exp_id}_{best_sequence_id}_gr{train_config['grouping_parameter_id']}"
+        experiment_id = f'{best_exp_id}_{best_sequence_id}_extval_gr{train_config["grouping_parameter_id"]}'
+        sequence_id = f"{best_exp_id}_{best_sequence_id}_gr{train_config['grouping_parameter_id']}_{featurelist_name}"
         if not os.path.exists(f'{current_exp_stp}/{experiment_id}'):
             os.makedirs(f'{current_exp_stp}/{experiment_id}')
     
