@@ -11,6 +11,8 @@ from preprocessor import Preprocessor, FeatureFilter
 from sklearn.ensemble import RandomForestRegressor
 from sklearn import svm
 
+import joblib
+
 
 # 主函数
 def trainbyhyperparam(datapath,  params,
@@ -140,7 +142,8 @@ def get_data_for_Shap(model, filepath, parmas,
     y_pred = model.predict(dtest)
     okindex = check_y(y, y_pred, k, randomrate)
     X = X[okindex]
-    return X
+    y = y[okindex]
+    return X, y
 
 
 def get_model_data_for_shap(config, expid, sequenceid):
@@ -191,6 +194,7 @@ class ModelReversingY():
         return ry
 
 if __name__ == '__main__':
+
     # beA3o82D_1112_1_all
-    fmodel, preprocessor, X, y= get_model_data_for_shap('trainshap_timeseries.yaml', 'beA3o82D', 1112)
-    model = ModelReversingY(fmodel, preprocessor)
+    fmodel, params, pp, fp= get_model_data_for_shap('trainshap_timeseries.yaml', 'beA3o82D', 1112)
+    joblib.dump(fmodel, 'fmodel.pkl')
