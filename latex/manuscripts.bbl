@@ -1,0 +1,143 @@
+\begin{thebibliography}{22}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\href}[2]{#2}
+\providecommand{\path}[1]{#1}
+\providecommand{\DOIprefix}{doi:}
+\providecommand{\ArXivprefix}{arXiv:}
+\providecommand{\URLprefix}{URL: }
+\providecommand{\Pubmedprefix}{pmid:}
+\providecommand{\doi}[1]{\href{http://dx.doi.org/#1}{\path{#1}}}
+\providecommand{\Pubmed}[1]{\href{pmid:#1}{\path{#1}}}
+\providecommand{\bibinfo}[2]{#2}
+\ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Article
+\bibitem[{Balp et~al.(2015)Balp, Vietri, Tian and Isherwood}]{Balp2015The}
+\bibinfo{author}{Balp, M.}, \bibinfo{author}{Vietri, J.}, \bibinfo{author}{Tian, H.}, \bibinfo{author}{Isherwood, G.}, \bibinfo{year}{2015}.
+\newblock \bibinfo{title}{The impact of chronic urticaria from the patient's perspective: A survey in five european countries}.
+\newblock \bibinfo{journal}{The Patient} \bibinfo{volume}{8}, \bibinfo{pages}{551--558}.
+\newblock \DOIprefix\doi{10.1007/s40271-015-0145-9}.
+%Type = Article
+\bibitem[{Chiang et~al.(2022)Chiang, Chen, Koo, Tsai and Wu}]{Chiang2022Predictors}
+\bibinfo{author}{Chiang, H.L.}, \bibinfo{author}{Chen, C.H.}, \bibinfo{author}{Koo, M.}, \bibinfo{author}{Tsai, T.Y.}, \bibinfo{author}{Wu, C.H.}, \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{Predictors of response to oral medications and low-histamine diet in patients with chronic urticaria}.
+\newblock \bibinfo{journal}{Journal of Immunology Research} \bibinfo{volume}{2022}.
+\newblock \DOIprefix\doi{10.1155/2022/5243825}.
+%Type = Article
+\bibitem[{Curto-Barredo et~al.(2018)Curto-Barredo, Archilla, Vives, Pujol and Giménez-Arnau}]{Curto-Barredo2018Clinical}
+\bibinfo{author}{Curto-Barredo, L.}, \bibinfo{author}{Archilla, L.R.}, \bibinfo{author}{Vives, G.}, \bibinfo{author}{Pujol, R.}, \bibinfo{author}{Giménez-Arnau, A.}, \bibinfo{year}{2018}.
+\newblock \bibinfo{title}{Clinical features of chronic spontaneous urticaria that predict disease prognosis and refractoriness to standard treatment.}
+\newblock \bibinfo{journal}{Acta dermato-venereologica} \bibinfo{volume}{98 7}, \bibinfo{pages}{641--647}.
+\newblock \DOIprefix\doi{10.2340/00015555-2941}.
+%Type = Article
+\bibitem[{Dressler et~al.(2018)Dressler, Werner, Eisert, Zuberbier, Nast and Maurer}]{Dressler2018Chronic}
+\bibinfo{author}{Dressler, C.}, \bibinfo{author}{Werner, R.}, \bibinfo{author}{Eisert, L.}, \bibinfo{author}{Zuberbier, T.}, \bibinfo{author}{Nast, A.}, \bibinfo{author}{Maurer, M.}, \bibinfo{year}{2018}.
+\newblock \bibinfo{title}{Chronic inducible urticaria: A systematic review of treatment options}.
+\newblock \bibinfo{journal}{The Journal of Allergy and Clinical Immunology} \bibinfo{volume}{141}, \bibinfo{pages}{1726--1734}.
+\newblock \DOIprefix\doi{10.1016/j.jaci.2018.01.031}.
+%Type = Article
+\bibitem[{Etu et~al.(2022)Etu, Monplaisir, Arslanturk, Masoud, Aguwa, Markevych and Miller}]{Etu2022Prediction}
+\bibinfo{author}{Etu, E.}, \bibinfo{author}{Monplaisir, L.}, \bibinfo{author}{Arslanturk, S.}, \bibinfo{author}{Masoud, S.}, \bibinfo{author}{Aguwa, C.}, \bibinfo{author}{Markevych, I.}, \bibinfo{author}{Miller, J.}, \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{Prediction of length of stay in the emergency department for covid-19 patients: A machine learning approach}.
+\newblock \bibinfo{journal}{IEEE Access} \bibinfo{volume}{10}, \bibinfo{pages}{42229--42237}.
+\newblock \DOIprefix\doi{10.1109/ACCESS.2022.3168045}.
+%Type = Article
+\bibitem[{Ghosh et~al.(2022)Ghosh, Volpert and Banerjee}]{Ghosh2022An}
+\bibinfo{author}{Ghosh, S.}, \bibinfo{author}{Volpert, V.}, \bibinfo{author}{Banerjee, M.}, \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{An epidemic model with time delay determined by the disease duration}.
+\newblock \bibinfo{journal}{Mathematics} \DOIprefix\doi{10.3390/math10152561}.
+%Type = Article
+\bibitem[{Kim et~al.(2021)Kim, Han, Bang, Lee, Lee, Park and Park}]{Kim2021High}
+\bibinfo{author}{Kim, Y.}, \bibinfo{author}{Han, K.D.}, \bibinfo{author}{Bang, C.}, \bibinfo{author}{Lee, J.H.}, \bibinfo{author}{Lee, J.Y.}, \bibinfo{author}{Park, Y.}, \bibinfo{author}{Park, Y.}, \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{High waist circumference rather than high body mass index may be a predictive risk factor for the longer disease duration of chronic spontaneous urticaria}.
+\newblock \bibinfo{journal}{Scientific Reports} \bibinfo{volume}{11}.
+\newblock \DOIprefix\doi{10.1038/s41598-021-81484-1}.
+%Type = Article
+\bibitem[{Kolkhir et~al.(2021)Kolkhir, Altrichter, Asero, Daschner, Ferrer, Giménez-Arnau, Hawro, Jakob, Kinaciyan, Kromminga, Konstantinou, Makris, Metz, Skov, Staubach, Sussman, jun Zhang and Maurer}]{Kolkhir2021Autoimmune}
+\bibinfo{author}{Kolkhir, P.}, \bibinfo{author}{Altrichter, S.}, \bibinfo{author}{Asero, R.}, \bibinfo{author}{Daschner, A.}, \bibinfo{author}{Ferrer, M.}, \bibinfo{author}{Giménez-Arnau, A.}, \bibinfo{author}{Hawro, T.}, \bibinfo{author}{Jakob, T.}, \bibinfo{author}{Kinaciyan, T.}, \bibinfo{author}{Kromminga, A.}, \bibinfo{author}{Konstantinou, G.}, \bibinfo{author}{Makris, M.}, \bibinfo{author}{Metz, M.}, \bibinfo{author}{Skov, P.}, \bibinfo{author}{Staubach, P.}, \bibinfo{author}{Sussman, G.}, \bibinfo{author}{jun Zhang, K.}, \bibinfo{author}{Maurer, M.}, \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Autoimmune diseases are linked to type iib autoimmune chronic spontaneous urticaria}.
+\newblock \bibinfo{journal}{Allergy, Asthma \& Immunology Research} \bibinfo{volume}{13}, \bibinfo{pages}{545--559}.
+\newblock \DOIprefix\doi{10.4168/aair.2021.13.4.545}.
+%Type = Article
+\bibitem[{Labbene and Tekou(2023)}]{Labbene2023Prevalence}
+\bibinfo{author}{Labbene, I.}, \bibinfo{author}{Tekou, A.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Prevalence and treatment of chronic spontaneous urticaria in children}.
+\newblock \bibinfo{journal}{Scholars Journal of Applied Medical Sciences} \DOIprefix\doi{10.36347/sjams.2023.v11i09.025}.
+%Type = Article
+\bibitem[{Lin et~al.(2011)Lin, Liu, Wu, Chang, Chou and Wu}]{Lin2011Predictive}
+\bibinfo{author}{Lin, Y.R.}, \bibinfo{author}{Liu, T.H.}, \bibinfo{author}{Wu, T.K.}, \bibinfo{author}{Chang, Y.J.}, \bibinfo{author}{Chou, C.}, \bibinfo{author}{Wu, H.P.}, \bibinfo{year}{2011}.
+\newblock \bibinfo{title}{Predictive factors of the duration of a first-attack acute urticaria in children.}
+\newblock \bibinfo{journal}{The American journal of emergency medicine} \bibinfo{volume}{29 8}, \bibinfo{pages}{883--9}.
+\newblock \DOIprefix\doi{10.1016/j.ajem.2010.04.004}.
+%Type = Article
+\bibitem[{Maronese et~al.(2023)Maronese, Ferrucci, Moltrasio, Lorini, Carbonelli, Asero, Marzano and Cugno}]{Maronese2023IgG}
+\bibinfo{author}{Maronese, C.}, \bibinfo{author}{Ferrucci, S.}, \bibinfo{author}{Moltrasio, C.}, \bibinfo{author}{Lorini, M.}, \bibinfo{author}{Carbonelli, V.}, \bibinfo{author}{Asero, R.}, \bibinfo{author}{Marzano, A.}, \bibinfo{author}{Cugno, M.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Igg and ige autoantibodies to ige receptors in chronic spontaneous urticaria and their role in the response to omalizumab}.
+\newblock \bibinfo{journal}{Journal of Clinical Medicine} \bibinfo{volume}{12}.
+\newblock \DOIprefix\doi{10.3390/jcm12010378}.
+%Type = Article
+\bibitem[{Poddighe(2019)}]{Poddighe2019LETTER}
+\bibinfo{author}{Poddighe, D.}, \bibinfo{year}{2019}.
+\newblock \bibinfo{title}{Letter to the editor: The prevalence of chronic spontaneous urticaria (csu) in the pediatric population.}
+\newblock \bibinfo{journal}{Journal of the American Academy of Dermatology} \DOIprefix\doi{10.1016/j.jaad.2019.07.068}.
+%Type = Article
+\bibitem[{Pozderac et~al.(2020)Pozderac, Lugović-Mihić, Artuković, Stipić-Marković, Kuna and Ferček}]{Pozderac2020Chronic}
+\bibinfo{author}{Pozderac, I.}, \bibinfo{author}{Lugović-Mihić, L.}, \bibinfo{author}{Artuković, M.}, \bibinfo{author}{Stipić-Marković, A.}, \bibinfo{author}{Kuna, M.}, \bibinfo{author}{Ferček, I.}, \bibinfo{year}{2020}.
+\newblock \bibinfo{title}{Chronic inducible urticaria: classification and prominent features of physical and non-physical types.}
+\newblock \bibinfo{journal}{Acta dermatovenerologica Alpina, Pannonica, et Adriatica} \bibinfo{volume}{29 3}, \bibinfo{pages}{141--148}.
+\newblock \DOIprefix\doi{10.15570/actaapa.2020.29}.
+%Type = Article
+\bibitem[{Rabelo-Filardi et~al.(2013)Rabelo-Filardi, Daltro-Oliveira and Campos}]{Rabelo-Filardi2013Parameters}
+\bibinfo{author}{Rabelo-Filardi, R.}, \bibinfo{author}{Daltro-Oliveira, R.}, \bibinfo{author}{Campos, R.}, \bibinfo{year}{2013}.
+\newblock \bibinfo{title}{Parameters associated with chronic spontaneous urticaria duration and severity: A systematic review}.
+\newblock \bibinfo{journal}{International Archives of Allergy and Immunology} \bibinfo{volume}{161}, \bibinfo{pages}{197 -- 204}.
+\newblock \DOIprefix\doi{10.1159/000346896}.
+%Type = Article
+\bibitem[{Radonjic-Hoesli et~al.(2018)Radonjic-Hoesli, Hofmeier, Micaletto, Schmid-Grendelmeier, Bircher and Simon}]{RadonjicHoesli2018Urticaria}
+\bibinfo{author}{Radonjic-Hoesli, S.}, \bibinfo{author}{Hofmeier, K.}, \bibinfo{author}{Micaletto, S.}, \bibinfo{author}{Schmid-Grendelmeier, P.}, \bibinfo{author}{Bircher, A.}, \bibinfo{author}{Simon, D.}, \bibinfo{year}{2018}.
+\newblock \bibinfo{title}{Urticaria and angioedema: an update on classification and pathogenesis}.
+\newblock \bibinfo{journal}{Clinical Reviews in Allergy \& Immunology} \bibinfo{volume}{54}, \bibinfo{pages}{88--101}.
+\newblock \DOIprefix\doi{10.1007/s12016-017-8628-1}.
+%Type = Article
+\bibitem[{Ring and Grosber(2012)}]{Ring2012Urticaria}
+\bibinfo{author}{Ring, J.}, \bibinfo{author}{Grosber, M.}, \bibinfo{year}{2012}.
+\newblock \bibinfo{title}{Urticaria: Attempts at classification}.
+\newblock \bibinfo{journal}{Current Allergy and Asthma Reports} \bibinfo{volume}{12}, \bibinfo{pages}{263--266}.
+\newblock \DOIprefix\doi{10.1007/s11882-012-0275-2}.
+%Type = Article
+\bibitem[{SanchezBorges et~al.(2017)SanchezBorges, Caballero-Fonseca, Capriles-Hulett, González-Aveledo and Maurer}]{SanchezBorges2017Factors}
+\bibinfo{author}{SanchezBorges, M.}, \bibinfo{author}{Caballero-Fonseca, F.}, \bibinfo{author}{Capriles-Hulett, A.}, \bibinfo{author}{González-Aveledo, L.}, \bibinfo{author}{Maurer, M.}, \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{Factors linked to disease severity and time to remission in patients with chronic spontaneous urticaria}.
+\newblock \bibinfo{journal}{Journal of the European Academy of Dermatology and Venereology} \bibinfo{volume}{31}.
+\newblock \DOIprefix\doi{10.1111/jdv.14221}.
+%Type = Article
+\bibitem[{Schettini et~al.(2023)Schettini, Corazza, Schenetti, Pacetti and Borghi}]{Schettini2023Urticaria}
+\bibinfo{author}{Schettini, N.}, \bibinfo{author}{Corazza, M.}, \bibinfo{author}{Schenetti, C.}, \bibinfo{author}{Pacetti, L.}, \bibinfo{author}{Borghi, A.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Urticaria: A narrative overview of differential diagnosis}.
+\newblock \bibinfo{journal}{Biomedicines} \bibinfo{volume}{11}.
+\newblock \DOIprefix\doi{10.3390/biomedicines11041096}.
+%Type = Article
+\bibitem[{Sella et~al.(2023)Sella, Ferriani, Melo, Neto, Zanetti, Cordeiro, Lemos, Aragon and Arruda}]{sella2023type}
+\bibinfo{author}{Sella, J.A.}, \bibinfo{author}{Ferriani, M.P.}, \bibinfo{author}{Melo, J.M.}, \bibinfo{author}{Neto, O.T.}, \bibinfo{author}{Zanetti, M.E.T.}, \bibinfo{author}{Cordeiro, D.L.}, \bibinfo{author}{Lemos, Jos Eand Barros~Jr, S.A.}, \bibinfo{author}{Aragon, D.C.}, \bibinfo{author}{Arruda, L.K.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Type i and type iib autoimmune chronic spontaneous urticaria: Using common clinical tools for endotyping patients with csu}.
+\newblock \bibinfo{journal}{Journal of Allergy and Clinical Immunology: Global} \bibinfo{volume}{2}, \bibinfo{pages}{100159}.
+%Type = Article
+\bibitem[{Wu et~al.(2021)Wu, Lin, Li, Hu, Zhang and Kong}]{Wu2021Predicting}
+\bibinfo{author}{Wu, J.}, \bibinfo{author}{Lin, Y.}, \bibinfo{author}{Li, P.}, \bibinfo{author}{Hu, Y.}, \bibinfo{author}{Zhang, L.}, \bibinfo{author}{Kong, G.}, \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Predicting prolonged length of icu stay through machine learning}.
+\newblock \bibinfo{journal}{Diagnostics} \bibinfo{volume}{11}.
+\newblock \DOIprefix\doi{10.3390/diagnostics11122242}.
+%Type = Article
+\bibitem[{Xiang et~al.(2023)Xiang, Guloglu, Elieh-Ali-Komi and Kocatürk}]{Xiang2023Chronic}
+\bibinfo{author}{Xiang, Y.}, \bibinfo{author}{Guloglu, S.}, \bibinfo{author}{Elieh-Ali-Komi, D.}, \bibinfo{author}{Kocatürk, E.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Chronic spontaneous urticaria: new evidences on the role of autoimmunity}.
+\newblock \bibinfo{journal}{Current Opinion in Allergy and Clinical Immunology} \bibinfo{volume}{23}, \bibinfo{pages}{438--445}.
+\newblock \DOIprefix\doi{10.1097/ACI.0000000000000927}.
+%Type = Article
+\bibitem[{Zuberbier et~al.(2021)Zuberbier, Latiff, Abuzakouk, Aquilina, Asero, Baker, Ballmer-Weber, Bangert, Ben-Shoshan, Bernstein, Bindslev-Jensen, Brockow, Brzoza, Neto, Church, Criado, Danilycheva, Dressler, Ensina, Fonacier, Gaskins, Gáspár, Gelincik, Giménez-Arnau, Godse, Gonçalo, Grattan, Grosber, Hamelmann, Hébert, Hide, Kaplan, Kapp, Kessel, Kocatürk, Kulthanan, Larenas-Linnemann, Lauerma, Leslie, Magerl, Makris, Meshkova, Metz, Micallef, Mortz, Nast, Oude-Elberink, Pawankar, Pigatto, Sisa, Gutiérrez, Saini, Schmid-Grendelmeier, Sekerel, Siebenhaar, Siiskonen, Soria, Staubach-Renz, Stingeni, Sussman, Szegedi, Thomsen, Vadasz, Vestergaard, Wedi, Zhao and Maurer}]{Zuberbier2021The}
+\bibinfo{author}{Zuberbier, T.}, \bibinfo{author}{Latiff, A.A.A.}, \bibinfo{author}{Abuzakouk, M.}, \bibinfo{author}{Aquilina, S.}, \bibinfo{author}{Asero, R.}, \bibinfo{author}{Baker, D.}, \bibinfo{author}{Ballmer-Weber, B.}, \bibinfo{author}{Bangert, C.}, \bibinfo{author}{Ben-Shoshan, M.}, \bibinfo{author}{Bernstein, J.}, \bibinfo{author}{Bindslev-Jensen, C.}, \bibinfo{author}{Brockow, K.}, \bibinfo{author}{Brzoza, Z.}, \bibinfo{author}{Neto, H.C.C.}, \bibinfo{author}{Church, M.}, \bibinfo{author}{Criado, P.}, \bibinfo{author}{Danilycheva, I.}, \bibinfo{author}{Dressler, C.}, \bibinfo{author}{Ensina, L.}, \bibinfo{author}{Fonacier, L.}, \bibinfo{author}{Gaskins, M.}, \bibinfo{author}{Gáspár, K.}, \bibinfo{author}{Gelincik, A.}, \bibinfo{author}{Giménez-Arnau, A.}, \bibinfo{author}{Godse, K.}, \bibinfo{author}{Gonçalo, M.}, \bibinfo{author}{Grattan, C.}, \bibinfo{author}{Grosber, M.}, \bibinfo{author}{Hamelmann, E.}, \bibinfo{author}{Hébert, J.}, \bibinfo{author}{Hide, M.}, \bibinfo{author}{Kaplan, A.}, \bibinfo{author}{Kapp, A.}, \bibinfo{author}{Kessel, A.}, \bibinfo{author}{Kocatürk, E.}, \bibinfo{author}{Kulthanan, K.}, \bibinfo{author}{Larenas-Linnemann, D.}, \bibinfo{author}{Lauerma, A.}, \bibinfo{author}{Leslie, T.}, \bibinfo{author}{Magerl, M.}, \bibinfo{author}{Makris, M.}, \bibinfo{author}{Meshkova, R.}, \bibinfo{author}{Metz, M.}, \bibinfo{author}{Micallef, D.}, \bibinfo{author}{Mortz, C.}, \bibinfo{author}{Nast, A.}, \bibinfo{author}{Oude-Elberink, H.}, \bibinfo{author}{Pawankar, R.}, \bibinfo{author}{Pigatto, P.}, \bibinfo{author}{Sisa, H.R.}, \bibinfo{author}{Gutiérrez, M.I.R.}, \bibinfo{author}{Saini, S.}, \bibinfo{author}{Schmid-Grendelmeier, P.}, \bibinfo{author}{Sekerel, B.}, \bibinfo{author}{Siebenhaar, F.}, \bibinfo{author}{Siiskonen, H.}, \bibinfo{author}{Soria, A.}, \bibinfo{author}{Staubach-Renz, P.}, \bibinfo{author}{Stingeni, L.}, \bibinfo{author}{Sussman, G.}, \bibinfo{author}{Szegedi, A.}, \bibinfo{author}{Thomsen, S.}, \bibinfo{author}{Vadasz, Z.}, \bibinfo{author}{Vestergaard, C.}, \bibinfo{author}{Wedi, B.}, \bibinfo{author}{Zhao, Z.}, \bibinfo{author}{Maurer, M.}, \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{The international eaaci/ga²len/euroguiderm/apaaaci guideline for the definition, classification, diagnosis, and management of urticaria}.
+\newblock \bibinfo{journal}{Allergy} \bibinfo{volume}{77}, \bibinfo{pages}{734--766}.
+\newblock \DOIprefix\doi{10.1111/all.15090}.
+
+\end{thebibliography}

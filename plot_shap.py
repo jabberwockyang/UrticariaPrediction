@@ -93,8 +93,8 @@ def get_shap_values(X, model):
     return shap_values, X100
 
 def plot_beeswarm_in_group(shap_values, X, ageggroup):
-    if not os.path.exists('shap'):
-        os.makedirs('shap')
+    if not os.path.exists('shap_plots'):
+        os.makedirs('shap_plots')
     for index, featgroup in enumerate(pp.feature_filter.features_list):
         print(featgroup)
         featlist = get_asso_feat(featgroup, X.columns)
@@ -102,7 +102,7 @@ def plot_beeswarm_in_group(shap_values, X, ageggroup):
         shap.plots.beeswarm(shap_values[:,sorted_list],show=False)
         fig = plt.gcf()  # plt.gcf() 用于获取当前的图像对象
         fig.suptitle(f"{featgroup} in {ageggroup} age group")
-        fig.savefig(f"shap/{featgroup}_{ageggroup}.png",bbox_inches = 'tight')
+        fig.savefig(f"shap_plots/{featgroup}_{ageggroup}.png",bbox_inches = 'tight')
         logger.debug(f"Saved shap plot for {featgroup} in {ageggroup} age group")
         plt.clf()
         
@@ -111,8 +111,6 @@ if __name__ == '__main__':
     fmodel, params, pp, fp= get_model_data_for_shap('trainshap_timeseries.yaml', 'beA3o82D', 1112)
     joblib.dump(fmodel, 'fmodel.pkl')
 
-
-    
     key = 'all'
 
     X, y = get_data_for_Shap(fmodel, fp, params.copy(), 
@@ -120,8 +118,8 @@ if __name__ == '__main__':
                             pp, k = 2.5, randomrate= 0.1,
                             pick_key= key)
     
-    # y = reverse_y_scaling(y, params['scale_factor'], params['log_transform'])
-    # plot_kde_in_group(X, y, key)
+    y = reverse_y_scaling(y, params['scale_factor'], params['log_transform'])
+    plot_kde_in_group(X, y, key)
 
 
     shap_values, X = get_shap_values(X, ModelReversingY(fmodel, params))

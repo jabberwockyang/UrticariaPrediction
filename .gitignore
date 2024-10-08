@@ -2,7 +2,8 @@
 /nni*_explog/*/log
 /nni*_explog/*/trials
 /nni*_explog/*/*.jsonl
-kde_plots
+kde_plots*
+shap_plots*
 /kfoldint_explog/*top*_gr1
 .vscode
 mysql/db/urticaria.db

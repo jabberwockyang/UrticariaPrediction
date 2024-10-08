@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.5)  8 OCT 2024 11:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.5)  7 OCT 2024 23:59
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/mnt/yangyijun/UrticariaPrediction/elsarticle/elsarticle-template-harv.tex
-(/mnt/yangyijun/UrticariaPrediction/elsarticle/elsarticle-template-harv.tex
+**/mnt/yangyijun/UrticariaPrediction/latex/manuscripts.tex
+(/mnt/yangyijun/UrticariaPrediction/latex/manuscripts.tex
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-09-10>
 (/usr/local/texlive/2024/texmf-dist/tex/latex/elsarticle/elsarticle.cls
@@ -78,7 +78,7 @@ File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
 \@enLab=\toks19
 \@sep=\skip51
 \@@sep=\skip52
- (./elsarticle-template-harv.spl) (/usr/local/texlive/2024/texmf-dist/tex/latex/natbib/natbib.sty
+ (./manuscripts.spl) (/usr/local/texlive/2024/texmf-dist/tex/latex/natbib/natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip53
 \bibsep=\skip54
@@ -86,7 +86,7 @@ LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count276
 )
 \splwrite=\write3
-\openout3 = `elsarticle-template-harv.spl'.
+\openout3 = `manuscripts.spl'.
 
 \appnamewidth=\dimen148
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/amssymb.sty
@@ -163,12 +163,8 @@ LaTeX Info: Redefining \Relbar on input line 970.
 \mathdisplay@stack=\toks25
 LaTeX Info: Redefining \[ on input line 2953.
 LaTeX Info: Redefining \] on input line 2954.
-) (./elsarticle-template-harv.aux
-
-LaTeX Warning: Label `fig1' multiply defined.
-
-)
-\openout1 = `elsarticle-template-harv.aux'.
+) (./manuscripts.aux)
+\openout1 = `manuscripts.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 52.
 LaTeX Font Info:    ... okay on input line 52.
@@ -248,36 +244,61 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 
 ]
-<example-image-a.pdf, id=21, 321.2pt x 240.9pt>
+
+[2]
+
+[3]
+
+[4]
+<example-image-a.pdf, id=27, 321.2pt x 240.9pt>
 File: example-image-a.pdf Graphic file (type pdf)
 <use example-image-a.pdf>
-Package pdftex.def Info: example-image-a.pdf  used on input line 233.
+Package pdftex.def Info: example-image-a.pdf  used on input line 260.
 (pdftex.def)             Requested size: 321.19922pt x 240.8994pt.
+ (./manuscripts.bbl
+
+[5]
+
+[6 </usr/local/texlive/2024/texmf-dist/tex/latex/mwe/example-image-a.pdf>]
+Underfull \hbox (badness 1824) in paragraph at lines 46--50
+[]\T1/cmr/m/n/12 Ghosh, S., Volpert, V., Baner-jee, M., 2022.  An epi-demic model
+ []
 
 
-[2 </usr/local/texlive/2024/texmf-dist/tex/latex/mwe/example-image-a.pdf>] (./elsarticle-template-harv.aux)
+Underfull \hbox (badness 1472) in paragraph at lines 85--90
+[]\T1/cmr/m/n/12 Pozderac, I., Lugovi¢-Mihi¢, L., Ar-tukovi¢, M., Stipi¢-Markovi¢, A.,
+ []
+
+
+
+[7]
+Underfull \hbox (badness 1259) in paragraph at lines 132--137
+\T1/cmr/m/n/12 Cur-rent Opin-ion in Al-lergy and Clin-i-cal Im-munol-ogy 23, 438--445.
+ []
+
+
+
+[8])
+
+[9] (./manuscripts.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-09-10>
  ***********
-
-
-LaTeX Warning: There were multiply-defined labels.
-
  ) 
 Here is how much of TeX's memory you used:
- 4513 strings out of 473579
- 66937 string characters out of 5728234
- 453504 words of memory out of 5000000
- 27347 multiletter control sequences out of 15000+600000
- 568942 words of font info for 63 fonts, out of 8000000 for 9000
+ 4596 strings out of 473579
+ 68478 string characters out of 5728234
+ 459058 words of memory out of 5000000
+ 27428 multiletter control sequences out of 15000+600000
+ 568256 words of font info for 62 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 72i,8n,79p,266b,289s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss17.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfti0800.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfti1000.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb>
-Output written on elsarticle-template-harv.pdf (4 pages, 148675 bytes).
+ 72i,8n,79p,2265b,289s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss17.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfti1000.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb>
+Output written on manuscripts.pdf (11 pages, 148645 bytes).
 PDF statistics:
- 80 PDF objects out of 1000 (max. 8388607)
- 50 compressed objects within 1 object stream
+ 83 PDF objects out of 1000 (max. 8388607)
+ 54 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
