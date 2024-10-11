@@ -1,0 +1,10 @@
+bestfolder: 'nni9_explog/beA3o82D'
+bestsequenceid: 1112
+filepath: 'output/dataforxgboost_timeseries.csv'
+feature_list: 'boruta_explog/e2f721e9/top25_confirmed_vars.txt'
+target_column: 'VisitDuration'
+grouping_parameter_id: '1'
+groupingparams: 
+  bins: [0, 2, 6, 12, 25, 55, 150]
+  labels: ['0-2', '2-6', '6-12', '12-25', '25-55', '55+']
+

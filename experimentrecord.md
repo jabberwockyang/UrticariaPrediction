@@ -250,3 +250,9 @@ cd ~/UrticariaPrediction
 python3 plot_ext_validation.py
 ```
 
+## plot shap and kde
+
+```bash
+cd ~/UrticariaPrediction
+python3 plot_shap.py
+```

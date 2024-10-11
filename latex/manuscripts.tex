@@ -41,7 +41,11 @@
 \usepackage{amsmath}
 %% The amsthm package provides extended theorem environments
 %% \usepackage{amsthm}
+% for tables
+\usepackage{makecell}
 
+\usepackage{hyperref}
+\usepackage{longtable}
 %% The lineno packages adds line numbers. Start line numbering with
 %% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
 %% for the whole article with \linenumbers.
@@ -145,18 +149,20 @@ Abstract text goes here.
 
 \section{Introduction}\label{Introduction}
 
-Urticaria is a common condition presenting with wheals, angioedema, or both, driven by mast cell degranulation\citep{Zuberbier2021The,RadonjicHoesli2018Urticaria,Ring2012Urticaria}. The lifetime prevalence for acute urticaria is approximately 20\% \citep{Zuberbier2021The}. 
+Urticaria is a common condition presenting with wheals, angioedema, or both, driven by mast cell degranulation\citep{Zuberbier2021The,RadonjicHoesli2018Urticaria,Ring2012Urticaria}. The lifetime prevalence for acute urticaria is approximately 20\% \citep{Zuberbier2021The}. 
 
-Urticaria is classified based on duration and triggers. Acute urticaria lasts less than 6 weeks, often triggered by specific causes like drugs, food, or infections. While chronic urticaria lasts more than 6 weeks and can be further classified into chronic spontaneous urticaria (CSU) and chronic inducible urticaria (CIndU)\citep{Zuberbier2021The,Ring2012Urticaria}. 
+Urticaria is classified based on duration and triggers. Acute urticaria lasts less than 6 weeks, often triggered by specific causes like drugs, food, or infections. While chronic urticaria lasts more than 6 weeks and can be further classified into chronic spontaneous urticaria (CSU) and chronic inducible urticaria (CIndU)\citep{Zuberbier2021The,Ring2012Urticaria}. 
+
 CSU is characterized by the spontaneous occurrence of wheals and/or angioedema without a specific trigger and often associated with autoimmune mechanisms\citep{Schettini2023Urticaria}, while CIndU is triggered by specific stimuli like cold, heat, or pressure\citep{Pozderac2020Chronic}. 
 
 The prevalence of CSU is approximately 0.5\% in general population, and is less prevalent in children compared to adults\citep{Balp2015The, Poddighe2019LETTER, Labbene2023Prevalence}. Some patients with CSU experience trigger-induced wheals, angioedema, or both. Up to 36\% of patients with CSU have been reported to react concomitantly to physical trigger tests\citep{Dressler2018Chronic}. These triggers are not definite, as their presence does not always induce signs and symptoms and because wheals, angioedema, or both also occur without them, that is, spontaneously. Some patients can present with more than one subtype of urticaria\citep{Zuberbier2021The}. 
 
-
 Chronic urticaria significantly impairs quality of life, affecting work and school performance. It is considered a severe allergic disease due to its disabling nature and high disease burden\citep{Zuberbier2021The}. Predicting the duration of urticaria, particularly chronic spontaneous urticaria (CSU), is crucial for effective patient management and treatment planning. 
-Duration of CSU greater than 3 years are associated with better responses to second-generation antihistamines and other treatments\citep{Chiang2022Predictors}.
+
+Duration of CSU greater than 3 years are associated with better responses to second-generation antihistamines and other treatments\citep{Chiang2022Predictors}.
 
 Several factors have been associated with the severity and duration of chronic spontaneous urticaria (CSU). Higher age at onset, female gender, longer disease duration, and hypersensitivity to aspirin or nonsteroidal anti-inflammatory drugs (NSAIDs) are linked to more severe CSU and prolonged time to remission \citep{SanchezBorges2017Factors,Rabelo-Filardi2013Parameters}. 
+
 Patients exhibiting concomitant inducible urticaria and recurrent angioedema also tend to experience longer durations of CSU \citep{SanchezBorges2017Factors, Curto-Barredo2018Clinical}.
 
 In pediatric cases, significant predictors of the duration of acute urticaria include age, specific clinical presentations, coexistent pyrexia or angioedema, and personal histories of allergic diseases, particularly atopic dermatitis \citep{Lin2011Predictive}. Moreover, patients with multiple allergic conditions are more likely to have prolonged episodes of urticaria \citep{Lin2011Predictive}.
@@ -185,10 +191,7 @@ Disease duration, calculated by the difference between the first visit date and 
 For laboratory data, 2 types of features were extracted: time-independent features and time-dependent features. Time-independent features are average values of laboratory data during the whole follow-up period, while time-dependent features are average values of laboratory data durting preclincial phase (before the onset of urticaria), acute phase (within 6 weeks after the onset of urticaria), and chronic phase (after 6 weeks of the onset of urticaria). 2 datasets were generated: one with time-independent features and one with time-dependent features, and were compared for prediction performance in the model development process. The sql queries for data are shown in feature\_extraction.sql in supplementary materials.
 
 \subsection{Model development and comparison}\label{Training}
-Dataset was split into training set and test set with a ratio of 7:3. 
-5 models were adopted for comparison: Xgboost, random forest, adaboost, gradient boosting machine (GBM), and support vector machine (SVM). hyperparameter optimization was performed using TPE algorithm by nni package in python, which is a bayesian optimization algorithm that uses tree-structured parzen estimator to model the objective function and suggest the next set of hyperparameters to evaluate based on the previous results. Internal 5 fold cross-validation was employed to discern the most suitable hyperparameters for each distinct model, individually applied to each model for enhanced performance.
-
-The performance of the model and data was evaluated by receiver operating characteristic (ROC) curve, area under the curve (AUC), accuracy, precision, recall and F1 score on different cuttoffs of disease duration. The model and data with the best performance were selected for further analysis.
+Dataset was split into training set and test set with a ratio of 7:3. 5 models were adopted for comparison: Xgboost, random forest, adaboost, gradient boosting machine (GBM), and support vector machine (SVM). Hyperparameter optimization was performed using TPE algorithm by nni package in python, which is a bayesian optimization algorithm that uses tree-structured parzen estimator to model the objective function and suggest the next set of hyperparameters to evaluate based on the previous results. Internal 5 fold cross-validation was employed to discern the most suitable hyperparameters for each distinct model, individually applied to each model for enhanced performance. The performance of the model and data was evaluated by receiver operating characteristic (ROC) curve, area under the curve (AUC), accuracy, precision, recall and F1 score on different cuttoffs of disease duration. The model and data with the best performance were selected for further analysis.
 
 
 \subsection{feature selection}\label{FeatureSelection}
@@ -198,21 +201,35 @@ Too many features can lead to overfitting and reduce the interpretability of the
 
 \subsection{Model explanation}\label{ModelExplanationMethods}
 
-
+The shapley value of each laboratory item in different phase of disease were compared to reveal various predicting ability of laboratory data in different phase of disease. To further verify the tendency oberserved in shapley values, kernal density estimation was used to visualize the distribution of average values of laboratory data in different phase of disease for patients with different disease duration. Shapley values together with kernal density estimation were used to explain the model and provide insights for clinical practice. Some of the features were further analyzed with different age populations to explore the potential age effect on the predicting ability of laboratory data.
 
 
 \section{Results}\label{Results}
 
 \subsection{Patient characteristics}\label{PatientCharacteristics}
 
+Table \ref{tab:train_test_origi} and Table \ref{tab:train_test_time} provides a comparison of the baseline characteristic between the training set and external testing set data. No substantial differences were observed between the training set and the external test set across the majority of features in either time independent or time dependent data.
 
+Table \ref{tab:good_outcome_poor_outcome_origi} and Table \ref{tab:good_outcome_poor_outcome_time} delineates the disparities between groups regarding the disease duration of patients in dataset. 
+
+\textbf{Mean Corpuscular Hemoglobin Concentration (MCHC)} shows a consistent increase across both tables for patients with poor outcomes. In the time-independent dataset, the value is significantly higher in the poor outcome group ($336.93 \pm 11.66$, $P = 0.000$) compared to the good outcome group ($335.20 \pm 12.03$, $P = 0.000$). Similarly, in the time-dependent dataset, across all phases (acute, chronic, preclinical), the poor outcome group consistently has higher MCHC values. This suggests that \textbf{MCHC} is a reliable indicator across both time frames, indicating a similar physiological pattern regardless of time-dependent stratification.
+
+In the time-independent dataset, the difference in \textbf{Lymphocytes Percentage} between the good and poor outcome groups is significant ($28.78 \pm 14.10$ vs. $34.10 \pm 13.86$, $P = 0.000$). However, in the time-dependent dataset, more nuanced trends are observed. The values differ between preclinical, acute, and chronic phases, with significant differences seen in the acute phase ($32.08 \pm 12.37$ vs. $33.21 \pm 14.03$, $P = 0.082$), while no major trend appears in the chronic and preclinical phases. This shows that time-dependent analysis can uncover subtle temporal patterns not evident in static analysis.
+
+In the time-independent dataset, there is a significant difference between good and poor outcomes for \textbf{Neutrophils Percentage} ($63.44 \pm 15.76$ vs. $56.59 \pm 14.96$, $P = 0.000$). However, in the time-dependent dataset, the trend changes across preclinical, acute, and chronic phases. For example, in the acute phase, the difference remains significant ($58.60 \pm 13.68$ vs. $57.78 \pm 14.94$, $P = 0.014$), while in the preclinical phase, the difference is less pronounced ($52.85 \pm 18.14$ vs. $52.44 \pm 17.90$, $P = 0.024$), and in the chronic phase, the trend reverses with poor outcomes having higher neutrophil percentages. This highlights the importance of considering temporal variations when analyzing clinical indicators.
+
+\include{latex_data_description_table_outcome_origi}
+\include{latex_data_description_table_outcome_time}
 
 \subsection{Comparison of multiple models on time-dependent and time-independent data}\label{ModelComparison}
+% xgboost + time dependent datasset is the best model in 42 100 365 cutoffs
 
-
+time independent and time dependent data were used to generate 5 machine learning models to predict the disease duration of urticaria. Among the 10 models, Xgboost model with time dependent data (AUC = )  has the best predictive effect for disease duration, followed by random forest with time dependent data (AUC = ) .The discriminative performances of these 10 models are listed in Supplementary Table S3, and the ROC curves for the top three best-performing ML models are presented in Fig. 2, respectively. 
 
 
 \subsection{Feature selection and final model}\label{FinalModel}
+
+Xgboost with time dependent data, as the best performing model, was selected for further optimization. During the process of reducing features based on the feature important rank calculated by boruta algorithm, the changes in AUCs for the model shows that the model maintain robust performance unitil the number of features reduced to less than 10. The performance of the RF model with varied numbers of features is displayed in Fig. 2C and Supplementary Table S4. The sensitivity, specificity, PPV, NPV, accuracy, and F1 score were calculated at the optimal cutoff value that maximized the Youden index.
 
 
 
@@ -221,11 +238,15 @@ Too many features can lead to overfitting and reduce the interpretability of the
 
 
 
+
+
 \section{Discussion}\label{Discussion}
 
 
 Although the pathogenesis of CSU is not yet fully understood, it is well established that its signs and symptoms are due to the activation of mast cells and basophils, leading to the release of histamine and other inflammatory mediators\citep{Zuberbier2021The}. 
+
 Based on recent evidence, it is known that the causes of CSU include autoimmunity Type I (CSUaiTI, or “autoallergic CSU”; with IgE autoantibodies to self-antigens) and autoimmunity Type IIb (CSUaiTIIb; with mast cell–directed activating autoantibodies). In CSU due to unknown cause (CSUuc), as of yet unknown mechanisms are relevant for the degranulation of skin MC\citep{sella2023type, Maronese2023IgG}.
+
 The results of the basic tests performed in CSU can point to CSUaiTI vs CSUaiTIIb, with CRP more often elevated and eosinophil and basophil levels more often reduced in CSUaiTIIb\citep{Xiang2023Chronic}.
 Other underlying causes include active thyroid disease, infections, inflammatory processes, food, and drugs but these can be both cause as well as only aggravating factor\citep{Kolkhir2021Autoimmune}
 
@@ -235,19 +256,7 @@ Other underlying causes include active thyroid disease, infections, inflammatory
 %% Use a table environment to create tables.
 %% Refer following link for more details.
 %% https://en.wikibooks.org/wiki/LaTeX/Tables
-\begin{table}[t]%% placement specifier
-%% Use tabular environment to tag the tabular data.
-%% https://en.wikibooks.org/wiki/LaTeX/Tables#The_tabular_environment
-\centering%% For centre alignment of tabular.
-\begin{tabular}{l c r}%% Table column specifiers
-%% Tabular cells are separated by &
-  1 & 2 & 3 \\ %% A tabular row ends with \\
-  4 & 5 & 6 \\
-  7 & 8 & 9 \\
-\end{tabular}
-%% Use \caption command for table caption and label.
-\caption{Table Caption}\label{fig1}
-\end{table}
+
 
 
 %% Use figure environment to create figures
@@ -267,10 +276,13 @@ Other underlying causes include active thyroid disease, infections, inflammatory
 %% The Appendices part is started with the command \appendix;
 %% appendix sections are then done as normal sections
 \appendix
-\section{Example Appendix Section}
-\label{app1}
+\section{Supplementary data}\label{sec:supplementary}
 
-Appendix text.
+\href{run:latex_data_description_table_train_test_origi.tex}{Supplementary Table1: Comparison of the characteristic between the training set and external testing set data in the time independent dataset}
+\label{tab:train_test_origi}
+
+\href{run:latex_data_description_table_train_test_time.tex}{Supplementary Table2: Comparison of the characteristic between the training set and external testing set data in the time dependent dataset}
+\label{tab:train_test_time}
 
 
 %% If you have bib database file and want bibtex to generate the

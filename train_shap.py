@@ -133,7 +133,7 @@ def get_data_for_Shap(model, filepath, parmas,
                                 row_na_threshold,
                                 col_na_threshold,
                                 pick_key= pick_key,
-                                common_blood_test= True,
+                                common_blood_test= True
                                 )
     
     # predict 

@@ -82,7 +82,8 @@ class FeatureFilter:
             return self._sorting(df, topn)
         elif self.method == 'selection':
             # when method is selection, topn is not used
-            return self._selection(df)
+            colstokeep = kwargs.get('colstokeep', ['sample_weight','agegroup', 'visitdurationgroup','Gender','FirstVisitAge','CIndU'])
+            return self._selection(df, colstokeep)
     
     def _sorting(self, df: pd.DataFrame, topn: int|float|None):
         '''
@@ -121,7 +122,9 @@ class FeatureFilter:
 
   
 
-    def _selection(self, df: pd.DataFrame):
+    def _selection(self, 
+                   df: pd.DataFrame,
+                   colstokeep: List[str] = ['sample_weight','agegroup', 'visitdurationgroup','Gender','FirstVisitAge','CIndU']):
         features_to_use = []
         for feat in self.features_list:
             assofeat = get_asso_feat(feat, df.columns)
@@ -133,7 +136,8 @@ class FeatureFilter:
                     provided features number: {len(self.features_list)}
                     selected features number: {len(features_to_use)}
                     """)
-        df = df[features_to_use + [self.target_column, 'sample_weight','agegroup', 'visitdurationgroup']]
+        
+        df = df[features_to_use + [self.target_column] + colstokeep]
         logger.info(f"features now in use: {df.columns}")
         return df
 
@@ -325,7 +329,8 @@ class Preprocessor:
                     col_na_threshold: float = 0.5,
                     pick_key = '0-2',
                     topn: int|float|None = None,
-                    common_blood_test: bool = False):
+                    common_blood_test: bool = False,
+                    disable_scalingX: bool = False):
         # dropna
         df, avg_missing_perc_row, avg_missing_perc_col = self._dropna(df, row_na_threshold, col_na_threshold, common_blood_test)
 
@@ -339,7 +344,9 @@ class Preprocessor:
         df = self._subsetting(df, pick_key)
 
         # scale the X data by min-max 
-        df = self._scalingX(df)
+        if not disable_scalingX:
+            df = self._scalingX(df)
+        
         # scale the Y data by scale_factor and log_transform
         df = self._scalingY(df, scale_factor, log_transform)
 

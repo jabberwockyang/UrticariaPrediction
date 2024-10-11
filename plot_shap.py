@@ -81,6 +81,7 @@ def plot_kde_in_group(X, y, name):
             axs[i].set_title(feat)  # 设置子图标题
         plt.tight_layout()
         plt.savefig(os.path.join('kde_plots', f'{featgroup}_{name}.png'))
+        plt.clf()
 
 def get_shap_values(X, model):
     
@@ -115,9 +116,9 @@ if __name__ == '__main__':
 
     X, y = get_data_for_Shap(fmodel, fp, params.copy(), 
                             0.5,
-                            pp, k = 2.5, randomrate= 0.1,
+                            pp, k = 10, randomrate= 0.1,
                             pick_key= key)
-    
+    logger.debug(f"Data shape: {X.shape}, {y.shape}")
     y = reverse_y_scaling(y, params['scale_factor'], params['log_transform'])
     plot_kde_in_group(X, y, key)
 

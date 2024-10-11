@@ -74,10 +74,9 @@ def plot_roc(data, groupname, log_dir, binary_threshold, colors_set, label_set, 
             # to array and check y
             y_array = np.array(fold_result['ry'])
             y_pred_array = np.array(fold_result['rypredict'])
-            okindex = check_y(y_array, y_pred_array)
-
-            y_array = y_array[okindex]
-            y_pred_array = y_pred_array[okindex]
+            # okindex = check_y(y_array, y_pred_array)
+            # y_array = y_array[okindex]
+            # y_pred_array = y_pred_array[okindex]
             y_bi = np.where(y_array > binary_threshold, 1, 0)
             fpr, tpr, thresholds = roc_curve(y_bi, y_pred_array)
             # 计算Youden's Index
@@ -125,10 +124,9 @@ def plot_loss(data, log_dir, colors_set, label_set, ppthreshold = 1000):
         for fr in result['fold_results']:
             y_array = np.array(fr['ry'])
             y_pred_array = np.array(fr['rypredict'])
-            okindex = check_y(y_array, y_pred_array)
-
-            y_array = y_array[okindex]
-            y_pred_array = y_pred_array[okindex]
+            # okindex = check_y(y_array, y_pred_array)
+            # y_array = y_array[okindex]
+            # y_pred_array = y_pred_array[okindex]
             loss = mean_squared_error(y_array, y_pred_array)
             loss_list.append(loss)
         lossdf[label_set[experiment_id]] = loss_list
@@ -159,9 +157,9 @@ def plot_y_predy(data, log_dir, colors_set, label_set, ppthreshold = 1000):
         for idx, fr in enumerate(result['fold_results']):
             y_array = np.array(fr['ry'])
             y_pred_array = np.array(fr['rypredict'])
-            okindex = check_y(y_array, y_pred_array)
-            y_array = y_array[okindex]
-            y_pred_array = y_pred_array[okindex]
+            # okindex = check_y(y_array, y_pred_array)
+            # y_array = y_array[okindex]
+            # y_pred_array = y_pred_array[okindex]
 
             ax = axs[idx]  # 选择当前子图
             ax.scatter(y_array, y_pred_array, color=colors_set[experiment_id], alpha=0.3)
