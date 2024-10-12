@@ -1,16 +1,20 @@
 
 import pandas as pd
 from utils import check_y
-from sklearn.metrics import roc_curve, auc
+from sklearn.metrics import roc_curve, auc, mean_squared_error
 import matplotlib.pyplot as plt
 import numpy as np
 import json
 import os
 
-def plot_roc(fold_result_list, log_dir, binary_threshold, colors_set, label_set):
+def plot_roc(fold_result_list, log_dir, binary_threshold, colors_set, label_set, topn=None):
     plt.figure(figsize=(8, 8))
 
     for sequence_id in fold_result_list.keys():
+        if topn:
+            if label_set[sequence_id] != topn:
+                continue
+
         fold_result = fold_result_list[sequence_id]
         # to array and check y
         y_array = np.array(fold_result['ry'])
@@ -39,7 +43,10 @@ def plot_roc(fold_result_list, log_dir, binary_threshold, colors_set, label_set)
     plt.ylabel('True Positive Rate')
     plt.title('ROC Curve - topn')
     plt.legend(loc="lower right")
-    plt.savefig(f'{log_dir}/roc_curve_{binary_threshold}.png')
+    if topn:
+        plt.savefig(f'{log_dir}/roc_curve_{binary_threshold}_{topn}.png')
+    else:
+        plt.savefig(f'{log_dir}/roc_curve_{binary_threshold}.png')
     plt.close()
 
 
@@ -69,6 +76,49 @@ def plot_y_predy(fold_result_list, log_dir, colors_set, label_set):
     plt.savefig(f'{log_dir}/y_pred_{sequence_id}.png')
     plt.close()
 
+def write_extval_result(fold_result_list, log_dir, experiment_id, label_set):
+    result_list = []
+    for sequence_id in fold_result_list.keys():
+        fr = fold_result_list[sequence_id]
+        y_array = np.array(fr['ry'])
+        y_pred_array = np.array(fr['rypredict'])
+        okindex = check_y(y_array, y_pred_array)
+        y_array = y_array[okindex]
+        y_pred_array = y_pred_array[okindex]
+
+
+        loss = mean_squared_error(y_array, y_pred_array)
+        for binary_threshold in [42, 100, 365]:
+            y_bi = np.where(y_array > binary_threshold, 1, 0)
+            fpr, tpr, thresholds = roc_curve(y_bi, y_pred_array)
+            roc_auc = auc(fpr, tpr)
+            youden_index = tpr - fpr
+            best_index = youden_index.argmax()
+            # The sensitivity, specificity, PPV, NPV, accuracy, and F1 score were calculated at the optimal cutoff value that maximized the Youden index.
+            sensitivity = tpr[best_index]
+            specificity = 1 - fpr[best_index]
+            PPV = sensitivity / (sensitivity + (1 - specificity))
+            NPV = specificity / (specificity + (1 - sensitivity))
+            accuracy = (sensitivity + specificity) / 2
+            F1 = 2 * sensitivity * PPV / (sensitivity + PPV)
+            result_list.append({
+                'experiment_id': experiment_id,
+                'trainset': fr['trainset'],
+                'sequence_id': sequence_id,
+                'label': label_set[sequence_id],
+                'loss': loss,
+                'binary_threshold': binary_threshold,
+                'roc_auc': roc_auc,
+                'sensitivity': sensitivity,
+                'specificity': specificity,
+                'PPV': PPV,
+                'NPV': NPV,
+                'accuracy': accuracy,
+                'F1': F1
+            })
+    result_df = pd.DataFrame(result_list)
+    result_df.to_csv(f'{log_dir}/extval_result.csv', index=False)
+
 def main(logdir, expid, evalset):
 
     resultfilepath = f'{logdir}/{expid}/results.jsonl'
@@ -87,10 +137,13 @@ def main(logdir, expid, evalset):
     for idx, sequence_id in enumerate(fold_result_list.keys()):
         colors_set[sequence_id] = plt.cm.tab10(idx)
         label_set[sequence_id] = sequence_id.split('_')[-1]
-    for binary_threshold in [42,100, 365]:
-        plot_roc(fold_result_list, os.path.join(logdir, evalset), binary_threshold, colors_set, label_set)
-    plot_y_predy(fold_result_list, os.path.join(logdir, evalset), colors_set, label_set)
 
+    for binary_threshold in [42,100, 365]:
+        # plot_roc(fold_result_list, os.path.join(logdir, evalset), binary_threshold, colors_set, label_set)
+        plot_roc(fold_result_list, os.path.join(logdir, evalset), binary_threshold, colors_set, label_set, topn='top25')
+    # plot_y_predy(fold_result_list, os.path.join(logdir, evalset), colors_set, label_set)
+
+    # write_extval_result(fold_result_list, os.path.join(logdir, evalset), expid,label_set)
 
 if __name__ == '__main__':
 

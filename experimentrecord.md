@@ -233,10 +233,6 @@ cd ~/UrticariaPrediction
 python3 plot_boruta.py --log_dir boruta_explog --experiment_name e2f721e9
 ```
 
-```bash
-cd ~/UrticariaPrediction
-python3 plot_boruta.py
-```
 ## external validation and topn exploration
 xgboost-timeseries nni9_explog/beA3o82D
 

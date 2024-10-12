@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import json
 import pandas as pd
-import random
+import os
 from utils import check_y
 
 def get_result(log_dir, experiment_id):
@@ -35,7 +35,7 @@ def get_result_by_sequence_id(log_dir, experiment_id, sequence_id):
         if result['sequence_id'] == sequence_id:
             return result
         
-def best_sequence_id(log_dir, experiment_id, ppshape_threshold = 1000):
+def best_sequence_id_byroc(log_dir, experiment_id, ppshape_threshold = 1000):
     best_sequence_id = None
     best_avg_avg_roc_auc = 0
     
@@ -58,7 +58,23 @@ def best_sequence_id(log_dir, experiment_id, ppshape_threshold = 1000):
 
     return best_sequence_id
 
+def best_sequence_id_byloss(log_dir, experiment_id, ppshape_threshold = 1000):
+    best_sequence_id = None
+    minloss = 1000000
+    
+    for result in get_result(log_dir, experiment_id):
+        sequence_id = result['sequence_id']
+        if checkppshape(log_dir, experiment_id, sequence_id, threshold= ppshape_threshold) == False:
 
+            continue
+        fold_results = result['fold_results']
+
+        loss = np.mean([result['loss'] for result in fold_results])
+        if  loss < minloss:
+            minloss = loss
+            best_sequence_id = sequence_id
+
+    return best_sequence_id
 def plot_roc(data, groupname, log_dir, binary_threshold, colors_set, label_set, ppthreshold = 1000):
 
     mean_fpr = np.linspace(0, 1, 100)
@@ -74,9 +90,9 @@ def plot_roc(data, groupname, log_dir, binary_threshold, colors_set, label_set, 
             # to array and check y
             y_array = np.array(fold_result['ry'])
             y_pred_array = np.array(fold_result['rypredict'])
-            # okindex = check_y(y_array, y_pred_array)
-            # y_array = y_array[okindex]
-            # y_pred_array = y_pred_array[okindex]
+            okindex = check_y(y_array, y_pred_array)
+            y_array = y_array[okindex]
+            y_pred_array = y_pred_array[okindex]
             y_bi = np.where(y_array > binary_threshold, 1, 0)
             fpr, tpr, thresholds = roc_curve(y_bi, y_pred_array)
             # 计算Youden's Index
@@ -124,9 +140,9 @@ def plot_loss(data, log_dir, colors_set, label_set, ppthreshold = 1000):
         for fr in result['fold_results']:
             y_array = np.array(fr['ry'])
             y_pred_array = np.array(fr['rypredict'])
-            # okindex = check_y(y_array, y_pred_array)
-            # y_array = y_array[okindex]
-            # y_pred_array = y_pred_array[okindex]
+            okindex = check_y(y_array, y_pred_array)
+            y_array = y_array[okindex]
+            y_pred_array = y_pred_array[okindex]
             loss = mean_squared_error(y_array, y_pred_array)
             loss_list.append(loss)
         lossdf[label_set[experiment_id]] = loss_list
@@ -157,9 +173,9 @@ def plot_y_predy(data, log_dir, colors_set, label_set, ppthreshold = 1000):
         for idx, fr in enumerate(result['fold_results']):
             y_array = np.array(fr['ry'])
             y_pred_array = np.array(fr['rypredict'])
-            # okindex = check_y(y_array, y_pred_array)
-            # y_array = y_array[okindex]
-            # y_pred_array = y_pred_array[okindex]
+            okindex = check_y(y_array, y_pred_array)
+            y_array = y_array[okindex]
+            y_pred_array = y_pred_array[okindex]
 
             ax = axs[idx]  # 选择当前子图
             ax.scatter(y_array, y_pred_array, color=colors_set[experiment_id], alpha=0.3)
@@ -174,31 +190,81 @@ def plot_y_predy(data, log_dir, colors_set, label_set, ppthreshold = 1000):
         plt.close()
 
 
+def write_kfoldint_results(data, log_dir, label_set, ppthreshold = 1000):
+    results_list = []
+    #five fold receiver-operating-characteristic (ROC) curve (AUC), sensitivity, specificity, 
+    # positive predictive value (PPV), negative predictive value (NPV), accuracy, and F1 score, were used to evaluated the reliability of these models
+    for experiment_id in data.keys():
+        result = data[experiment_id]['results']
+        for fr in result['fold_results']:
+            y_array = np.array(fr['ry'])
+            y_pred_array = np.array(fr['rypredict'])
+            okindex = check_y(y_array, y_pred_array)
+            y_array = y_array[okindex]
+            y_pred_array = y_pred_array[okindex]
 
+            loss = mean_squared_error(y_array, y_pred_array)
+            for binary_threshold in [42, 100, 365]:
+                y_bi = np.where(y_array > binary_threshold, 1, 0)
+                fpr, tpr, thresholds = roc_curve(y_bi, y_pred_array)
+                roc_auc = auc(fpr, tpr)
+                youden_index = tpr - fpr
+                best_index = youden_index.argmax()
+                # The sensitivity, specificity, PPV, NPV, accuracy, and F1 score were calculated at the optimal cutoff value that maximized the Youden index.
+                sensitivity = tpr[best_index]
+                specificity = 1 - fpr[best_index]
+                PPV = sensitivity / (sensitivity + (1 - specificity))
+                NPV = specificity / (specificity + (1 - sensitivity))
+                accuracy = (sensitivity + specificity) / 2
+                F1 = 2 * sensitivity * PPV / (sensitivity + PPV)
+                results_list.append({
+                    'experiment_id': experiment_id,
+                    'experiment_label': label_set[experiment_id],
+                    'fold': fr['fold'],
+                    'loss': loss,
+                    'binary_threshold': binary_threshold,
+                    'roc_auc': roc_auc,
+                    'sensitivity': sensitivity,
+                    'specificity': specificity,
+                    'PPV': PPV,
+                    'NPV': NPV,
+                    'accuracy': accuracy,
+                    'F1': F1
+                })
+    results_df = pd.DataFrame(results_list)
+    results_df.to_csv(f'{log_dir}/kfoldint_results_thre{ppthreshold}.csv', index=False)
+
+            
 
 def main(log_dir, colors_set, label_set, group_set, ppthreshold = 1000):
     data = {}
 
     for experiment_id in colors_set.keys():
-        sequence_id = best_sequence_id(log_dir, experiment_id, ppshape_threshold = ppthreshold)
+        sequence_id = best_sequence_id_byloss(log_dir, experiment_id, ppshape_threshold = ppthreshold)
+        # sequence_id = best_sequence_id_byroc(log_dir, experiment_id, ppshape_threshold = ppthreshold)
         result = get_result_by_sequence_id(log_dir, experiment_id, sequence_id)
         data[experiment_id] = {
             'sequence_id': sequence_id,
             'results': result   
         }
-    with open(f'{log_dir}/bestparams_thre{ppthreshold}.json', 'w') as f:
+
+    plotdir = f'kfoldint_plot'
+    if not os.path.exists(plotdir):
+        os.makedirs(plotdir)
+
+    with open(f'{plotdir}/bestparams_thre{ppthreshold}.json', 'w') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
     
     for binary_threshold in [42, 100, 365]:
         for group in group_set.keys():
             subset_data = {experiment_id: data[experiment_id] for experiment_id in group_set[group]}
-            plot_roc(subset_data, group, log_dir, binary_threshold, colors_set, label_set, ppthreshold = ppthreshold)
+            plot_roc(subset_data, group, plotdir, binary_threshold, colors_set, label_set, ppthreshold = ppthreshold)
 
-    plot_loss(data, log_dir, colors_set, label_set, ppthreshold = ppthreshold)
-    plot_y_predy(data, log_dir, colors_set, label_set, ppthreshold = ppthreshold)
+    plot_loss(data, plotdir, colors_set, label_set, ppthreshold = ppthreshold)
+    plot_y_predy(data, plotdir, colors_set, label_set, ppthreshold = ppthreshold)
 
-
+    write_kfoldint_results(data, plotdir, label_set, ppthreshold = ppthreshold)
 
 if __name__ == "__main__":
     log_dir = 'kfoldint_explog'
@@ -216,19 +282,21 @@ if __name__ == "__main__":
         "7mJ4VYe5_default_top100_gr1": "blue",
         "NKgRQfcV_default_top25_gr1": "red"
     }
+    
 
     label_set = {
-        "dTBCXYGr_default_top100_gr1": "Xgboost + original data",
-        "beA3o82D_default_top100_gr1": "Xgboost + timeseries data",
-        "XE0MhN5r_default_top100_gr1": "random forest + original data",
-        "1aTxj7zc_default_top100_gr1": "random forest + timeseries data",
-        "FAbyiLmG_default_top100_gr1": "Adaboost + original data",
-        "25m9QoAi_default_top250_gr1": "Adaboost + timeseries data",
-        "YR1DQb9A_default_top100_gr1": "GBM + original data",
-        "lKesaFNR_default_top100_gr1": "GBM + timeseries data",
-        "7mJ4VYe5_default_top100_gr1": "SVM + original data",
-        "NKgRQfcV_default_top25_gr1": "SVM + timeseries data"
+        "dTBCXYGr_default_top100_gr1": "Xgboost + time independent",
+        "beA3o82D_default_top100_gr1": "Xgboost + time dependent",
+        "XE0MhN5r_default_top100_gr1": "random forest + time independent",
+        "1aTxj7zc_default_top100_gr1": "random forest + time dependent",
+        "FAbyiLmG_default_top100_gr1": "Adaboost + time independent",
+        "25m9QoAi_default_top250_gr1": "Adaboost + time dependent",
+        "YR1DQb9A_default_top100_gr1": "GBM + time independent",
+        "lKesaFNR_default_top100_gr1": "GBM + time dependent",
+        "7mJ4VYe5_default_top100_gr1": "SVM + time independent",
+        "NKgRQfcV_default_top25_gr1": "SVM + time dependent"
     }
+
 
     group_set = {
         "Xgboost": ["dTBCXYGr_default_top100_gr1", "beA3o82D_default_top100_gr1"],
@@ -237,5 +305,6 @@ if __name__ == "__main__":
         "GBM": ["YR1DQb9A_default_top100_gr1", "lKesaFNR_default_top100_gr1"],
         "SVM": ["7mJ4VYe5_default_top100_gr1", "NKgRQfcV_default_top25_gr1"]
     }
+
     for threshold in [1000]:
         main(log_dir, color_set, label_set, group_set, ppthreshold = threshold)

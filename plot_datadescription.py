@@ -206,7 +206,7 @@ def json_to_latex(summary, dataset_name1="Dataset 1", dataset_name2="Dataset 2")
             split2_values = ', '.join([f"{k}: {v * 100:.1f}\\%" for k, v in stats["split2"].items()])
             latex_table += f"{split1_values} & {split2_values} & "
         # add arrow indicating the direction of the difference
-        if "mean" in stats["split1"] and stats['p_value'] < 0.05: 
+        if "mean" in stats["split1"] and stats['p_value'] < 0.01: 
             if stats['split1']['mean'] > stats['split2']['mean']:
                 arrow = r"$\downarrow$"
             else:
@@ -236,9 +236,11 @@ if __name__ == '__main__':
         bestexpid, sequenceid = prepare_params(config_plot)
         fmodel, params, pp, fp= get_model_data_for_shap(config_train, bestexpid, sequenceid)
 
+        rowna = 0.3
+        k = 100
         X, y = get_data_for_des(fmodel, fp, params.copy(), 
-                                0.3,
-                                pp, k = 10, randomrate= 0.2,
+                                rowna,
+                                pp, k = k, randomrate= 0.2,
                                 pick_key= 'all')
         logger.info(f"X shape: {X.shape}")
         

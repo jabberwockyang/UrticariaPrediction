@@ -9,6 +9,7 @@ import seaborn as sns
 from train_shap import get_model_data_for_shap, ModelReversingY, get_data_for_Shap
 import shap
 import joblib
+import yaml
 from utils import reverse_y_scaling
 
 
@@ -62,8 +63,8 @@ def custom_sort_key(string):
     return float('inf')  # 如果字符串不包含任何key，放在最后
 
 def plot_kde_in_group(X, y, name):
-    if not os.path.exists('kde_plots'):
-        os.makedirs('kde_plots')
+    if not os.path.exists(KDEDIR):
+        os.makedirs(KDEDIR)
     for featgroup in pp.feature_filter.features_list:
         featlist = get_asso_feat(featgroup, X.columns)
         # sort featlist by order .split('_')[-1] preclinicals, acute, chronic 
@@ -80,22 +81,23 @@ def plot_kde_in_group(X, y, name):
             axs[i].axis('off')  # 隐藏坐标轴
             axs[i].set_title(feat)  # 设置子图标题
         plt.tight_layout()
-        plt.savefig(os.path.join('kde_plots', f'{featgroup}_{name}.png'))
+        plt.savefig(os.path.join(KDEDIR, f'{featgroup}_{name}.png'))
         plt.clf()
 
 def get_shap_values(X, model):
     
-    if X.shape[0] > 100:
-        X100 = shap.utils.sample(X, 100) 
+    if X.shape[0] > 300:
+        X100 = shap.utils.sample(X, 300) 
     else:
         X100 = X
+
     explainer = shap.Explainer(model.predict, X100)
     shap_values = explainer(X100)
     return shap_values, X100
 
 def plot_beeswarm_in_group(shap_values, X, ageggroup):
-    if not os.path.exists('shap_plots'):
-        os.makedirs('shap_plots')
+    if not os.path.exists(SHAPDIR):
+        os.makedirs(SHAPDIR)
     for index, featgroup in enumerate(pp.feature_filter.features_list):
         print(featgroup)
         featlist = get_asso_feat(featgroup, X.columns)
@@ -103,26 +105,64 @@ def plot_beeswarm_in_group(shap_values, X, ageggroup):
         shap.plots.beeswarm(shap_values[:,sorted_list],show=False)
         fig = plt.gcf()  # plt.gcf() 用于获取当前的图像对象
         fig.suptitle(f"{featgroup} in {ageggroup} age group")
-        fig.savefig(f"shap_plots/{featgroup}_{ageggroup}.png",bbox_inches = 'tight')
+        fig.savefig(f"{SHAPDIR}/{featgroup}_{ageggroup}.png",bbox_inches = 'tight')
         logger.debug(f"Saved shap plot for {featgroup} in {ageggroup} age group")
         plt.clf()
-        
+
+def plot_heatmap(shap_values, agegroup):
+    if not os.path.exists(SHAPDIR):
+        os.makedirs(SHAPDIR)
+    ax = shap.plots.heatmap(shap_values, max_display=25, 
+                            # instance_order=shap_values.sum(1),
+                            show=False)
+    ax.set_aspect(5) # 设置图像的纵横比
+    ax.set_title(f"SHAP heatmap for {agegroup}")
+    
+    plt.savefig(f"{SHAPDIR}/heatmap_{agegroup}_orderx.png",bbox_inches = 'tight')
+
+def plot_correlation(shap_values):
+    for autoantibodyfeature in ['SMRNP_Avg_acute', 'SMRNP_Avg_chronic',
+                                'Nucleosome_Avg_chronic', 'Nucleosome_Avg_acute',
+                                'AntiJo1_Avg_acute','AntiJo1_Avg_chronic',
+                                'Ro52_Avg_acute', 'Ro52_Avg_chronic', 
+                                'AntiSSA_Avg_acute','AntiSSA_Avg_chronic',
+                                'RibosomalPProtein_Avg_acute', 'RibosomalPProtein_Avg_chronic']:
+        for n in ['NeutrophilsPercentage_Avg_acute', 'NeutrophilsPercentage_Avg_chronic']:
+            shap.plots.scatter(shap_values[:, n], color=shap_values[:, autoantibodyfeature])
+            plt.title(f"Correlation between {n} and {autoantibodyfeature}")
+            plt.savefig(f"{SHAPDIR}/scatter_{n}_vs_{autoantibodyfeature}.png",bbox_inches = 'tight')
+            
+
 if __name__ == '__main__':
     # beA3o82D_1112_1_all
-    fmodel, params, pp, fp= get_model_data_for_shap('trainshap_timeseries.yaml', 'beA3o82D', 1112)
+    config_path = 'trainshap_timeseries.yaml'
+    fmodel, params, pp, fp= get_model_data_for_shap(config_path, 'beA3o82D', 1112)
     joblib.dump(fmodel, 'fmodel.pkl')
 
+    with open(config_path, 'r') as file:
+        config = yaml.safe_load(file)
+    featurelist = config['train']['feature_list']
+    topn = featurelist.split('/')[-1].split('_')[0]
     key = 'all'
+    keyname = 'all'
+    rowna = 0.5
+    k = 100
+    SHAPDIR = f'shap_plots_{keyname}_rowna{rowna}_k{k}_{topn}'
+    KDEDIR = f'kde_plots_{keyname}_rowna{rowna}_k{k}_{topn}'
 
     X, y = get_data_for_Shap(fmodel, fp, params.copy(), 
-                            0.5,
-                            pp, k = 10, randomrate= 0.1,
+                            rowna, 
+                            pp, k = k, randomrate= 0.2,
                             pick_key= key)
     logger.debug(f"Data shape: {X.shape}, {y.shape}")
     y = reverse_y_scaling(y, params['scale_factor'], params['log_transform'])
-    plot_kde_in_group(X, y, key)
+    # plot_kde_in_group(X, y, keyname)
 
 
     shap_values, X = get_shap_values(X, ModelReversingY(fmodel, params))
-    plot_beeswarm_in_group(shap_values, X, key)
+    # plot_beeswarm_in_group(shap_values, X, keyname)
+
+    # plot_heatmap(shap_values, keyname)
+
+    plot_correlation(shap_values)
     

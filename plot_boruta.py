@@ -7,6 +7,8 @@ import argparse
 from utils import load_feature_list_from_boruta_file
 
 def plot_boruta(ranking_df,log_dir, name = 'boruta'):
+
+
     numeric_ranking_df = ranking_df.apply(pd.to_numeric, errors='coerce')
 
     median_values = numeric_ranking_df.median()
@@ -71,7 +73,7 @@ def argparser():
 if __name__ == '__main__':
     args = argparser()
     exp_dir = os.path.join(args.log_dir, args.experiment_name)
-    ranking_df = pd.read_csv(os.path.join(exp_dir, 'ranking_df.csv'))
+    ranking_df = pd.read_csv(os.path.join(exp_dir, 'ranking_df.csv'), index_col=0)
     plot_boruta(ranking_df, exp_dir)
     plot_boruta_by_group(ranking_df, exp_dir)
 

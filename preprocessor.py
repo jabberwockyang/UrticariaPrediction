@@ -263,13 +263,19 @@ class Preprocessor:
         #              """)
         return df
     
-    def _subsetting(self, df: pd.DataFrame, pick_key: str):
+    def _subsetting(self, df: pd.DataFrame, pick_key: str|list):
         # subsetting data
-        logger.info(f"Subsetting data by agegroup: {pick_key}")
-        if pick_key != 'all':
-            df = df[df['agegroup'] == pick_key]
+        if isinstance(pick_key, str):
+            logger.info(f"Subsetting data by agegroup: {pick_key}")
+            if pick_key != 'all':
+                df = df[df['agegroup'] == pick_key]
+            else:
+                pass
+        elif isinstance(pick_key, list):
+            logger.info(f"Subsetting data by agegroup: {pick_key}")
+            df = df[df['agegroup'].isin(pick_key)]
         else:
-            pass
+            raise ValueError("Invalid pick_key")
         # logger.debug(f"""
         #             {df.head()}
         #              """)
@@ -327,7 +333,7 @@ class Preprocessor:
                     log_transform: str, 
                     row_na_threshold: float = 0.5,
                     col_na_threshold: float = 0.5,
-                    pick_key = '0-2',
+                    pick_key: str|list = 'all',
                     topn: int|float|None = None,
                     common_blood_test: bool = False,
                     disable_scalingX: bool = False):
@@ -362,7 +368,9 @@ class Preprocessor:
         logger.info(f"Preprocessed data head: {df.head()}")
         
         if 'index' in df.columns:
-            df = df.drop(columns=['index'])
+            df = df.drop(columns=['index']) 
+        if 'Unnamed: 0' in df.columns:
+            df = df.drop(columns=['Unnamed: 0'])
         X = df.drop(columns=[self.target_column, 'sample_weight','agegroup', 'visitdurationgroup'])
         y = df[self.target_column]
         sample_weight = df['sample_weight']
