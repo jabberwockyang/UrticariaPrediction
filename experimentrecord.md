@@ -46,6 +46,7 @@ shap验证
 
 ## nni
 xgboost-timeseries  nni9_explog/beA3o82D
+xgboost-timeseries  nni9_explog/Y4Vfd6Zx new search space
 ```bash
 cd ~/UrticariaPrediction
 cp search_space_xgboost.json search_space.json

@@ -1,14 +1,23 @@
 {
-  "model": {"_type": "choice", "_value": ["svm"]},
+    "model": {"_type": "choice", "_value": ["xgboost"]},
+    
+    "scale_factor": {"_type": "choice", "_value": [1, 2, 5, 10]},
+    "log_transform": {"_type": "choice", "_value": ["None", "log2", "log10"]},
+    "row_na_threshold" : {"_type": "uniform", "_value": [0, 1]},
+    "col_na_threshold" : {"_type": "uniform", "_value": [0, 0.25]},
   
-  "scale_factor": {"_type": "choice", "_value": [1, 2, 5, 10]},
-  "log_transform": {"_type": "choice", "_value": ["None", "log2", "log10"]},
-  "row_na_threshold" : {"_type": "uniform", "_value": [0, 1]},
-  "col_na_threshold" : {"_type": "uniform", "_value": [0, 0.25]},
-
-  "C": {"_type": "uniform", "_value": [0.01, 10]},
-  "kernel": {"_type": "choice", "_value": ["linear", "poly", "rbf", "sigmoid"]},
-  "degree": {"_type": "choice", "_value": [2, 3, 4, 5], "_condition": {"kernel": "poly"}},
-  "gamma": {"_type": "choice", "_value": ["scale", "auto"], "_condition": {"kernel": ["poly", "rbf", "sigmoid"]}},
-  "coef0": {"_type": "uniform", "_value": [0, 10], "_condition": {"kernel": ["poly", "sigmoid"]}}
-}
+    "max_depth": {"_type": "choice", "_value": [2, 3, 4, 5, 9, 25, 50, 100]},
+    "min_child_weight": {"_type": "uniform", "_value": [1, 10]},
+    "gamma": {"_type": "uniform", "_value": [0, 10]},
+    "colsample_bytree": {"_type": "uniform", "_value": [0.01, 1]},
+    "colsample_bylevel": {"_type": "uniform", "_value": [0.01, 1]},
+    "colsample_bynode": {"_type": "uniform", "_value": [0.01, 1]},
+    "learning_rate": {"_type": "choice", "_value": [0.01, 0.05, 0.1, 0.2]},
+    "alpha": {"_type": "choice", "_value": [0.01, 0.1, 1, 10, 100, 1000, 10000, 100000, 1000000]},
+    "lambda": {"_type": "choice", "_value": [0.01, 0.1, 1, 10, 100, 1000, 10000, 100000, 1000000]},
+    "objective": {"_type": "choice", "_value": ["reg:squarederror", "reg:squaredlogerror", "count:poisson"]},
+    "num_boost_round": {"_type": "choice", "_value": [100, 200, 400, 800]},
+    "custom_metric": {"_type": "choice", "_value": ["roc_auc", "prerec_auc", "default"]},
+    "early_stopping_rounds": {"_type": "choice", "_value": [50, 100, 200, 400]}
+  }
+  
