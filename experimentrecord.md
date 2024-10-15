@@ -243,7 +243,7 @@ python3 train_ext_validation.py --config extval_timeseries.yaml --expid beA3o82D
 
 ```bash
 cd ~/UrticariaPrediction
-python3 plot_ext_validation.py
+python3 plot_ext_topn.py
 ```
 
 ## plot shap and kde

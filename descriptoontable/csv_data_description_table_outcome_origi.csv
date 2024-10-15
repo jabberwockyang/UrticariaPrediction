@@ -1,0 +1,29 @@
+Characteristic,Good Outcome,Poor Outcome,P-value
+Number of patients,2027,1927,Outcome,25.37 ± 25.09,604.32 ± 437.04,0.000
+Gender,0: 64.7%, 1: 35.3%, 0: 61.1%, 1: 38.9%,0.023
+First Visit Age,30.12 ± 21.79,28.11 ± 23.61,0.005
+CI nd U,0: 99.3%, 1: 0.7%, 0: 97.2%, 1: 2.8%,0.000
+Lymphocytes Percentage,28.98 ± 14.05,34.02 ± 13.88,0.000
+Neutrophils Percentage,63.13 ± 15.68,56.63 ± 14.97,0.000
+Monocytes Percentage,6.18 ± 1.64,6.49 ± 1.67,0.000
+Mean Corpuscular Hemoglobin Concentration,335.62 ± 10.51,336.93 ± 10.30,0.000
+Platelet Count,263.47 ± 74.09,256.73 ± 68.96,0.003
+White Blood Cell Count,10.31 ± 3.00,9.35 ± 2.39,0.000
+Mean Corpuscular Hemoglobin,29.07 ± 2.33,28.98 ± 2.30,0.202
+Mean Corpuscular Volume,86.66 ± 6.65,85.99 ± 6.67,0.002
+Hemoglobin,130.03 ± 9.16,130.20 ± 8.46,0.546
+Eosinophils Percentage,1.55 ± 2.02,2.31 ± 2.37,0.000
+Basophils Percentage,0.25 ± 0.22,0.32 ± 0.24,0.000
+Absolute Eosinophil Count,0.13 ± 0.20,0.18 ± 0.21,0.000
+Absolute Lymphocyte Count,2.61 ± 1.12,2.83 ± 1.29,0.000
+Mean Platelet Volume,9.14 ± 1.39,9.02 ± 1.39,0.007
+Platelet Distribution Width,12.72 ± 1.96,12.57 ± 1.94,0.020
+Eosinophil Count Absolute,128.60 ± 141.68,162.83 ± 190.02,0.000
+CR eactive Protein,13.03 ± 19.62,7.71 ± 10.23,0.000
+Immunoglobulin E,131.65 ± 242.00,152.28 ± 346.75,0.029
+SMRNP,1.18 ± 2.16,1.22 ± 1.84,0.576
+Anti SSA,1.42 ± 5.44,1.58 ± 5.68,0.363
+Anti Jo 1,1.08 ± 1.77,1.12 ± 2.06,0.534
+Nucleosome,0.57 ± 0.34,0.65 ± 0.43,0.000
+Ribosomal PP rotein,1.07 ± 0.71,1.17 ± 2.13,0.050
+Ro 52,2.10 ± 5.90,2.23 ± 6.81,0.515

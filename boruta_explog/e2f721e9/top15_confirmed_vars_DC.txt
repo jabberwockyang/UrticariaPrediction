@@ -1,0 +1,15 @@
+RibosomalPProtein
+Nucleosome
+MonocytesPercentage
+BasophilsPercentage
+AbsoluteLymphocyteCount
+NeutrophilsPercentage
+CReactiveProtein
+AntiJo1
+Hemoglobin
+PlateletCount
+MeanCorpuscularVolume
+PlateletDistributionWidth
+MeanPlateletVolume
+LymphocytesPercentage
+MeanCorpuscularHemoglobinConcentration

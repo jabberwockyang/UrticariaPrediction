@@ -139,11 +139,11 @@ def main(logdir, expid, evalset):
         label_set[sequence_id] = sequence_id.split('_')[-1]
 
     for binary_threshold in [42,100, 365]:
-        # plot_roc(fold_result_list, os.path.join(logdir, evalset), binary_threshold, colors_set, label_set)
+        plot_roc(fold_result_list, os.path.join(logdir, evalset), binary_threshold, colors_set, label_set)
         plot_roc(fold_result_list, os.path.join(logdir, evalset), binary_threshold, colors_set, label_set, topn='top25')
-    # plot_y_predy(fold_result_list, os.path.join(logdir, evalset), colors_set, label_set)
+    plot_y_predy(fold_result_list, os.path.join(logdir, evalset), colors_set, label_set)
 
-    # write_extval_result(fold_result_list, os.path.join(logdir, evalset), expid,label_set)
+    write_extval_result(fold_result_list, os.path.join(logdir, evalset), expid,label_set)
 
 if __name__ == '__main__':
 

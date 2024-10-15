@@ -84,10 +84,10 @@ def plot_kde_in_group(X, y, name):
         plt.savefig(os.path.join(KDEDIR, f'{featgroup}_{name}.png'))
         plt.clf()
 
-def get_shap_values(X, model):
+def get_shap_values(X, model, k=300):
     
-    if X.shape[0] > 300:
-        X100 = shap.utils.sample(X, 300) 
+    if X.shape[0] > k:
+        X100 = shap.utils.sample(X, k) 
     else:
         X100 = X
 
@@ -112,15 +112,38 @@ def plot_beeswarm_in_group(shap_values, X, ageggroup):
 def plot_heatmap(shap_values, agegroup):
     if not os.path.exists(SHAPDIR):
         os.makedirs(SHAPDIR)
-    ax = shap.plots.heatmap(shap_values, max_display=25, 
-                            # instance_order=shap_values.sum(1),
-                            show=False)
-    ax.set_aspect(5) # 设置图像的纵横比
+    # 创建fig和ax对象，并设置图片尺寸
+    fig, ax = plt.subplots(figsize=(12, 20))  # 设置宽度和高度，例如12x8英寸
+    
+    # 生成热力图，注意这里传递ax
+    shap.plots.heatmap(shap_values, max_display=25, 
+                       instance_order=shap_values.sum(1),
+                       show=False, ax=ax)
+    
     ax.set_title(f"SHAP heatmap for {agegroup}")
     
-    plt.savefig(f"{SHAPDIR}/heatmap_{agegroup}_orderx.png",bbox_inches = 'tight')
+    # 保存图片
+    fig.savefig(f"{SHAPDIR}/heatmap_{agegroup}.png", bbox_inches='tight')
 
-def plot_correlation(shap_values):
+    # 关闭图，避免内存泄漏
+    plt.close(fig)
+
+def plot_correlation(shap_values, a, b, subfolder=None):
+    # if unqiue value length of shap_values[:, n] is less than 10, set x-jitter to 1
+    if len(np.unique(shap_values[:, a].data)) < 10:
+        shap.plots.scatter(shap_values[:, a], color=shap_values[:, b], x_jitter=3)
+    else:
+        shap.plots.scatter(shap_values[:, a], color=shap_values[:, b])
+    plt.title(f"Correlation between {a} and {b}")
+    if subfolder:
+        if not os.path.exists(f"{SHAPDIR}/{subfolder}"):
+            os.makedirs(f"{SHAPDIR}/{subfolder}")
+        plt.savefig(f"{SHAPDIR}/{subfolder}/scatter_{a}_vs_{b}.png",bbox_inches = 'tight')
+    else:
+        plt.savefig(f"{SHAPDIR}/scatter_{a}_vs_{b}.png",bbox_inches = 'tight')  
+    plt.clf()
+
+def plot_correlation_main(shap_values):
     for autoantibodyfeature in ['SMRNP_Avg_acute', 'SMRNP_Avg_chronic',
                                 'Nucleosome_Avg_chronic', 'Nucleosome_Avg_acute',
                                 'AntiJo1_Avg_acute','AntiJo1_Avg_chronic',
@@ -128,10 +151,23 @@ def plot_correlation(shap_values):
                                 'AntiSSA_Avg_acute','AntiSSA_Avg_chronic',
                                 'RibosomalPProtein_Avg_acute', 'RibosomalPProtein_Avg_chronic']:
         for n in ['NeutrophilsPercentage_Avg_acute', 'NeutrophilsPercentage_Avg_chronic']:
-            shap.plots.scatter(shap_values[:, n], color=shap_values[:, autoantibodyfeature])
-            plt.title(f"Correlation between {n} and {autoantibodyfeature}")
-            plt.savefig(f"{SHAPDIR}/scatter_{n}_vs_{autoantibodyfeature}.png",bbox_inches = 'tight')
+            plot_correlation(shap_values, n, autoantibodyfeature)
+            plot_correlation(shap_values, autoantibodyfeature, n)
+    for a in [
+            #   'ImmunoglobulinE_Avg_acute', 'ImmunoglobulinE_Avg_chronic',
+              'WhiteBloodCellCount_Avg_preclinical', 'WhiteBloodCellCount_Avg_acute', 'WhiteBloodCellCount_Avg_chronic',
+              'BasophilsPercentage_Avg_preclinical', 'BasophilsPercentage_Avg_acute', 'BasophilsPercentage_Avg_chronic',
+              'NeutrophilsPercentage_Avg_preclinical', 'NeutrophilsPercentage_Avg_acute', 'NeutrophilsPercentage_Avg_chronic',
+              'EosinophilCountAbsolute_Avg_acute', 'EosinophilCountAbsolute_Avg_chronic', 'EosinophilCountAbsolute_Avg_preclinical',
+               'AbsoluteEosinophilCount_Avg_preclinical', 'AbsoluteEosinophilCount_Avg_acute', 'AbsoluteEosinophilCount_Avg_chronic',
+               'LymphocytesPercentage_Avg_preclinical', 'LymphocytesPercentage_Avg_acute', 'LymphocytesPercentage_Avg_chronic',]:
+        for b in [
+                    'EosinophilsPercentage_Avg_preclinical', 'EosinophilsPercentage_Avg_acute', 'EosinophilsPercentage_Avg_chronic']:
+            plot_correlation(shap_values, a, b, 'correlation3')
+            plot_correlation(shap_values, b, a, 'correlation3')
             
+
+
 
 if __name__ == '__main__':
     # beA3o82D_1112_1_all
@@ -159,10 +195,11 @@ if __name__ == '__main__':
     # plot_kde_in_group(X, y, keyname)
 
 
-    shap_values, X = get_shap_values(X, ModelReversingY(fmodel, params))
-    # plot_beeswarm_in_group(shap_values, X, keyname)
+    shap_values, X = get_shap_values(X, ModelReversingY(fmodel, params), 300)
+    plot_beeswarm_in_group(shap_values, X, keyname)
+    plot_correlation_main(shap_values)
+    shap_values, X = get_shap_values(X, ModelReversingY(fmodel, params), 100)
+    plot_heatmap(shap_values, keyname)
 
-    # plot_heatmap(shap_values, keyname)
-
-    plot_correlation(shap_values)
+    
     

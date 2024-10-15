@@ -9,6 +9,7 @@ import yaml
 from loguru import logger
 import json
 import xgboost as xgb
+import os
 
 
 def get_data_for_des(model, filepath, parmas, 
@@ -176,6 +177,32 @@ def join_with_max_length(splitedvar, maxlength=23):
     
     return result
 
+def json_to_csv(summary, dataset_name1="Dataset 1", dataset_name2="Dataset 2"):
+    csv_table = "Characteristic,{},{},".format(dataset_name1, dataset_name2)
+    csv_table += "P-value\n"
+    csv_table += "Number of patients,{},{},".format(summary['N']['split1'], summary['N']['split2'])
+    varlist = list(summary.keys())
+    varlist.remove('N')
+    varlist = sorted(varlist, key=lambda x: getranking(x, load_sorted_varlist()))
+
+    for var in varlist:
+        stats = summary[var]
+        splitedvarlist = re.findall(r'[A-Z][a-z]+|\d+|[a-z]+|[A-Z]+', var)
+        splitedvar = join_with_max_length(splitedvarlist)
+        var = " ".join(splitedvar)
+        csv_table += f"{var},"
+        if "mean" in stats["split1"]:
+            # 连续变量
+            csv_table += f'{stats["split1"]["mean"]:.2f} ± {stats["split1"]["std"]:.2f},'
+            csv_table += f'{stats["split2"]["mean"]:.2f} ± {stats["split2"]["std"]:.2f},'
+        else:
+            # 二分类变量
+            split1_values = ', '.join([f"{k}: {v * 100:.1f}%" for k, v in stats["split1"].items()])
+            split2_values = ', '.join([f"{k}: {v * 100:.1f}%" for k, v in stats["split2"].items()])
+            csv_table += f"{split1_values}, {split2_values},"
+        csv_table += f"{stats['p_value']:.3f}\n"
+    return csv_table
+
 def json_to_latex(summary, dataset_name1="Dataset 1", dataset_name2="Dataset 2"):
     latex_table = r"\begin{table}[htbp]\centering\begin{tabular}{lccc}\hline"
     latex_table += f"\nCharacteristic & {dataset_name1} & {dataset_name2} & P-value \\\\\n"
@@ -221,6 +248,53 @@ def json_to_latex(summary, dataset_name1="Dataset 1", dataset_name2="Dataset 2")
     latex_table += r"\end{table}"
     return latex_table
 
+
+def calculatecolinearity(df, set_):
+    from scipy.stats import spearmanr
+
+    if set_ == 'origi':
+        df = df.drop(columns=['Outcome'])
+
+        # Spearman
+        spearmancorr = []
+
+        # 逐对列计算 Spearman 相关系数和 p 值
+        for col1 in df.columns:
+            for col2 in df.columns:
+                if col1 == col2:
+                    continue
+                corr, p_value = spearmanr(df[col1], df[col2])
+                spearmancorr.append({'var1': col1, 'var2': col2, 'correlation': corr, 'p_value': p_value, 'significant': p_value < 0.05 and abs(corr) > 0.5})
+
+        # 将结果转换为 DataFrame 并保存
+        spearmancorr = pd.DataFrame(spearmancorr)
+        spearmancorr.to_csv("descriptoontable/spearman_correlation_origi.csv")
+
+        
+    if set_ == 'time':
+        spearmanr_corr = []
+        # group var by str before '_Avg'
+        df = df.drop(columns=['Outcome'])
+        unique_var_group = set([var.split('_Avg')[0] for var in df.columns if '_Avg' in var])
+        for var_group in unique_var_group:
+            var_group_vars = [var for var in df.columns if var_group in var]
+            df_group = df[var_group_vars]
+            for col1 in df_group.columns:
+                for col2 in df_group.columns:
+                    if col1 == col2:
+                        continue
+                    corr, p_value = spearmanr(df_group[col1], df_group[col2])
+                    spearmanr_corr.append({'var1': col1, 'var2': col2, 'correlation': corr, 'p_value': p_value, 'significant': p_value < 0.05 and abs(corr) > 0.5})
+        
+        spearmanr_corr = pd.DataFrame(spearmanr_corr)
+        spearmanr_corr.to_csv("descriptoontable/spearman_correlation_time.csv")
+
+
+
+
+        
+
+
 if __name__ == '__main__':
     caption = {
         'good_outcome_poor_outcome_origi': 'Comparison of the characteristics between patients with good and poor outcomes in the time independent dataset \\\ continuous variables are presented as mean ± standard deviation, categorical variables are presented as number (percentage) \\\ good outcome is defined as visit duration < 100 days, poor outcome is defined as visit duration $\geq$ 100 days',
@@ -251,18 +325,39 @@ if __name__ == '__main__':
         # 生成统计总结
         logger.info("outcome summary")
         status = 'outcome'
-        
+        if not os.path.exists('descriptoontable'):
+            os.makedirs('descriptoontable')
+
         summary = generate_summary_statistics(df_all, good_outcome, poor_outcome)
         latex_code = json_to_latex(summary, dataset_name1="Good Outcome", dataset_name2="Poor Outcome")
-        with open (f"latex/latex_data_description_table_outcome_{set_}.tex", "w") as f:
+        with open (f"descriptoontable/latex_data_description_table_outcome_{set_}.tex", "w") as f:
             f.write(latex_code)
+
+        csvtables = json_to_csv(summary, dataset_name1="Good Outcome", dataset_name2="Poor Outcome")
+        with open (f"descriptoontable/csv_data_description_table_outcome_{set_}.csv", "w") as f:
+            f.write(csvtables)
 
         logger.info("train test summary")
         status = 'train_test'
 
         summary = generate_summary_statistics(df_all, train_df, test_df)
         latex_code = json_to_latex(summary, dataset_name1="Train", dataset_name2="Test")
-        with open (f"latex/latex_data_description_table_train_test_{set_}.tex", "w") as f:
+        with open (f"descriptoontable/latex_data_description_table_train_test_{set_}.tex", "w") as f:
             f.write(latex_code)
 
-  
+        csvtables = json_to_csv(summary, dataset_name1="Train", dataset_name2="Test")
+        with open (f"descriptoontable/csv_data_description_table_train_test_{set_}.csv", "w") as f:
+            f.write(csvtables)
+
+        rowna = 0.5
+        k = 100
+        X, y = get_data_for_des(fmodel, fp, params.copy(), 
+                                rowna,
+                                pp, k = k, randomrate= 0.2,
+                                pick_key= 'all')
+        logger.info(f"X shape: {X.shape}")
+        
+        df = pd.DataFrame(X)
+        df['Outcome'] = y
+
+        calculatecolinearity(df, set_)

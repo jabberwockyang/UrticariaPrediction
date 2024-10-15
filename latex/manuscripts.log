@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.5)  13 OCT 2024 00:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.5)  14 OCT 2024 00:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -610,7 +610,7 @@ Package: longtable 2024-04-26 v4.20 Multi-page Table package (DPC)
 LaTeX Font Info:    Trying to load font information for T1+txr on input line 56.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/txfonts/t1txr.fd
 File: t1txr.fd 2000/12/15 v3.1
-) (./manuscripts.aux (./latex_data_description_table_outcome_origi.aux) (./latex_data_description_table_outcome_time.aux))
+) (./manuscripts.aux)
 \openout1 = `manuscripts.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/txmi/m/it on input line 56.
@@ -814,81 +814,108 @@ l.185
 [2]
 
 [3]
+<figures/protocol.png, id=192, 580.3281pt x 786.0567pt>
+File: figures/protocol.png Graphic file (type png)
+<use figures/protocol.png>
+Package pdftex.def Info: figures/protocol.png  used on input line 243.
+(pdftex.def)             Requested size: 384.0pt x 520.1304pt.
+
 
 [4]
-\openout2 = `latex_data_description_table_outcome_origi.aux'.
-
- (./latex_data_description_table_outcome_origi.tex)
-
-[5]
-\openout2 = `latex_data_description_table_outcome_time.aux'.
-
- (./latex_data_description_table_outcome_time.tex
-
-LaTeX Warning: Float too large for page by 1001.5726pt on input line 148.
-
-)
-
-[6]
-<figures/kfoldfirst3.png, id=189, 473.8503pt x 459.8781pt>
+<figures/kfoldfirst3.png, id=214, 473.8503pt x 459.8781pt>
 File: figures/kfoldfirst3.png Graphic file (type png)
 <use figures/kfoldfirst3.png>
-Package pdftex.def Info: figures/kfoldfirst3.png  used on input line 249.
+Package pdftex.def Info: figures/kfoldfirst3.png  used on input line 322.
 (pdftex.def)             Requested size: 384.0pt x 372.67464pt.
-<figures/boruta_by_group.png, id=195, 1806.75pt x 578.16pt>
+
+
+[5]
+
+[6]
+<figures/boruta_by_group.png, id=233, 1806.75pt x 578.16pt>
 File: figures/boruta_by_group.png Graphic file (type png)
 <use figures/boruta_by_group.png>
-Package pdftex.def Info: figures/boruta_by_group.png  used on input line 268.
+Package pdftex.def Info: figures/boruta_by_group.png  used on input line 337.
 (pdftex.def)             Requested size: 384.0pt x 122.88162pt.
-<figures/topn_extval25.png, id=197, 688.7331pt x 459.8781pt>
+<figures/topn_extval25.png, id=235, 688.7331pt x 459.8781pt>
 File: figures/topn_extval25.png Graphic file (type png)
 <use figures/topn_extval25.png>
-Package pdftex.def Info: figures/topn_extval25.png  used on input line 280.
+Package pdftex.def Info: figures/topn_extval25.png  used on input line 345.
 (pdftex.def)             Requested size: 384.0pt x 256.40723pt.
+<figures/heatmap_all_orderx.png, id=237, 787.743pt x 609.9588pt>
+File: figures/heatmap_all_orderx.png Graphic file (type png)
+<use figures/heatmap_all_orderx.png>
+Package pdftex.def Info: figures/heatmap_all_orderx.png  used on input line 356.
+(pdftex.def)             Requested size: 384.0pt x 297.33743pt.
+<figures/modelexplanation.png, id=251, 493.845pt x 668.4975pt>
+File: figures/modelexplanation.png Graphic file (type png)
+<use figures/modelexplanation.png>
+Package pdftex.def Info: figures/modelexplanation.png  used on input line 375.
+(pdftex.def)             Requested size: 384.0pt x 519.80408pt.
+<figures/correlation.png, id=252, 547.0839pt x 520.1031pt>
+File: figures/correlation.png Graphic file (type png)
+<use figures/correlation.png>
+Package pdftex.def Info: figures/correlation.png  used on input line 385.
+(pdftex.def)             Requested size: 384.0pt x 365.06963pt.
+<figures/modelexplanation_age.png, id=253, 404.712pt x 474.8139pt>
+File: figures/modelexplanation_age.png Graphic file (type png)
+<use figures/modelexplanation_age.png>
+Package pdftex.def Info: figures/modelexplanation_age.png  used on input line 394.
+(pdftex.def)             Requested size: 384.0pt x 450.53452pt.
+<figures/modelexplanation_age2.png, id=254, 354.3639pt x 431.6928pt>
+File: figures/modelexplanation_age2.png Graphic file (type png)
+<use figures/modelexplanation_age2.png>
+Package pdftex.def Info: figures/modelexplanation_age2.png  used on input line 402.
+(pdftex.def)             Requested size: 384.0pt x 467.81535pt.
 
 
-[7
-
-
-
-
-
-
-] (./manuscripts.bbl
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 18.
+[7]
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 433.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
 
-[8{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
+[8{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}] (./manuscripts.bbl
 
 [9])
 
 [10]
 
-[11 <./figures/kfoldfirst3.png> <./figures/boruta_by_group.png>]
+[11 <./figures/protocol.png>]
 
-[12 <./figures/topn_extval25.png>] (./manuscripts.aux (./latex_data_description_table_outcome_origi.aux) (./latex_data_description_table_outcome_time.aux))
+[12 <./figures/kfoldfirst3.png>]
+
+[13 <./figures/boruta_by_group.png> <./figures/topn_extval25.png>]
+
+[14 <./figures/heatmap_all_orderx.png>]
+
+[15 <./figures/modelexplanation.png>]
+
+[16 <./figures/correlation.png>]
+
+[17 <./figures/modelexplanation_age.png>]
+
+[18 <./figures/modelexplanation_age2.png>] (./manuscripts.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-09-10>
  ***********
 Package rerunfilecheck Info: File `manuscripts.out' has not changed.
-(rerunfilecheck)             Checksum: 1CE447ADDB0AFBEE21CA1B94275F07D1;2728.
+(rerunfilecheck)             Checksum: B1B8E7DADBE0F13C050E60A995053DF0;4308.
  ) 
 Here is how much of TeX's memory you used:
- 12624 strings out of 473579
- 191271 string characters out of 5728234
- 633164 words of memory out of 5000000
- 35238 multiletter control sequences out of 15000+600000
- 604285 words of font info for 120 fonts, out of 8000000 for 9000
+ 12652 strings out of 473579
+ 190475 string characters out of 5728234
+ 600966 words of memory out of 5000000
+ 35262 multiletter control sequences out of 15000+600000
+ 604598 words of font info for 121 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,15n,79p,2265b,639s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/rtcxr.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/rtxi.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/rtxmi.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/rtxr.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/txsy.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on manuscripts.pdf (13 pages, 1720033 bytes).
+ 75i,15n,79p,2265b,614s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/rtcxr.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/rtxi.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/rtxmi.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/rtxr.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/txsy.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on manuscripts.pdf (19 pages, 5637490 bytes).
 PDF statistics:
- 375 PDF objects out of 1000 (max. 8388607)
- 334 compressed objects within 4 object streams
- 68 named destinations out of 1000 (max. 500000)
- 144 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 475 PDF objects out of 1000 (max. 8388607)
+ 418 compressed objects within 5 object streams
+ 85 named destinations out of 1000 (max. 500000)
+ 206 words of extra memory for PDF output out of 10000 (max. 10000000)
 

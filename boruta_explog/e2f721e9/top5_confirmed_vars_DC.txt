@@ -1,0 +1,5 @@
+RibosomalPProtein
+Nucleosome
+MonocytesPercentage
+BasophilsPercentage
+AbsoluteLymphocyteCount

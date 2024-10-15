@@ -1,4 +1,4 @@
-\begin{thebibliography}{28}
+\begin{thebibliography}{30}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\href}[2]{#2}
@@ -87,6 +87,11 @@
 \newblock \bibinfo{title}{Eosinopenia, in chronic spontaneous urticaria, is associated with high disease activity, autoimmunity and poor response to treatment.}
 \newblock \bibinfo{journal}{The journal of allergy and clinical immunology. In practice} \DOIprefix\doi{10.1016/j.jaip.2019.08.025}.
 %Type = Article
+\bibitem[{Kursa and Rudnicki(2010)}]{kursa2010feature}
+\bibinfo{author}{Kursa, M.B.}, \bibinfo{author}{Rudnicki, W.R.}, \bibinfo{year}{2010}.
+\newblock \bibinfo{title}{Feature selection with the boruta package}.
+\newblock \bibinfo{journal}{Journal of statistical software} \bibinfo{volume}{36}, \bibinfo{pages}{1--13}.
+%Type = Article
 \bibitem[{Labbene and Tekou(2023)}]{Labbene2023Prevalence}
 \bibinfo{author}{Labbene, I.}, \bibinfo{author}{Tekou, A.}, \bibinfo{year}{2023}.
 \newblock \bibinfo{title}{Prevalence and treatment of chronic spontaneous urticaria in children}.
@@ -103,6 +108,11 @@
 \newblock \bibinfo{title}{[neutrophilic urticaria or urticaria with predominantly neutrophilic inflammatory infiltrate: study of its clinical and histopathologic characteristics and its possible association with rheumatic disease].}
 \newblock \bibinfo{journal}{Actas dermo-sifiliograficas} \bibinfo{volume}{103 6}, \bibinfo{pages}{511--9}.
 \newblock \DOIprefix\doi{10.1016/j.ad.2012.01.002}.
+%Type = Article
+\bibitem[{Lundberg and Lee(2017)}]{lundberg2017unified}
+\bibinfo{author}{Lundberg, S.}, \bibinfo{author}{Lee, S.}, \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{A unified approach to interpreting model predictions in 31st conference on neural information processing systems (nips 2017).(2017)}.
+\newblock \bibinfo{journal}{CA, USA} .
 %Type = Article
 \bibitem[{Magen et~al.(2010)Magen, Mishal, Zeldin, Feldman, Kidon, Schlesinger and Sthoeger}]{Magen2010Increased}
 \bibinfo{author}{Magen, E.}, \bibinfo{author}{Mishal, J.}, \bibinfo{author}{Zeldin, Y.}, \bibinfo{author}{Feldman, V.}, \bibinfo{author}{Kidon, M.}, \bibinfo{author}{Schlesinger, M.}, \bibinfo{author}{Sthoeger, Z.}, \bibinfo{year}{2010}.

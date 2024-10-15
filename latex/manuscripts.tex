@@ -187,7 +187,9 @@ Chronic urticaria significantly impairs quality of life, affecting work and scho
 
 Several clinical features have been associated with the severity and duration of chronic spontaneous urticaria (CSU). Higher age at onset, female gender, longer disease duration, and hypersensitivity to aspirin or nonsteroidal anti-inflammatory drugs (NSAIDs) are linked to more severe CSU and prolonged time to remission \citep{SanchezBorges2017Factors,Rabelo-Filardi2013Parameters}. Patients exhibiting concomitant CIndU and recurrent angioedema also tend to experience longer durations of CSU \citep{SanchezBorges2017Factors, Curto-Barredo2018Clinical}. Moreover, patients with multiple allergic conditions are more likely to have prolonged episodes of urticaria \citep{Lin2011Predictive}.
 
-Potential biomarkers for CSU severity and duration have been identified. Positive autologous serum skin test (ASST) results, basophil counts, levels of inflammatory markers, activation markers of the extrinsic coagulation pathway, immunoglobulin E (IgE), and vitamin D levels are all associated with the disease's severity and duration \citep{SanchezBorges2017Factors,Rabelo-Filardi2013Parameters}. Specifically, plasma levels of prothrombin fragment, D-dimer, and C-reactive protein (CRP) may serve as markers of CSU severity \citep{Rabelo-Filardi2013Parameters}. Serum diamine oxidase (DAO) levels have been linked to the response to antihistamines and dietary interventions, indicating a potential role in predicting disease duration \citep{Chiang2022Predictors}.
+Potential biomarkers for CSU severity and duration have been identified. Positive autologous serum skin test (ASST) results, basophil counts, levels of inflammatory markers, activation markers of the extrinsic coagulation pathway, immunoglobulin E (IgE), eosinophils counts, and vitamin D levels are all associated with the disease's severity and duration \citep{SanchezBorges2017Factors,Rabelo-Filardi2013Parameters, Kolkhir2019Eosinopenia}. Specifically, plasma levels of prothrombin fragment, D-dimer, and C-reactive protein (CRP) may serve as markers of CSU severity \citep{Rabelo-Filardi2013Parameters}. Serum diamine oxidase (DAO) levels have been linked to the response to antihistamines and dietary interventions, indicating a potential role in predicting disease duration \citep{Chiang2022Predictors}.
+
+
 
 Metabolic factors also play a role, with high waist circumference (WC), rather than high body mass index (BMI), emerging as a predictive risk factor for longer disease duration in CSU patients \citep{Kim2021High}.
 
@@ -201,94 +203,206 @@ patients with urticaria were recruited from the urticaria specialty clinic of th
 
 \subsection{Data collection and management}\label{Data}
 
-the data of patients with urticaria were collected from the electronic medical record system of the hospital, including demographic data, clinical data, laboratory data. the data were stored in a mysql database for subsequent analysis as follows: (1) Patients: containing basic information of each unique patient; (2) OutpatientNumbers: storing relationship between outpatient numbers with unique patient; (3) PatientVisits: containing visit events records; (4) PatientExaminations: containing the examination events records; (5) ExaminationItems: a dictionary table describing the examination items. the database schema is shown in database. Database 
+the data of patients with urticaria were collected from the electronic medical record system of the hospital, including demographic data, clinical data, laboratory data. 
+the data were stored in a mysql database for subsequent analysis as follows: (1) Patients: containing basic information of each unique patient; (2) OutpatientNumbers: storing relationship between outpatient numbers with unique patient; (3) PatientVisits: containing visit events records; (4) PatientExaminations: containing the examination events records; (5) ExaminationItems: a dictionary table describing the examination items. the database schema is shown in database. Database 
 markup language (DBML) describing the database schema is shown in supplementary materials.
 
 
 \subsection{Feature extraction and feature engineering}\label{FeatureEngineering}
-Visit duration, calculated by the difference between the first visit date and the last visit date, was the target variable. The following features were extracted from the database: (1) demographic data: gender, first visit age; (2) clinical data: concomitant inducible urticaria; (3) laboratory data: results from common blood tests, CRP, immunoglobulin, 25-hydroxyvitamin D, Thyroid function, autoantibodies, coagulation function, common urine tests, and allergen specific IgE tests. 
+Visit duration, calculated by the difference between the first visit date and the last visit date in the urticaria specialty clinic, was the target variable. We suppose that the visit duration of a patient at the urticaria specialty clinic is a surrogate for the disease duration of urticaria.
+The following features were extracted from the database: (1) demographic data: gender, first visit age; (2) clinical data: whether the patient having concomitant inducible urticaria; (3) laboratory data: results from common blood tests, CRP, immunoglobulin, 25-hydroxyvitamin D, Thyroid function, autoantibodies, coagulation function, common urine tests, and allergen specific IgE tests. 
 For laboratory data, 2 types of data were extracted: time-independent data and time-dependent data. Time-independent data are average values of laboratory data during the whole follow-up period, while time-dependent data are average values of laboratory data durting preclincial phase (before the onset of urticaria), acute phase (within 6 weeks after the onset of urticaria), and chronic phase (after 6 weeks of the onset of urticaria). 2 datasets were generated: one with time-independent data and one with time-dependent data, and were compared for prediction performance in the model development process. The sql queries for data are shown in feature\_extraction.sql in supplementary materials. 
 
 \subsection{Model development and comparison}\label{Training}
-Dataset was split into training set and test set with a ratio of 7:3. 5 models were adopted for comparison: Xgboost, random forest, adaboost, gradient boosting machine (GBM), and support vector machine (SVM). Hyperparameter optimization was performed using TPE algorithm by nni package in python, which is a bayesian optimization algorithm that uses tree-structured parzen estimator to model the objective function and suggest the next set of hyperparameters to evaluate based on the previous results. Internal 5 fold cross-validation was employed to discern the most suitable hyperparameters for each distinct model, individually applied to each model for enhanced performance. The performance of the model and data was evaluated by receiver operating characteristic (ROC) curve, area under the curve (AUC), accuracy, precision, recall and F1 score on different cuttoffs of disease duration. The sensitivity, specificity, PPV, NPV, accuracy, and F1 score were calculated at the optimal cutoff value that maximized the Youden index. The model and data with the best performance were selected for further analysis.
+Dataset was split into training set and external test set with a ratio of 7:3. 5 models were adopted for comparison: Xgboost, random forest, adaboost, gradient boosting machine (GBM), and support vector machine (SVM). Hyperparameter optimization on 10 model settings (5 models multiply 2 datasets) was performed using TPE algorithm by nni package in python, which is a bayesian optimization algorithm that uses tree-structured parzen estimator to model the objective function and suggest the next set of hyperparameters to evaluate based on the previous results. Internal 5 fold cross-validation was employed to discern the most suitable hyperparameters for each distinct model, individually applied to each model settings for enhanced performance. The performance of the model and data was evaluated by receiver operating characteristic (ROC) curve, area under the curve (AUC), accuracy, precision, recall and F1 score on different cuttoffs of disease duration. The sensitivity, specificity, PPV, NPV, accuracy, and F1 score were calculated at the optimal cutoff value that maximized the Youden index. The model and data with the best performance were selected for further analysis.
 
 
 \subsection{feature selection}\label{FeatureSelection}
 
-Too many features can lead to overfitting and reduce the interpretability of the model. Therefore, feature selection was performed on final model for further optimization. Although, feature importances can be evalutated directly from the boosted trees, these importances have been shown to be local and inconsistent. A SHAP score inspired by Shapley values can combines different explanation models and provide a global feature importance score that is consistent across different test sets. However, other than to arbitrarily select an importance threshold beyond which features are considered unimportant, SHAP analysis does not offer an algorithmic way to filter a large feature set to a limited set of important features. Boruta algorithm is a wrapper method that determine the importance of features by comparing the importance of original features with their shuffled copies, If importance of an original feature is significantly greater than its shuffled copy, that features is deemed important. 
+Too many features can lead to overfitting and reduce the interpretability of the model. Therefore, feature selection was performed on final model for further optimization. Although, feature importances can be evalutated directly from the boosted trees, these importances have been shown to be local and inconsistent. A SHAP score inspired by Shapley values can combines different explanation models and provide a global feature importance score that is consistent across different test sets. However, other than to arbitrarily select an importance threshold beyond which features are considered unimportant, SHAP analysis does not offer an algorithmic way to filter a large feature set to a limited set of important features. Boruta algorithm is a wrapper method that determine the importance of features by comparing the importance of original features with their shuffled copies, If importance of an original feature is significantly greater than its shuffled copy, that features is deemed important \citep{kursa2010feature}.
 
-In this study, Boruta algorithm was run on the final model, with max iteration set to 50 and repeated 15 times.
-The confirmed features list and importance rank were recorded for each run. The overlap of confirmed features across runs was calculated to determine the final feature list. For time dependent data, once a laboratory item was confirmed as important in any phase of disease, the feature of the same lab item in other phase of disease was also considered as important. That is to say, when top 10 items were selected, the features representing different phases of that item were all included in the final model, which is at most 30 features for time dependent data. The model performance on different number of top items, ranked by the average importance score, were compared to determine the optimal number of features for the final model.
+In this study, Boruta algorithm was performed on the final model, with max iteration set to 50 and repeatition for 15 times. The confirmed features list and importance rank were recorded for each run. The overlap of confirmed features across runs was calculated to determine the final feature list. For time dependent data, once a laboratory item was confirmed as important in any phase of disease, the feature of the same lab item in other phase of disease was also considered as important. That is to say, when top 10 items were selected, the features representing different phases of that item were all included in the final model, which is at most 30 features for time dependent data. The model performance on different number of top items, ranked by the average importance score, were compared to determine the optimal number of features for the final model.
 
 
 \subsection{Model explanation}\label{ModelExplanationMethods}
-
-The shapley value of each laboratory item in different phase of disease were compared to reveal various predicting ability of laboratory data in different phase of disease. To further verify the tendency oberserved in shapley values, kernal density estimation was used to visualize the distribution of average values of laboratory data in different phase of disease for patients with different disease duration. Shapley values together with kernal density estimation were used to explain the model and provide insights for clinical practice. Some of the features were further analyzed with different age populations to explore the potential age effect on the predicting ability of laboratory data.
+It is challenging to get the correct interpretation of a ML model. The SHAP method is an approach that could rank the importance of input features and explain the results of the prediction model, and it is implemented to overcome the “black-box” issue \citep{lundberg2017unified}.
+The shapley value of each laboratory item in different phase of disease were compared to reveal various predicting ability. 
+Some of the features were further analyzed with different age populations to explore the potential age effect on the predicting ability of laboratory data.
 
 
 \section{Results}\label{Results}
 
 \subsection{Patient characteristics}\label{PatientCharacteristics}
 
-Table \ref{tab:good_outcome_poor_outcome_origi} and Table \ref{tab:good_outcome_poor_outcome_time} delineates the disparities between groups regarding the disease duration of patients in dataset. 
+This retrospective study included 3954 patients with urticaria, 
+Of the 9921 patients who visited the urticaria specialty clinic and met the inclusion criteria from January 2018 to December 2024. 3954 patients were selected for time independent dataset and 1948 patients were selected for time dependent dataset, the rest were excluded due to serious missing data. 3954 patients in time independent data and 1948 patients time dependent data were allocated into seperate derivation and external validation sets with a ratio of 7:3, respectively. The comparison of demographic and clinical variables among the training and external validation sets is shown in Table \ref{tab:train_test_origi} for time independent dataset and Table \ref{tab:train_test_time} for time dependent dataset. No substantial differences were observed between the training set and the external test set across the majority of features in either time independent or time dependent data. Details of the study design are displayed in Figure \ref{protocol}.
 
-Table \ref{tab:train_test_origi} and table \ref{tab:train_test_time} provides a comparison of the baseline characteristic between the training set and external testing set data. No substantial differences were observed between the training set and the external test set across the majority of features in either time independent or time dependent data.
-\include{latex_data_description_table_outcome_origi}
-\include{latex_data_description_table_outcome_time}
+% insert image
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\textwidth]{figures/protocol.png}
+    \caption{Study design}\label{protocol}
+\end{figure}
+
+Table \ref{tab:good_outcome_poor_outcome_origi} delineates the disparities between groups regarding the disease duration of patients in time independent Dataset. Among the 3954 patients, 2027 patients had a visit duration of less than 100 days, while 1927 patients had a visit duration of 100 days or more. The mean visit duration was 25.37 days for the short duration group and 604.32 days for the long duration group. The comparison of clinical characteristics between patients with short and prolonged visit duration in the time-independent dataset (Table \ref{tab:good_outcome_poor_outcome_origi}) highlights several trends that align with findings from previous studies on chronic spontaneous urticaria (CSU). In this analysis, immunoglobulin E (IgE) ($131.65 \pm 242.00$ in good outcome vs $152.28 \pm 346.75$ in poor outcome), eosinophils percentage ($1.55 \pm 2.02$ in good outcome vs $2.31 \pm 2.37$ in poor outcome), eosinophils counts ($128.60 \pm 141.68$ in good outcome vs $162.83 \pm 190.02$ in poor outcome), 
+and basophil percentage ($0.25 \pm 0.22$ in good outcome vs $0.32 \pm 0.24$ in poor outcome) were significantly higher in patients with poor outcomes, which is consistent with previous studies that have linked these markers to CSU severity and duration \citep{SanchezBorges2017Factors,Rabelo-Filardi2013Parameters, Kolkhir2019Eosinopenia}. In contrast, C-reactive protein (CRP) levels were significantly lower in patients with poor outcomes ($13.03 \pm 19.62$ in good outcome vs $7.71 \pm 10.23$ in poor outcome), which contradicts previous findings that have associated higher CRP levels with CSU severity \citep{Rabelo-Filardi2013Parameters}. However, this discrepancy could reflect the complexity of CRP as an inflammatory marker that may vary across different disease stages or subgroups of patients. In time dependent data, which is shown in supplementary Table \ref{tab:good_outcome_poor_outcome_time}, CRP presented various trends in different phases of disease, with significantly lower CRP levels in acute phase ($10.21 \pm 10.95$ in good outcome vs $8.95 \pm 8.22$ in poor outcome) and higher CRP levels in chronic phase ($5.39 \pm 4.84$ in good outcome vs $6.47 \pm 8.81$ in poor outcome) in patients with poor outcomes. This finding suggests that the predictive ability of CRP may be influenced by the disease phase, which could explain the inconsistent results observed in the time-independent dataset.
+
+
+\begin{table}[htbp]\centering\begin{tabular}{lccc}\hline
+    Characteristic & Good Outcome & Poor Outcome & P-value \\
+    \hline
+    Number of patients & 2027 & 1927 & \\
+    
+    \makecell[l]{Outcome} & $25.37 \pm 25.09$ & $604.32 \pm 437.04$ & 0.000 $\uparrow$ \\
+    
+    \makecell[l]{Gender} & 0: 64.7\%, 1: 35.3\% & 0: 61.1\%, 1: 38.9\% & 0.023  \\
+    
+    \makecell[l]{First Visit Age} & $30.12 \pm 21.79$ & $28.11 \pm 23.61$ & 0.005 $\downarrow$ \\
+    
+    \makecell[l]{CI nd U} & 0: 99.3\%, 1: 0.7\% & 0: 97.2\%, 1: 2.8\% & 0.000  \\
+    
+    \makecell[l]{Lymphocytes Percentage} & $28.98 \pm 14.05$ & $34.02 \pm 13.88$ & 0.000 $\uparrow$ \\
+    
+    \makecell[l]{Neutrophils Percentage} & $63.13 \pm 15.68$ & $56.63 \pm 14.97$ & 0.000 $\downarrow$ \\
+    
+    \makecell[l]{Monocytes Percentage} & $6.18 \pm 1.64$ & $6.49 \pm 1.67$ & 0.000 $\uparrow$ \\
+    
+    \makecell[l]{Mean Corpuscular \\ Hemoglobin \\ Concentration} & $335.62 \pm 10.51$ & $336.93 \pm 10.30$ & 0.000 $\uparrow$ \\
+    
+    \makecell[l]{Platelet Count} & $263.47 \pm 74.09$ & $256.73 \pm 68.96$ & 0.003 $\downarrow$ \\
+    
+    \makecell[l]{White Blood Cell Count} & $10.31 \pm 3.00$ & $9.35 \pm 2.39$ & 0.000 $\downarrow$ \\
+    
+    \makecell[l]{Mean Corpuscular \\ Hemoglobin} & $29.07 \pm 2.33$ & $28.98 \pm 2.30$ & 0.202  \\
+    
+    \makecell[l]{Mean Corpuscular Volume} & $86.66 \pm 6.65$ & $85.99 \pm 6.67$ & 0.002 $\downarrow$ \\
+    
+    \makecell[l]{Hemoglobin} & $130.03 \pm 9.16$ & $130.20 \pm 8.46$ & 0.546  \\
+    
+    \makecell[l]{Eosinophils Percentage} & $1.55 \pm 2.02$ & $2.31 \pm 2.37$ & 0.000 $\uparrow$ \\
+    
+    \makecell[l]{Basophils Percentage} & $0.25 \pm 0.22$ & $0.32 \pm 0.24$ & 0.000 $\uparrow$ \\
+    
+    \makecell[l]{Absolute Eosinophil \\ Count} & $0.13 \pm 0.20$ & $0.18 \pm 0.21$ & 0.000 $\uparrow$ \\
+    
+    \makecell[l]{Absolute Lymphocyte \\ Count} & $2.61 \pm 1.12$ & $2.83 \pm 1.29$ & 0.000 $\uparrow$ \\
+    
+    \makecell[l]{Mean Platelet Volume} & $9.14 \pm 1.39$ & $9.02 \pm 1.39$ & 0.007 $\downarrow$ \\
+    
+    \makecell[l]{Platelet Distribution \\ Width} & $12.72 \pm 1.96$ & $12.57 \pm 1.94$ & 0.020  \\
+    
+    \makecell[l]{Eosinophil Count \\ Absolute} & $128.60 \pm 141.68$ & $162.83 \pm 190.02$ & 0.000 $\uparrow$ \\
+    
+    \makecell[l]{CR eactive Protein} & $13.03 \pm 19.62$ & $7.71 \pm 10.23$ & 0.000 $\downarrow$ \\
+    
+    \makecell[l]{Immunoglobulin E} & $131.65 \pm 242.00$ & $152.28 \pm 346.75$ & 0.029  \\
+    
+    \makecell[l]{SMRNP} & $1.18 \pm 2.16$ & $1.22 \pm 1.84$ & 0.576  \\
+    
+    \makecell[l]{Anti SSA} & $1.42 \pm 5.44$ & $1.58 \pm 5.68$ & 0.363  \\
+    
+    \makecell[l]{Anti Jo 1} & $1.08 \pm 1.77$ & $1.12 \pm 2.06$ & 0.534  \\
+    
+    \makecell[l]{Nucleosome} & $0.57 \pm 0.34$ & $0.65 \pm 0.43$ & 0.000 $\uparrow$ \\
+    
+    \makecell[l]{Ribosomal PP rotein} & $1.07 \pm 0.71$ & $1.17 \pm 2.13$ & 0.050  \\
+    
+    \makecell[l]{Ro 52} & $2.10 \pm 5.90$ & $2.23 \pm 6.81$ & 0.515  \\
+    \hline\end{tabular}\caption{Comparison of the characteristics between patients with good and poor outcomes in the time independent dataset \\ continuous variables are presented as mean ± standard deviation, categorical variables are presented as number (percentage) \\ good outcome is defined as visit duration < 100 days, poor outcome is defined as visit duration $\geq$ 100 days} \label{tab:good_outcome_poor_outcome_origi}
+    \end{table}
 
 \subsection{Comparison of multiple models on time-dependent and time-independent data}\label{ModelComparison}
 % xgboost + time dependent datasset is the best model in 42 100 365 cutoffs
 
-Time independent and Time dependent data were used to generate 5 machine learning models to predict the disease duration of urticaria. Among the 10 models, Xgboost model with time dependent data (AUC = )  has the best predictive effect for disease duration, followed by random forest with time dependent data (AUC = ) the ROC curves for the top three best-performing ML models are presented in Figure \ref{Figure1}. The discriminative performances and ROC curves of all 10 models are listed in Supplementary Table \ref{tab:kfold_results}, and Supplementary Figure \ref{fig:kfold_all}, respectively.
+Time independent and Time dependent data, combined with 5 different models (XGBoost, Random Forest, AdaBoost, GBM, SVM), were used to generate 10 machine learning models to predict the disease duration of urticaria. Although most models utilized in this study is based on regression trees, their performance in directly predicting continuous numeric values in the regression task was suboptimal, which is likely due to the complexity of the underlying data distribution and model constraints. The predicted values, while not accurate for continuous outcome prediction, can still be utilized for binary classification tasks by applying an optimal threshold. Specifically, the model’s output is better suited for classification of disease duration when applying a predefined threshold that maximizes the classification performance (e.g., based on ROC-AUC or Youden's index). Therefore we use binary classification task to evaluate the model performance. Among the 10 models, the XGBoost model with time-dependent data (AUC = $0.906 \pm 0.013$ for 42, AUC = $0.926 \pm 0.013$ for 100, AUC = $0.884 \pm 0.018$ for 365) has the best predictive effect for disease duration, followed by the Random Forest model with time-dependent data (AUC = $0.933 \pm 0.025$ for 42, AUC = $0.922 \pm 0.028$ for 100, AUC = $0.837 \pm 0.037$ for 365). The ROC curves for the top three best-performing ML models are presented in Figure \ref{kfoldfirst3}. The discriminative performances and ROC curves of all 10 models are listed in Supplementary Table \ref{tab:kfold_results}, and Supplementary Figure \ref{fig:kfold_all}, respectively.
 
 % insert image
-\begin{figure}[t]%% placement specifier
-    %% Use \includegraphics command to insert graphic files. Place graphics files in 
-    %% working directory.
-    \centering%% For centre alignment of image.
-    \includegraphics[width=\textwidth]{figures/kfoldfirst3.png}
-    %% Use \caption command for figure caption and label.
-    \caption{Figure Caption}\label{Figure1}
-    %% https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics#Importing_external_graphics
+\begin{figure}[t] 
+    \centering 
+    \includegraphics[width=\textwidth]{figures/kfoldfirst3.png} 
+    \caption{ROC curves for 5-fold cross-validation results for three different models (XGBoost, Random Forest, and GBM) at three binary classification thresholds (42, 100, and 365). Each row (A, B, and C) represents the results for a specific threshold. The models' performances are plotted with time-independent and time-dependent datasets, where red indicates the time-independent dataset and blue represents the time-dependent dataset. The shaded areas represent the 95\% confidence intervals.}\label{kfoldfirst3} 
 \end{figure}
 
 
 \subsection{Feature selection and final model}\label{FinalModel}
 
-Xgboost with time dependent data, as the best performing model, was selected for further optimization. Feature importance ranking by Boruta algorithm are shown in Figure \ref{Figure2} and Supplementary Table \ref{tab:boruta_ranking_df}. A total of 38 laboratory items were confirmed as important by Boruta algorithm, as shown in Supplementary Table \ref{tab:boruta_confirmed_vars}.
+Xgboost with time dependent data, as the best performing model, was selected for further optimization. Feature importance ranking by Boruta algorithm are shown in Figure \ref{boruta_by_group} and Supplementary Table \ref{tab:boruta_ranking_df}. A total of 38 laboratory items were confirmed as important by Boruta algorithm, as shown in Supplementary Table \ref{tab:boruta_confirmed_vars}.
 
-During the process of reducing features based on the feature important ranking, the changes in AUCs for the model shows that the model maintain robust performance unitil the number of items reduced to less than 10, as shown in Figure \ref{Figure3} A-C. Top 25 items were selected as the final model, validation on external test set showed a stable performance with AUC of 0.85, as shown in Figure 3 \ref{Figure3} D-F.
+During the process of reducing features based on the feature importance, the changes in AUCs for the model shows that the model maintain robust performance unitil the number of items reduced to less than 10, as shown in Figure \ref{topn_extval25} A-C. The 25-item model shows the best performance in internal validation set with AUC of 0.914, 0.939, 0.899 for 42, 100, 365 cutoffs, respectively. The 25-item model were selected as the final model, and showed a stable performance in external test set with AUC of 0.887, 0.898, 0.809 for 42, 100, 365 cutoffs, as shown in Figure 3 \ref{topn_extval25} D-F.
 
 
 % insert image
-\begin{figure}[t]%% placement specifier
-    %% Use \includegraphics command to insert graphic files. Place graphics files in 
-    %% working directory.
-    \centering%% For centre alignment of image.
-    \includegraphics[width=\textwidth]{figures/boruta_by_group.png}
-    %% Use \caption command for figure caption and label.
-    \caption{Figure Caption}\label{Figure2}
-    %% https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics#Importing_external_graphics
+\begin{figure}[t] 
+    \centering
+    \includegraphics[width=\textwidth]{figures/boruta_by_group.png} 
+    \caption{Boxplot representing averaged feature ranking distribution for each laboratory item generated by the Boruta algorithm over 15 iterations. The ranking value for each laboratory item is averaged for 3 different phases of disease. The y-axis shows the importance rank, with lower values indicating higher importance, while the x-axis lists the laboratory items names.}\label{boruta_by_group}
 \end{figure}
 
 
 % insert image
-\begin{figure}[t]%% placement specifier
-    %% Use \includegraphics command to insert graphic files. Place graphics files in 
-    %% working directory.
-    \centering%% For centre alignment of image.
-    \includegraphics[width=\textwidth]{figures/topn_extval25.png}
-    %% Use \caption command for figure caption and label.
-    \caption{Figure Caption}\label{Figure3}
-    %% https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics#Importing_external_graphics
+\begin{figure}[t]  
+    \centering 
+    \includegraphics[width=\textwidth]{figures/topn_extval25.png} 
+    \caption{Panels A, B, and C display the ROC curves for the model as the number of top items is reduced based on the average importance score at cutoff values of 42, 100, and 365, respectively. Panels D, E, and F show the ROC curves for the final model with 25 top items on external test set at cutoff values of 42, 100, and 365, respectively.}\label{topn_extval25}
+
 \end{figure}
 
 
 \subsection{Model explanation}\label{ModelExplanationResults}
+The SHAP analysis was performed on the final model with 25 top items. The heatmap shows shap values of the top 25 features on 300 samples from dataset, with the samples ordered by hierarchical clustering based on the similarity of shap values, and the corresponding model output and global importance of each feature, shown in Figure \ref{heatmap_all_orderx}. 
+
+\begin{figure}[t] 
+    \centering
+    \includegraphics[width=\textwidth]{figures/heatmap_all_orderx.png}
+    \caption{a heatmap plot with the instances on the x-axis, the model inputs on the y-axis, and the SHAP values encoded on a color scale. The samples are ordered based on a hierarchical clustering by their explanation similarity. This results in samples that have the same model output for the same reason getting grouped together. The output of the model is shown above the heatmap matrix, and the global importance of each model input shown as a bar plot on the right hand side of the plot.}\label{heatmap_all_orderx}
+\end{figure}
 
 
+\subsubsection{SHAP analysis reveals alignment with previous studies while discovering phase-specific trends}
+
+SHAP analysis on well-known markers of CSU severity and duration, such as eosinophils, basophils, and CRP, revealed consistent trends with previous studies while providing insights on how those markers in different phase can have different predicting ability. 
+A high value in Basophils percentage during chronic phase of disease pushed the model output towards a longer visit duration, a trend that was proved by previous studies \citep{SanchezBorges2017Factors},while a high Eosinophils percentage during the preclinical phase of disease had the opposite effect, as shown in Figure \ref{modelexplanation} A.
+The increasing CRP levels in the chronic phase of disease was having positive effect on the model output, same as the previous studies that have associated higher CRP levels with CSU severity \citep{Rabelo-Filardi2013Parameters}, while the extreme high CRP levels in the acute phase of disease was having negative effect on the model output, as shown in Figure \ref{modelexplanation} B. 
+High immunoglobulin E levels in the chronic phase of disease was having positive effect on the model output, which is consistent with previous studies that have linked high IgE levels to CSU severity and duration \citep{SanchezBorges2017Factors}, while having no effect in the acute phase of disease, as shown in Figure \ref{modelexplanation} C.
+It has been discovered that lymphocytes count is reduced in acute urticaria compared with healthy control. But wether a lower lymphocytes count is associated with severity and duration of CSU is still unknown. SHAP analysis shows that a low lymphocytes count in the preclinical and acute phase is having positive effect on the model output, while having negative effect in the chronic phase, as shown in Figure \ref{modelexplanation} D.
+
+Thyroid dysfunction is a common comorbidity in patients with chronic urticaria, and it has been reported that reducing thyroxine dose may cause flare-ups of chronic urticaria and angio-oedema, suggesting a possible link between thyroid function and urticaria severity \citep{Dunkley2003Thyroid}. Our study shows that a high TSH level in the chronic phase of disease is having negative effect on the model output, as shown in Figure \ref{modelexplanation} E.
 
 
+% insert image
+\begin{figure}[t] 
+    \centering
+    \includegraphics[width=\textwidth]{figures/modelexplanation.png} 
+    \caption{}\label{modelexplanation}
+\end{figure}
+
+
+\subsubsection{correlation analysis with SHAP values facilitate independent impact of features}
+
+Other than single marker analysis, we also discover relationship between ne
+\begin{figure}[t] 
+    \centering
+    \includegraphics[width=\textwidth]{figures/correlation.png} 
+    \caption{}\label{correlation}
+\end{figure}
+
+
+\subsubsection{SHAP analysis in different age groups shows novel age effect}
+% insert image
+\begin{figure}[t]  
+    \centering 
+    \includegraphics[width=\textwidth]{figures/modelexplanation_age.png}
+    \caption{}\label{modelexplanation_age}
+
+\end{figure}
+
+
+\begin{figure}[t]  
+    \centering 
+    \includegraphics[width=\textwidth]{figures/modelexplanation_age2.png}
+    \caption{}\label{modelexplanation_age2}
+
+\end{figure}
 
 \section{Discussion}\label{Discussion}
 
@@ -315,6 +429,8 @@ Mean platelet volume levels are higher in patients with chronic urticaria and co
 Neutrophilic urticarial dermatosis is a distinct cutaneous manifestation of neutrophilic aseptic disease, strongly associated with systemic diseases like Schnitzler syndrome, adult-onset Still disease, lupus erythematosus, and hereditary autoinflammatory fever syndromes.\citep{Kieffer2009Neutrophilic} Neutrophilic urticaria is common and not associated with other diseases, but its presence in biopsy samples may indicate rheumatic disease.\citep{Llamas‐Velasco2012Neutrophilic}
 
 
+\section{code availability}\label{code}
+Code for data extraction, model development, and model explanation are available at \url{https://github.com/jabberwockyang/UrticariaPrediction}
 
 
 
@@ -323,25 +439,29 @@ Neutrophilic urticarial dermatosis is a distinct cutaneous manifestation of neut
 \appendix
 \section{Supplementary data}\label{sec:supplementary}
 
-\href{run:supplementary/latex_data_description_table_train_test_origi.tex}{Supplementary Table1: Comparison of the characteristic between the training set and external testing set data in the time independent dataset}
+\href{run:supplementary/latex_data_description_table_train_test_origi.csv}{Supplementary Table1: Comparison of the characteristic between the training set and external testing set data in the time independent dataset}
 \label{tab:train_test_origi}
 
-\href{run:supplementary/latex_data_description_table_train_test_time.tex}{Supplementary Table2: Comparison of the characteristic between the training set and external testing set data in the time dependent dataset}
+\href{run:supplementary/latex_data_description_table_train_test_time.cdv}{Supplementary Table2: Comparison of the characteristic between the training set and external testing set data in the time dependent dataset}
 \label{tab:train_test_time}
 
-\href{run:supplementary/kfolint_results.csv}{Supplementary Table 3: The discriminative performances of all 10 models in 5 fold cross validation}
+\href{run:supplementary/latex_data_description_table_outcome_time.csv}{Supplementary Table 3: Comparison of the characteristic between the short duration group and long duration group in the time dependent dataset}
+\label{tab:good_outcome_poor_outcome_time}
+
+
+\href{run:supplementary/kfolint_results.csv}{Supplementary Table 4: The discriminative performances of all 10 models in 5 fold cross validation}
 \label{tab:kfold_results}
 
 \href{run:supplementary/koldall.png}{Supplementary Figure 1: ROC curves of all 10 models in 5 fold cross validation}
 \label{fig:kfold_all}
 
-\href{run:supplementary/ranking_df.csv}{Supplementary Table 4: Feature importance ranking by Boruta algorithm}
+\href{run:supplementary/ranking_df.csv}{Supplementary Table 5: Feature importance ranking by Boruta algorithm}
 \label{tab:boruta_ranking_df}
 
-\href{run:supplementary/top38_confirmed_vars.csv}{Supplementary Table 5: 38 laboratory items confirmed as important by Boruta algorithm}
+\href{run:supplementary/top38_confirmed_vars.csv}{Supplementary Table 6: 38 laboratory items confirmed as important by Boruta algorithm}
 \label{tab:boruta_confirmed_vars}
 
-\href{run:supplementary/extval_result.csv}{Supplementary Table 6: The performance of the final model on external test set}
+\href{run:supplementary/extval_result.csv}{Supplementary Table 7: The performance of the final model on external test set}
 \label{tab:extval_result}
 
 
