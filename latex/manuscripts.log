@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.5)  14 OCT 2024 00:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.5)  15 OCT 2024 22:25
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -676,22 +676,22 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 * hratio: 1:1
 * vratio: 1:1
 * modes: 
-* h-part:(L,W,R)=(106.75394pt, 384.0pt, 106.75394pt)
-* v-part:(T,H,B)=(141.52342pt, 562.0pt, 141.52342pt)
+* h-part:(L,W,R)=(64.75394pt, 468.0pt, 64.75394pt)
+* v-part:(T,H,B)=(111.52342pt, 622.0pt, 111.52342pt)
 * \paperwidth=597.50787pt
 * \paperheight=845.04684pt
-* \textwidth=384.0pt
-* \textheight=562.0pt
-* \oddsidemargin=34.48395pt
-* \evensidemargin=34.48395pt
-* \topmargin=7.25343pt
+* \textwidth=468.0pt
+* \textheight=622.0pt
+* \oddsidemargin=-7.51605pt
+* \evensidemargin=-7.51605pt
+* \topmargin=-22.74657pt
 * \headheight=50.0pt
 * \headsep=12.0pt
 * \topskip=10.0pt
-* \footskip=12.0pt
+* \footskip=18.0pt
 * \marginparwidth=65.0pt
 * \marginparsep=11.0pt
-* \columnsep=10.0pt
+* \columnsep=24.0pt
 * \skip\footins=24.0pt plus 2.0pt minus 12.0pt
 * \hoffset=0.0pt
 * \voffset=0.0pt
@@ -806,116 +806,115 @@ File: utxsyc.fd 2000/12/15 v3.1
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.185 
+l.186 
        [1
+
 
 ]
 
 [2]
 
 [3]
-<figures/protocol.png, id=192, 580.3281pt x 786.0567pt>
+<figures/protocol.png, id=188, 580.3281pt x 786.0567pt>
 File: figures/protocol.png Graphic file (type png)
 <use figures/protocol.png>
-Package pdftex.def Info: figures/protocol.png  used on input line 243.
-(pdftex.def)             Requested size: 384.0pt x 520.1304pt.
+Package pdftex.def Info: figures/protocol.png  used on input line 236.
+(pdftex.def)             Requested size: 468.0pt x 633.91978pt.
+
+
+LaTeX Warning: Float too large for page by 33.15178pt on input line 238.
+
+<figures/kfoldfirst3.png, id=203, 473.8503pt x 459.8781pt>
+File: figures/kfoldfirst3.png Graphic file (type png)
+<use figures/kfoldfirst3.png>
+Package pdftex.def Info: figures/kfoldfirst3.png  used on input line 314.
+(pdftex.def)             Requested size: 468.0pt x 454.20007pt.
 
 
 [4]
-<figures/kfoldfirst3.png, id=214, 473.8503pt x 459.8781pt>
-File: figures/kfoldfirst3.png Graphic file (type png)
-<use figures/kfoldfirst3.png>
-Package pdftex.def Info: figures/kfoldfirst3.png  used on input line 322.
-(pdftex.def)             Requested size: 384.0pt x 372.67464pt.
-
 
 [5]
-
-[6]
-<figures/boruta_by_group.png, id=233, 1806.75pt x 578.16pt>
+<figures/boruta_by_group.png, id=222, 1806.75pt x 578.16pt>
 File: figures/boruta_by_group.png Graphic file (type png)
 <use figures/boruta_by_group.png>
-Package pdftex.def Info: figures/boruta_by_group.png  used on input line 337.
-(pdftex.def)             Requested size: 384.0pt x 122.88162pt.
-<figures/topn_extval25.png, id=235, 688.7331pt x 459.8781pt>
+Package pdftex.def Info: figures/boruta_by_group.png  used on input line 327.
+(pdftex.def)             Requested size: 468.0pt x 149.75343pt.
+<figures/topn_extval25.png, id=224, 688.7331pt x 459.8781pt>
 File: figures/topn_extval25.png Graphic file (type png)
 <use figures/topn_extval25.png>
-Package pdftex.def Info: figures/topn_extval25.png  used on input line 345.
-(pdftex.def)             Requested size: 384.0pt x 256.40723pt.
-<figures/heatmap_all_orderx.png, id=237, 787.743pt x 609.9588pt>
+Package pdftex.def Info: figures/topn_extval25.png  used on input line 335.
+(pdftex.def)             Requested size: 468.0pt x 312.49544pt.
+<figures/heatmap_all_orderx.png, id=226, 787.743pt x 609.9588pt>
 File: figures/heatmap_all_orderx.png Graphic file (type png)
 <use figures/heatmap_all_orderx.png>
-Package pdftex.def Info: figures/heatmap_all_orderx.png  used on input line 356.
-(pdftex.def)             Requested size: 384.0pt x 297.33743pt.
-<figures/modelexplanation.png, id=251, 493.845pt x 668.4975pt>
+Package pdftex.def Info: figures/heatmap_all_orderx.png  used on input line 346.
+(pdftex.def)             Requested size: 468.0pt x 362.38553pt.
+<figures/modelexplanation.png, id=240, 493.845pt x 668.4975pt>
 File: figures/modelexplanation.png Graphic file (type png)
 <use figures/modelexplanation.png>
-Package pdftex.def Info: figures/modelexplanation.png  used on input line 375.
-(pdftex.def)             Requested size: 384.0pt x 519.80408pt.
-<figures/correlation.png, id=252, 547.0839pt x 520.1031pt>
-File: figures/correlation.png Graphic file (type png)
-<use figures/correlation.png>
-Package pdftex.def Info: figures/correlation.png  used on input line 385.
-(pdftex.def)             Requested size: 384.0pt x 365.06963pt.
-<figures/modelexplanation_age.png, id=253, 404.712pt x 474.8139pt>
+Package pdftex.def Info: figures/modelexplanation.png  used on input line 365.
+(pdftex.def)             Requested size: 468.0pt x 633.50836pt.
+
+
+LaTeX Warning: Float too large for page by 32.74036pt on input line 367.
+
+<figures/modelexplanation_age.png, id=243, 404.712pt x 474.8139pt>
 File: figures/modelexplanation_age.png Graphic file (type png)
 <use figures/modelexplanation_age.png>
-Package pdftex.def Info: figures/modelexplanation_age.png  used on input line 394.
-(pdftex.def)             Requested size: 384.0pt x 450.53452pt.
-<figures/modelexplanation_age2.png, id=254, 354.3639pt x 431.6928pt>
+Package pdftex.def Info: figures/modelexplanation_age.png  used on input line 377.
+(pdftex.def)             Requested size: 468.0pt x 549.08917pt.
+<figures/modelexplanation_age2.png, id=244, 404.712pt x 474.8139pt>
 File: figures/modelexplanation_age2.png Graphic file (type png)
 <use figures/modelexplanation_age2.png>
-Package pdftex.def Info: figures/modelexplanation_age2.png  used on input line 402.
-(pdftex.def)             Requested size: 384.0pt x 467.81535pt.
+Package pdftex.def Info: figures/modelexplanation_age2.png  used on input line 385.
+(pdftex.def)             Requested size: 468.0pt x 549.08917pt.
 
+
+[6]
 
 [7]
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 433.
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 429.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
-)
+) (./manuscripts.bbl
 
-[8{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}] (./manuscripts.bbl
+[8{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}])
 
-[9])
+[9]
 
-[10]
+[10 <./figures/protocol.png>]
 
-[11 <./figures/protocol.png>]
+[11 <./figures/kfoldfirst3.png>]
 
-[12 <./figures/kfoldfirst3.png>]
+[12 <./figures/boruta_by_group.png> <./figures/topn_extval25.png>]
 
-[13 <./figures/boruta_by_group.png> <./figures/topn_extval25.png>]
+[13 <./figures/heatmap_all_orderx.png>]
 
-[14 <./figures/heatmap_all_orderx.png>]
+[14 <./figures/modelexplanation.png>]
 
-[15 <./figures/modelexplanation.png>]
+[15 <./figures/modelexplanation_age.png>]
 
-[16 <./figures/correlation.png>]
-
-[17 <./figures/modelexplanation_age.png>]
-
-[18 <./figures/modelexplanation_age2.png>] (./manuscripts.aux)
+[16 <./figures/modelexplanation_age2.png>] (./manuscripts.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-09-10>
  ***********
 Package rerunfilecheck Info: File `manuscripts.out' has not changed.
-(rerunfilecheck)             Checksum: B1B8E7DADBE0F13C050E60A995053DF0;4308.
+(rerunfilecheck)             Checksum: F43F25170C40AB78016B43AB2B4A1CB1;3818.
  ) 
 Here is how much of TeX's memory you used:
- 12652 strings out of 473579
- 190475 string characters out of 5728234
- 600966 words of memory out of 5000000
- 35262 multiletter control sequences out of 15000+600000
+ 12634 strings out of 473579
+ 190013 string characters out of 5728234
+ 604563 words of memory out of 5000000
+ 35250 multiletter control sequences out of 15000+600000
  604598 words of font info for 121 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,15n,79p,2265b,614s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,15n,79p,2536b,608s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/rtcxr.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/rtxi.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/rtxmi.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/rtxr.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/txsy.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on manuscripts.pdf (19 pages, 5637490 bytes).
+Output written on manuscripts.pdf (17 pages, 4873655 bytes).
 PDF statistics:
- 475 PDF objects out of 1000 (max. 8388607)
- 418 compressed objects within 5 object streams
- 85 named destinations out of 1000 (max. 500000)
- 206 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 469 PDF objects out of 1000 (max. 8388607)
+ 415 compressed objects within 5 object streams
+ 79 named destinations out of 1000 (max. 500000)
+ 193 words of extra memory for PDF output out of 10000 (max. 10000000)
 

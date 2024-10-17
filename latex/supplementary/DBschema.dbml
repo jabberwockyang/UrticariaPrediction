@@ -1,0 +1,97 @@
+Table Patients {
+    PatientID TEXT [primary key]
+    Name TEXT
+    Gender TEXT
+    Birthdate DATE
+    FirstVisitDate DATE
+    FirstVisitAge INTEGER
+    ShortestRevisitInterval INTEGER
+    LongestRevisitInterval INTEGER
+    AverageRevisitInterval REAL
+    VisitDuration INTEGER
+    TotalVisits INTEGER
+    LastVisitDate DATE
+    CIndU INT
+}
+
+Table OutpatientNumbers {
+    OutpatientNumber INTEGER [primary key]
+    PatientID TEXT
+
+    Indexes {
+        idx_outpatientnumber_patientid
+    }
+
+    Ref: PatientID > Patients.PatientID
+}
+
+Table PatientVisits {
+    VisitID INTEGER [primary key]
+    OutpatientNumber INTEGER
+    PatientID TEXT
+    VisitDate DATE
+    VisitType TEXT
+    Department TEXT
+    Doctor TEXT
+    Diagnosis TEXT
+    Disease TEXT
+
+    Indexes {
+        idx_patientvisits_outpatientnumbers
+        idx_patientvisits_patientid
+    }
+
+    Ref: OutpatientNumber > OutpatientNumbers.OutpatientNumber
+    Ref: PatientID > Patients.PatientID
+}
+
+Table ExaminationToVisit {
+    PatientID TEXT
+    ExaminationDate DATE
+    ExaminationSetID INTEGER [primary key]
+    VisitID INTEGER
+
+    Indexes {
+        idx_etv_visitid
+        idx_etv_patientid_examinationdate
+    }
+
+    Ref: VisitID > PatientVisits.VisitID
+}
+
+Table PatientExaminations {
+    ExaminationID INTEGER [primary key]
+    OutpatientNumber INTEGER
+    ExaminationDate DATE
+    ExaminationItemID TEXT
+    ExaminationItem TEXT
+    Result REAL
+    NormalRange TEXT
+    Unit TEXT
+    PatientID TEXT
+    VisitID INTEGER
+    ExaminationSetID INTEGER
+
+    Indexes {
+        idx_PatientExaminations_examinationitemid
+        idx_PatientExaminations_examinationsetid
+        idx_newwpatientexaminations_patientid
+        idx_newnpatientexaminations_visitid
+    }
+
+    Ref: PatientID > Patients.PatientID
+    Ref: ExaminationSetID > ExaminationToVisit.ExaminationSetID
+    Ref: VisitID > PatientVisits.VisitID
+    Ref: ExaminationItemID > ExaminationItems.ExaminationItemID
+    Ref: OutpatientNumber > OutpatientNumbers.OutpatientNumber
+}
+
+Table ExaminationItems {
+    ExaminationItemID TEXT [primary key]
+    ExaminationItem TEXT
+    ReferenceValue TEXT
+    Type TEXT
+    Low FLOAT
+    High FLOAT
+    Unit TEXT
+}

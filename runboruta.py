@@ -113,7 +113,7 @@ def main(filepath,  params, preprocessor, experiment_name, log_dir, max_iteratio
     # 使用多线程执行 Boruta
     with ThreadPoolExecutor(max_workers=6) as executor:
         consumer = executor.submit(get_and_write, output_queue)
-        producers = [executor.submit(run_boruta, X, y, i) for i in range(18)]
+        producers = [executor.submit(run_boruta, X, y, i) for i in range(15)]
         for future in producers:
             future.result()  # 等待所有线程完成
         logger.info(f"All threads finished, sending PoisonPill...")

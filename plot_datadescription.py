@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from scipy import stats
 from utils import load_data, check_y
+from joint_distribution import plot_gaussianmixture
 from preprocessor import Preprocessor, FeatureFilter
 from train_shap import get_model_data_for_shap
 from best_params import opendb, get_params_by_sequence_id
@@ -10,7 +11,7 @@ from loguru import logger
 import json
 import xgboost as xgb
 import os
-
+from matplotlib import pyplot as plt
 
 def get_data_for_des(model, filepath, parmas, 
                       row_na_threshold,
@@ -264,7 +265,12 @@ def calculatecolinearity(df, set_):
                 if col1 == col2:
                     continue
                 corr, p_value = spearmanr(df[col1], df[col2])
-                spearmancorr.append({'var1': col1, 'var2': col2, 'correlation': corr, 'p_value': p_value, 'significant': p_value < 0.05 and abs(corr) > 0.5})
+                spearmancorr.append({'var1': col1, 'var2': col2, 'correlation': corr, 'p_value': p_value, 'significant': p_value < 0.01 and abs(corr) > 0.75})
+                
+                if p_value < 0.01 and abs(corr) > 0.75:
+                    gaus_fig = plot_gaussianmixture(df, col1, col2)
+                    gaus_fig.savefig(f"descriptoontable/gaussian_{col1}_{col2}.png")
+                    plt.clf()
 
         # 将结果转换为 DataFrame 并保存
         spearmancorr = pd.DataFrame(spearmancorr)
@@ -284,14 +290,38 @@ def calculatecolinearity(df, set_):
                     if col1 == col2:
                         continue
                     corr, p_value = spearmanr(df_group[col1], df_group[col2])
-                    spearmanr_corr.append({'var1': col1, 'var2': col2, 'correlation': corr, 'p_value': p_value, 'significant': p_value < 0.05 and abs(corr) > 0.5})
-        
+                    spearmanr_corr.append({'var1': col1, 'var2': col2, 'correlation': corr, 'p_value': p_value, 'significant': p_value < 0.01 and abs(corr) > 0.75})
+
+                    if p_value < 0.01 and abs(corr) > 0.75:
+                        gaus_fig = plot_gaussianmixture(df_group, col1, col2)
+                        gaus_fig.savefig(f"descriptoontable/gaussian_{col1}_{col2}.png")
+                        plt.clf()
+
         spearmanr_corr = pd.DataFrame(spearmanr_corr)
         spearmanr_corr.to_csv("descriptoontable/spearman_correlation_time.csv")
 
 
 
+def plot_outcome(df, set_):
+    # calculate percentage of df['Outcome'] under 42 100 365
+    per42 = df[df['Outcome'] < 42].shape[0] / df.shape[0]
+    per100 = df[df['Outcome'] < 100].shape[0] / df.shape[0]
+    per365 = df[df['Outcome'] < 365].shape[0] / df.shape[0]
 
+    # plot histogram of outcome
+    fig, ax = plt.subplots()
+    ax.hist(df['Outcome'], bins=50, color='blue', alpha=0.7)
+    ax.set_title('Outcome Distribution')
+    ax.set_xlabel('Outcome')
+    ax.set_ylabel('Frequency')
+    ax.axvline(x=42, color='red', linestyle='--', label='42 days')
+    ax.axvline(x=100, color='green', linestyle='--', label='100 days')
+    ax.axvline(x=365, color='purple', linestyle='--', label='365 days')
+    ax.legend(
+        title=f"Percentage of Outcome < threshold\n< 42 days: {per42:.2f}\n< 100 days: {per100:.2f}\n< 365 days: {per365:.2f}",
+        loc='upper right'
+    )
+    plt.savefig(f"descriptoontable/outcome_distribution_{set_}.png")
         
 
 
@@ -310,44 +340,44 @@ if __name__ == '__main__':
         bestexpid, sequenceid = prepare_params(config_plot)
         fmodel, params, pp, fp= get_model_data_for_shap(config_train, bestexpid, sequenceid)
 
-        rowna = 0.3
-        k = 100
-        X, y = get_data_for_des(fmodel, fp, params.copy(), 
-                                rowna,
-                                pp, k = k, randomrate= 0.2,
-                                pick_key= 'all')
-        logger.info(f"X shape: {X.shape}")
+        # rowna = 0.3
+        # k = 100
+        # X, y = get_data_for_des(fmodel, fp, params.copy(), 
+        #                         rowna,
+        #                         pp, k = k, randomrate= 0.2,
+        #                         pick_key= 'all')
+        # logger.info(f"X shape: {X.shape}")
         
-        df = pd.DataFrame(X)
-        df['Outcome'] = y
+        # df = pd.DataFrame(X)
+        # df['Outcome'] = y
 
-        df_all, good_outcome, poor_outcome ,train_df, test_df= split_data(df, outcome_col='Outcome')
+        # df_all, good_outcome, poor_outcome ,train_df, test_df= split_data(df, outcome_col='Outcome')
         # 生成统计总结
-        logger.info("outcome summary")
-        status = 'outcome'
-        if not os.path.exists('descriptoontable'):
-            os.makedirs('descriptoontable')
+        # logger.info("outcome summary")
+        # status = 'outcome'
+        # if not os.path.exists('descriptoontable'):
+        #     os.makedirs('descriptoontable')
 
-        summary = generate_summary_statistics(df_all, good_outcome, poor_outcome)
-        latex_code = json_to_latex(summary, dataset_name1="Good Outcome", dataset_name2="Poor Outcome")
-        with open (f"descriptoontable/latex_data_description_table_outcome_{set_}.tex", "w") as f:
-            f.write(latex_code)
+        # summary = generate_summary_statistics(df_all, good_outcome, poor_outcome)
+        # latex_code = json_to_latex(summary, dataset_name1="Good Outcome", dataset_name2="Poor Outcome")
+        # with open (f"descriptoontable/latex_data_description_table_outcome_{set_}.tex", "w") as f:
+        #     f.write(latex_code)
 
-        csvtables = json_to_csv(summary, dataset_name1="Good Outcome", dataset_name2="Poor Outcome")
-        with open (f"descriptoontable/csv_data_description_table_outcome_{set_}.csv", "w") as f:
-            f.write(csvtables)
+        # csvtables = json_to_csv(summary, dataset_name1="Good Outcome", dataset_name2="Poor Outcome")
+        # with open (f"descriptoontable/csv_data_description_table_outcome_{set_}.csv", "w") as f:
+        #     f.write(csvtables)
 
-        logger.info("train test summary")
-        status = 'train_test'
+        # logger.info("train test summary")
+        # status = 'train_test'
 
-        summary = generate_summary_statistics(df_all, train_df, test_df)
-        latex_code = json_to_latex(summary, dataset_name1="Train", dataset_name2="Test")
-        with open (f"descriptoontable/latex_data_description_table_train_test_{set_}.tex", "w") as f:
-            f.write(latex_code)
+        # summary = generate_summary_statistics(df_all, train_df, test_df)
+        # latex_code = json_to_latex(summary, dataset_name1="Train", dataset_name2="Test")
+        # with open (f"descriptoontable/latex_data_description_table_train_test_{set_}.tex", "w") as f:
+        #     f.write(latex_code)
 
-        csvtables = json_to_csv(summary, dataset_name1="Train", dataset_name2="Test")
-        with open (f"descriptoontable/csv_data_description_table_train_test_{set_}.csv", "w") as f:
-            f.write(csvtables)
+        # csvtables = json_to_csv(summary, dataset_name1="Train", dataset_name2="Test")
+        # with open (f"descriptoontable/csv_data_description_table_train_test_{set_}.csv", "w") as f:
+        #     f.write(csvtables)
 
         rowna = 0.5
         k = 100
@@ -360,4 +390,5 @@ if __name__ == '__main__':
         df = pd.DataFrame(X)
         df['Outcome'] = y
 
-        calculatecolinearity(df, set_)
+        # calculatecolinearity(df, set_)
+        plot_outcome(df, set_)

@@ -90,9 +90,9 @@ def plot_roc(data, groupname, log_dir, binary_threshold, colors_set, label_set, 
             # to array and check y
             y_array = np.array(fold_result['ry'])
             y_pred_array = np.array(fold_result['rypredict'])
-            okindex = check_y(y_array, y_pred_array)
-            y_array = y_array[okindex]
-            y_pred_array = y_pred_array[okindex]
+            # okindex = check_y(y_array, y_pred_array, k=K)
+            # y_array = y_array[okindex]
+            # y_pred_array = y_pred_array[okindex]
             y_bi = np.where(y_array > binary_threshold, 1, 0)
             fpr, tpr, thresholds = roc_curve(y_bi, y_pred_array)
             # 计算Youden's Index
@@ -140,9 +140,9 @@ def plot_loss(data, log_dir, colors_set, label_set, ppthreshold = 1000):
         for fr in result['fold_results']:
             y_array = np.array(fr['ry'])
             y_pred_array = np.array(fr['rypredict'])
-            okindex = check_y(y_array, y_pred_array)
-            y_array = y_array[okindex]
-            y_pred_array = y_pred_array[okindex]
+            # okindex = check_y(y_array, y_pred_array, k=K)
+            # y_array = y_array[okindex]
+            # y_pred_array = y_pred_array[okindex]
             loss = mean_squared_error(y_array, y_pred_array)
             loss_list.append(loss)
         lossdf[label_set[experiment_id]] = loss_list
@@ -173,9 +173,9 @@ def plot_y_predy(data, log_dir, colors_set, label_set, ppthreshold = 1000):
         for idx, fr in enumerate(result['fold_results']):
             y_array = np.array(fr['ry'])
             y_pred_array = np.array(fr['rypredict'])
-            okindex = check_y(y_array, y_pred_array)
-            y_array = y_array[okindex]
-            y_pred_array = y_pred_array[okindex]
+            # okindex = check_y(y_array, y_pred_array, k=K)
+            # y_array = y_array[okindex]
+            # y_pred_array = y_pred_array[okindex]
 
             ax = axs[idx]  # 选择当前子图
             ax.scatter(y_array, y_pred_array, color=colors_set[experiment_id], alpha=0.3)
@@ -199,9 +199,9 @@ def write_kfoldint_results(data, log_dir, label_set, ppthreshold = 1000):
         for fr in result['fold_results']:
             y_array = np.array(fr['ry'])
             y_pred_array = np.array(fr['rypredict'])
-            okindex = check_y(y_array, y_pred_array)
-            y_array = y_array[okindex]
-            y_pred_array = y_pred_array[okindex]
+            # okindex = check_y(y_array, y_pred_array, k=K)
+            # y_array = y_array[okindex]
+            # y_pred_array = y_pred_array[okindex]
 
             loss = mean_squared_error(y_array, y_pred_array)
             for binary_threshold in [42, 100, 365]:
@@ -236,19 +236,18 @@ def write_kfoldint_results(data, log_dir, label_set, ppthreshold = 1000):
 
             
 
-def main(log_dir, colors_set, label_set, group_set, ppthreshold = 1000):
+def main(log_dir, plotdir, colors_set, label_set, group_set, ppthreshold = 1000):
     data = {}
 
     for experiment_id in colors_set.keys():
-        sequence_id = best_sequence_id_byloss(log_dir, experiment_id, ppshape_threshold = ppthreshold)
-        # sequence_id = best_sequence_id_byroc(log_dir, experiment_id, ppshape_threshold = ppthreshold)
+        # sequence_id = best_sequence_id_byloss(log_dir, experiment_id, ppshape_threshold = ppthreshold)
+        sequence_id = best_sequence_id_byroc(log_dir, experiment_id, ppshape_threshold = ppthreshold)
         result = get_result_by_sequence_id(log_dir, experiment_id, sequence_id)
         data[experiment_id] = {
             'sequence_id': sequence_id,
             'results': result   
         }
 
-    plotdir = f'kfoldint_plot'
     if not os.path.exists(plotdir):
         os.makedirs(plotdir)
 
@@ -268,11 +267,13 @@ def main(log_dir, colors_set, label_set, group_set, ppthreshold = 1000):
 
 if __name__ == "__main__":
     log_dir = 'kfoldint_explog'
+    plotdir = 'kfoldint_plot_HDQAuzN8_default_top200_gr1'
 
-    
+    K = 5
     color_set = {
         "dTBCXYGr_default_top100_gr1": "blue",
-        "beA3o82D_default_top100_gr1": "red",
+        # "beA3o82D_default_top100_gr1": "red",
+        "HDQAuzN8_default_top200_gr1": "red",
         "XE0MhN5r_default_top100_gr1": "blue",
         "1aTxj7zc_default_top100_gr1": "red",
         "FAbyiLmG_default_top100_gr1": "blue",
@@ -286,7 +287,8 @@ if __name__ == "__main__":
 
     label_set = {
         "dTBCXYGr_default_top100_gr1": "Xgboost + time independent",
-        "beA3o82D_default_top100_gr1": "Xgboost + time dependent",
+        # "beA3o82D_default_top100_gr1": "Xgboost + time dependent",
+        "HDQAuzN8_default_top200_gr1": "Xgboost + time dependent",
         "XE0MhN5r_default_top100_gr1": "random forest + time independent",
         "1aTxj7zc_default_top100_gr1": "random forest + time dependent",
         "FAbyiLmG_default_top100_gr1": "Adaboost + time independent",
@@ -299,7 +301,8 @@ if __name__ == "__main__":
 
 
     group_set = {
-        "Xgboost": ["dTBCXYGr_default_top100_gr1", "beA3o82D_default_top100_gr1"],
+        # "Xgboost": ["dTBCXYGr_default_top100_gr1", "beA3o82D_default_top100_gr1"],
+        "Xgboost": ["dTBCXYGr_default_top100_gr1", "HDQAuzN8_default_top200_gr1"],
         "random forest": ["XE0MhN5r_default_top100_gr1", "1aTxj7zc_default_top100_gr1"],
         "Adaboost": ["FAbyiLmG_default_top100_gr1", "25m9QoAi_default_top250_gr1"],
         "GBM": ["YR1DQb9A_default_top100_gr1", "lKesaFNR_default_top100_gr1"],
@@ -307,4 +310,4 @@ if __name__ == "__main__":
     }
 
     for threshold in [1000]:
-        main(log_dir, color_set, label_set, group_set, ppthreshold = threshold)
+        main(log_dir, plotdir, color_set, label_set, group_set, ppthreshold = threshold)

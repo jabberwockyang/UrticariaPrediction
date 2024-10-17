@@ -151,6 +151,34 @@ cp /root/UrticariaPrediction/mysql/output-20240927/dataforxgboost_timeseries_202
 python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid beA3o82D
 ```
 
+xgboost-timeseries nni9_explog/CWQJ9nlD with new search space
+```bash
+cd ~/UrticariaPrediction
+cp mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
+python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid CWQJ9nlD
+```
+
+xgboost-timeseries nni9_explog/HDQAuzN8 with new but restricted search space
+```bash
+cd ~/UrticariaPrediction
+cp mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
+python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid HDQAuzN8
+```
+xgboost-timeseries nni9_explog/zLCPym1l with new but restricted search space and fail when data < 800
+```bash
+cd ~/UrticariaPrediction
+cp mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
+python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid zLCPym1l
+```
+
+xgboost-timeseries nni9_explog/nK29TFO3 with new but restricted search space and fail when data < 800 and scaling y disabeld
+```bash
+cd ~/UrticariaPrediction
+cp mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
+python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid nK29TFO3
+```
+
+
 xgboost-normal nni10_explog/dTBCXYGr
 ```bash
 cd ~/UrticariaPrediction
@@ -228,7 +256,6 @@ xgboost-timeseries nni9_explog/beA3o82D
 cd ~/UrticariaPrediction
 python3 runboruta.py --filepath output/dataforxgboost_timeseries.csv --best_db_path nni9_explog/beA3o82D/db/nni.sqlite --best_sequence_id 1112 --target_column VisitDuration --log_dir boruta_explog --groupingparams groupingsetting.yml
 ```
-
 ```bash
 cd ~/UrticariaPrediction
 python3 plot_boruta.py --log_dir boruta_explog --experiment_name e2f721e9
@@ -241,6 +268,35 @@ xgboost-timeseries nni9_explog/beA3o82D
 cd ~/UrticariaPrediction
 python3 train_ext_validation.py --config extval_timeseries.yaml --expid beA3o82D --sequenceid 1112 --featurelistfolder boruta_explog/e2f721e9
 ```
+CWQJ9nlD_1052_1_all
+```bash
+cd ~/UrticariaPrediction
+python3 train_ext_validation.py --config extval_timeseries.yaml --expid CWQJ9nlD --sequenceid 1052 --featurelistfolder boruta_explog/e2f721e9
+```
+
+HDQAuzN8_4866_1_all
+```bash
+cd ~/UrticariaPrediction
+python3 train_ext_validation.py --config extval_timeseries.yaml --expid HDQAuzN8 --sequenceid 4866 --featurelistfolder boruta_explog/e2f721e9
+```
+
+zLCPym1l_374_1_all
+```bash
+cd ~/UrticariaPrediction
+python3 train_ext_validation.py --config extval_timeseries.yaml --expid zLCPym1l --sequenceid 374 --featurelistfolder boruta_explog/e2f721e9
+```
+
+
+```bash
+cd ~/UrticariaPrediction
+python3 train_ext_validation.py --config extval_timeseries.yaml --expid 1aTxj7zc --sequenceid 266 --featurelistfolder boruta_explog/e2f721e9
+```
+
+```bash
+cd ~/UrticariaPrediction
+python3 train_ext_validation.py --config extval_timeseries.yaml --expid lKesaFNR --sequenceid 31 --featurelistfolder boruta_explog/e2f721e9
+```
+
 
 ```bash
 cd ~/UrticariaPrediction
@@ -253,3 +309,9 @@ python3 plot_ext_topn.py
 cd ~/UrticariaPrediction
 python3 plot_shap.py
 ```
+
+
+multicolinearity:
+https://datascience.stackexchange.com/questions/12554/does-xgboost-handle-multicollinearity-by-itself
+https://github.com/shap/shap/issues/1120
+https://github.com/shap/shap/issues/288

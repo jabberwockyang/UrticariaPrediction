@@ -24,12 +24,12 @@
 
 %% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
 %% for a journal layout:
-\documentclass[final,1p,times,authoryear]{elsarticle}
+% \documentclass[final,1p,times,authoryear]{elsarticle}
 % \documentclass[final,1p,times,twocolumn,authoryear]{elsarticle}
-%% \documentclass[final,3p,times,authoryear]{elsarticle}
-%% \documentclass[final,3p,times,twocolumn,authoryear]{elsarticle}
-%% \documentclass[final,5p,times,authoryear]{elsarticle}
-%% \documentclass[final,5p,times,twocolumn,authoryear]{elsarticle}
+\documentclass[final,3p,times,authoryear]{elsarticle}
+% \documentclass[final,3p,times,twocolumn,authoryear]{elsarticle}
+% \documentclass[final,5p,times,authoryear]{elsarticle}
+% \documentclass[final,5p,times,twocolumn,authoryear]{elsarticle}
 
 %% For including figures, graphicx.sty has been loaded in
 %% elsarticle.cls. If you prefer to use the old commands
@@ -175,21 +175,14 @@ Conclusion:
 
 \section{Introduction}\label{Introduction}
 
-Urticaria is a common condition presenting with wheals, angioedema, or both, driven by mast cell degranulation\citep{Zuberbier2021The,RadonjicHoesli2018Urticaria,Ring2012Urticaria}. The lifetime prevalence for acute urticaria is approximately 20\% \citep{Zuberbier2021The}. 
-
-Urticaria is classified based on duration and triggers. Acute urticaria lasts less than 6 weeks, often triggered by specific causes like drugs, food, or infections. While chronic urticaria lasts more than 6 weeks and can be further classified into chronic spontaneous urticaria (CSU) and chronic inducible urticaria (CIndU)\citep{Zuberbier2021The,Ring2012Urticaria}. 
-
-CSU is characterized by the spontaneous occurrence of wheals and/or angioedema without a specific trigger and often associated with autoimmune mechanisms\citep{Schettini2023Urticaria}, while CIndU is triggered by specific stimuli like cold, heat, or pressure\citep{Pozderac2020Chronic}. 
-
-The prevalence of CSU is approximately 0.5\% in general population, and is less prevalent in children compared to adults\citep{Balp2015The, Poddighe2019LETTER, Labbene2023Prevalence}. Some patients with CSU experience trigger-induced wheals, angioedema, or both. Up to 36\% of patients with CSU have been reported to react concomitantly to physical trigger tests\citep{Dressler2018Chronic}. These triggers are not definite, as their presence does not always induce signs and symptoms and because wheals, angioedema, or both also occur without them, that is, spontaneously. Some patients can present with more than one subtype of urticaria\citep{Zuberbier2021The}. 
+Urticaria is a common condition presenting with wheals, angioedema, or both, driven by mast cell degranulation\citep{Zuberbier2021The,RadonjicHoesli2018Urticaria,Ring2012Urticaria}. The lifetime prevalence for acute urticaria is approximately 20\% \citep{Zuberbier2021The}. Urticaria is classified based on duration and triggers. Acute urticaria lasts less than 6 weeks, often triggered by specific causes like drugs, food, or infections. While chronic urticaria lasts more than 6 weeks and can be further classified into chronic spontaneous urticaria (CSU) and chronic inducible urticaria (CIndU)\citep{Zuberbier2021The,Ring2012Urticaria}. CSU is characterized by the spontaneous occurrence of wheals and/or angioedema without a specific trigger and often associated with autoimmune mechanisms\citep{Schettini2023Urticaria}, while CIndU is triggered by specific stimuli like cold, heat, or pressure\citep{Pozderac2020Chronic}. The prevalence of CSU is approximately 0.5\% in general population, and is less prevalent in children compared to adults\citep{Balp2015The, Poddighe2019LETTER, Labbene2023Prevalence}. 
+% Some patients with CSU experience trigger-induced wheals, angioedema, or both. Up to 36\% of patients with CSU have been reported to react concomitantly to physical trigger tests\citep{Dressler2018Chronic}. These triggers are not definite, as their presence does not always induce signs and symptoms and because wheals, angioedema, or both also occur without them, that is, spontaneously. Some patients can present with more than one subtype of urticaria\citep{Zuberbier2021The}. 
 
 Chronic urticaria significantly impairs quality of life, affecting work and school performance. It is considered a severe allergic disease due to its disabling nature and high disease burden\citep{Zuberbier2021The}. Duration of CSU greater than 3 years are associated with better responses to second-generation antihistamines and other treatments\citep{Chiang2022Predictors}. Predicting the duration of urticaria, particularly chronic spontaneous urticaria (CSU), is crucial for effective patient management and treatment planning. 
 
 Several clinical features have been associated with the severity and duration of chronic spontaneous urticaria (CSU). Higher age at onset, female gender, longer disease duration, and hypersensitivity to aspirin or nonsteroidal anti-inflammatory drugs (NSAIDs) are linked to more severe CSU and prolonged time to remission \citep{SanchezBorges2017Factors,Rabelo-Filardi2013Parameters}. Patients exhibiting concomitant CIndU and recurrent angioedema also tend to experience longer durations of CSU \citep{SanchezBorges2017Factors, Curto-Barredo2018Clinical}. Moreover, patients with multiple allergic conditions are more likely to have prolonged episodes of urticaria \citep{Lin2011Predictive}.
 
 Potential biomarkers for CSU severity and duration have been identified. Positive autologous serum skin test (ASST) results, basophil counts, levels of inflammatory markers, activation markers of the extrinsic coagulation pathway, immunoglobulin E (IgE), eosinophils counts, and vitamin D levels are all associated with the disease's severity and duration \citep{SanchezBorges2017Factors,Rabelo-Filardi2013Parameters, Kolkhir2019Eosinopenia}. Specifically, plasma levels of prothrombin fragment, D-dimer, and C-reactive protein (CRP) may serve as markers of CSU severity \citep{Rabelo-Filardi2013Parameters}. Serum diamine oxidase (DAO) levels have been linked to the response to antihistamines and dietary interventions, indicating a potential role in predicting disease duration \citep{Chiang2022Predictors}.
-
-
 
 Metabolic factors also play a role, with high waist circumference (WC), rather than high body mass index (BMI), emerging as a predictive risk factor for longer disease duration in CSU patients \citep{Kim2021High}.
 
@@ -199,22 +192,23 @@ The aim of this study was to build a machine learning model for predicting the v
 %% Use \subsection commands to start a subsection.
 \subsection{Patients}\label{Patients}
 
-patients with urticaria were recruited from the urticaria specialty clinic of the dermatology department of Shanghai XinHua Hospital affiliated to Shanghai Jiao Tong University School of Medicine from January 2018 to December 2024. The inclusion criteria were as follows: (1) patients diagnosed with urticaria according to the EAACI/GA2LEN/EDF/WAO guidelines\citep{Zuberbier2021The}; (2) patients with complete clinical and laboratory data; (3) patients with stable follow-up history, indicated by at least 3 times of follow-up visits. the exclusion criteria were as follows: (1) patients with other skin diseases; (2) patients with severe systemic diseases; (3) patients with incomplete clinical data. The study was approved by the ethics committee of Shanghai XinHua Hospital affiliated to Shanghai Jiao Tong University School of Medicine, and all patients provided written informed consent.
+Patients with urticaria were recruited from the urticaria specialty clinic of the dermatology department of Shanghai XinHua Hospital affiliated to Shanghai Jiao Tong University School of Medicine from January 2018 to December 2024. The inclusion criteria were as follows: (1) patients diagnosed with urticaria according to the EAACI/GA2LEN/EDF/WAO guidelines\citep{Zuberbier2021The}; (2) patients with complete clinical and laboratory data; (3) patients with stable follow-up history, indicated by at least 3 times of follow-up visits. the exclusion criteria were as follows: (1) patients with other skin diseases; (2) patients with severe systemic diseases; (3) patients with incomplete clinical data. The study was approved by the ethics committee of Shanghai XinHua Hospital affiliated to Shanghai Jiao Tong University School of Medicine, and all patients provided written informed consent.
 
 \subsection{Data collection and management}\label{Data}
 
-the data of patients with urticaria were collected from the electronic medical record system of the hospital, including demographic data, clinical data, laboratory data. 
-the data were stored in a mysql database for subsequent analysis as follows: (1) Patients: containing basic information of each unique patient; (2) OutpatientNumbers: storing relationship between outpatient numbers with unique patient; (3) PatientVisits: containing visit events records; (4) PatientExaminations: containing the examination events records; (5) ExaminationItems: a dictionary table describing the examination items. the database schema is shown in database. Database 
-markup language (DBML) describing the database schema is shown in supplementary materials.
+Data of patients with urticaria were collected from the electronic medical record system of the hospital, including demographic data, clinical data, laboratory data. 
+the data were stored in a Mysql database for subsequent analysis, with schema as follows: (1) Patients: containing basic information of each unique patient; (2) OutpatientNumbers: storing relationship between outpatient numbers with unique patient; (3) PatientVisits: containing visit events records; (4) PatientExaminations: containing the examination events records; (5) ExaminationItems: a dictionary table describing the examination items. the database schema is shown in database. Database markup language (DBML) describing the database schema is shown in supplementary materials \ref{file:DBschema}
 
 
 \subsection{Feature extraction and feature engineering}\label{FeatureEngineering}
 Visit duration, calculated by the difference between the first visit date and the last visit date in the urticaria specialty clinic, was the target variable. We suppose that the visit duration of a patient at the urticaria specialty clinic is a surrogate for the disease duration of urticaria.
 The following features were extracted from the database: (1) demographic data: gender, first visit age; (2) clinical data: whether the patient having concomitant inducible urticaria; (3) laboratory data: results from common blood tests, CRP, immunoglobulin, 25-hydroxyvitamin D, Thyroid function, autoantibodies, coagulation function, common urine tests, and allergen specific IgE tests. 
-For laboratory data, 2 types of data were extracted: time-independent data and time-dependent data. Time-independent data are average values of laboratory data during the whole follow-up period, while time-dependent data are average values of laboratory data durting preclincial phase (before the onset of urticaria), acute phase (within 6 weeks after the onset of urticaria), and chronic phase (after 6 weeks of the onset of urticaria). 2 datasets were generated: one with time-independent data and one with time-dependent data, and were compared for prediction performance in the model development process. The sql queries for data are shown in feature\_extraction.sql in supplementary materials. 
+For laboratory data, 2 types of data were extracted: time-independent data and time-dependent data. Time-independent data are average values of laboratory data during the whole follow-up period, while time-dependent data are average values of laboratory data durting preclincial phase (before the onset of urticaria), acute phase (within 6 weeks after the onset of urticaria), and chronic phase (after 6 weeks of the onset of urticaria). 2 datasets were generated: one with time-independent data and one with time-dependent data, and were compared for prediction performance in the model development process. The sql queries for data are shown in in supplementary materials \ref{file:sql} and \ref{file:sql_time}.
 
 \subsection{Model development and comparison}\label{Training}
-Dataset was split into training set and external test set with a ratio of 7:3. 5 models were adopted for comparison: Xgboost, random forest, adaboost, gradient boosting machine (GBM), and support vector machine (SVM). Hyperparameter optimization on 10 model settings (5 models multiply 2 datasets) was performed using TPE algorithm by nni package in python, which is a bayesian optimization algorithm that uses tree-structured parzen estimator to model the objective function and suggest the next set of hyperparameters to evaluate based on the previous results. Internal 5 fold cross-validation was employed to discern the most suitable hyperparameters for each distinct model, individually applied to each model settings for enhanced performance. The performance of the model and data was evaluated by receiver operating characteristic (ROC) curve, area under the curve (AUC), accuracy, precision, recall and F1 score on different cuttoffs of disease duration. The sensitivity, specificity, PPV, NPV, accuracy, and F1 score were calculated at the optimal cutoff value that maximized the Youden index. The model and data with the best performance were selected for further analysis.
+Dataset was split into training set and external test set with a ratio of 7:3. 5 models were adopted for comparison: Xgboost, random forest, gradient boosting machine (GBM), adaboost, and support vector machine (SVM). 
+Time-dependent data extraction may introduce multicollinearity between features, which can affect model performance. To address this issue, L1 regularization, L2 regularization, and column sampling methods were employed in XGBoost to handle multicollinearity. L1 regularization helps eliminate irrelevant collinear features by sparse feature selection, while L2 regularization reduces the model's dependence on collinear features by smoothing the weights. Column sampling reduces the likelihood of collinear features being selected simultaneously by randomly choosing a subset of features when building each tree, which is helpful when interpreting the model using method like SHAP, since it enables more balanced weight distribution across features and reduces the possibility of one feature overshadowing others. The Random Forest model does not support L1 and L2 regularization, but it handles multicollinearity through the max\_features parameter, which is similar to column sampling. L2 regularization was applied to the SVM model as well. Additionally, the frameworks of XGBoost and GBM incorporate greedy split and boosting mechanisms, selecting the most important features for each tree and fitting the residuals step by step, allowing the model to focus on the key features rather than over-relying on collinear ones. 
+Hyperparameter optimization on 10 model settings (5 models and 2 datasets) was performed using TPE algorithm by nni package in python, which is a bayesian optimization algorithm that uses tree-structured parzen estimator to model the objective function and suggest the next set of hyperparameters to evaluate based on the previous results. Internal 5 fold cross-validation was employed to discern the most suitable hyperparameters for each distinct model, individually applied to each model settings for enhanced performance. The performance of the model and data was evaluated by receiver operating characteristic (ROC) curve, area under the curve (AUC), accuracy, precision, recall and F1 score on different cuttoffs of disease duration. The sensitivity, specificity, PPV, NPV, accuracy, and F1 score were calculated at the optimal cutoff value that maximized the Youden index. The model and data with the best performance were selected for further analysis.
 
 
 \subsection{feature selection}\label{FeatureSelection}
@@ -225,7 +219,7 @@ In this study, Boruta algorithm was performed on the final model, with max itera
 
 
 \subsection{Model explanation}\label{ModelExplanationMethods}
-It is challenging to get the correct interpretation of a ML model. The SHAP method is an approach that could rank the importance of input features and explain the results of the prediction model, and it is implemented to overcome the “black-box” issue \citep{lundberg2017unified}.
+SHAP (Shapley Additive Explanations) is an explanation method based on game theory, used to interpret the outputs of machine learning models. It assigns each feature's contribution to the model's prediction, helping users understand the decision-making process of the model. In tree models that are not sensative to collinearity, such as Xgboost and GBM, the model tend to select one most important feature among collinear features for a split and ignores the other correlated features. As a result, SHAP may assign a high contribution to the first selected feature while the others receive little or no contribution. This happens because the model captures most of the information through the first feature, effectively overshadowing the others. By introducing joint distribution estimation for correlated features during SHAP calculations, we can capture their dependencies and ensure that SHAP values reflect the true impact of correlated features \citep{lundberg2017unified}.
 The shapley value of each laboratory item in different phase of disease were compared to reveal various predicting ability. 
 Some of the features were further analyzed with different age populations to explore the potential age effect on the predicting ability of laboratory data.
 
@@ -234,7 +228,6 @@ Some of the features were further analyzed with different age populations to exp
 
 \subsection{Patient characteristics}\label{PatientCharacteristics}
 
-This retrospective study included 3954 patients with urticaria, 
 Of the 9921 patients who visited the urticaria specialty clinic and met the inclusion criteria from January 2018 to December 2024. 3954 patients were selected for time independent dataset and 1948 patients were selected for time dependent dataset, the rest were excluded due to serious missing data. 3954 patients in time independent data and 1948 patients time dependent data were allocated into seperate derivation and external validation sets with a ratio of 7:3, respectively. The comparison of demographic and clinical variables among the training and external validation sets is shown in Table \ref{tab:train_test_origi} for time independent dataset and Table \ref{tab:train_test_time} for time dependent dataset. No substantial differences were observed between the training set and the external test set across the majority of features in either time independent or time dependent data. Details of the study design are displayed in Figure \ref{protocol}.
 
 % insert image
@@ -244,8 +237,7 @@ Of the 9921 patients who visited the urticaria specialty clinic and met the incl
     \caption{Study design}\label{protocol}
 \end{figure}
 
-Table \ref{tab:good_outcome_poor_outcome_origi} delineates the disparities between groups regarding the disease duration of patients in time independent Dataset. Among the 3954 patients, 2027 patients had a visit duration of less than 100 days, while 1927 patients had a visit duration of 100 days or more. The mean visit duration was 25.37 days for the short duration group and 604.32 days for the long duration group. The comparison of clinical characteristics between patients with short and prolonged visit duration in the time-independent dataset (Table \ref{tab:good_outcome_poor_outcome_origi}) highlights several trends that align with findings from previous studies on chronic spontaneous urticaria (CSU). In this analysis, immunoglobulin E (IgE) ($131.65 \pm 242.00$ in good outcome vs $152.28 \pm 346.75$ in poor outcome), eosinophils percentage ($1.55 \pm 2.02$ in good outcome vs $2.31 \pm 2.37$ in poor outcome), eosinophils counts ($128.60 \pm 141.68$ in good outcome vs $162.83 \pm 190.02$ in poor outcome), 
-and basophil percentage ($0.25 \pm 0.22$ in good outcome vs $0.32 \pm 0.24$ in poor outcome) were significantly higher in patients with poor outcomes, which is consistent with previous studies that have linked these markers to CSU severity and duration \citep{SanchezBorges2017Factors,Rabelo-Filardi2013Parameters, Kolkhir2019Eosinopenia}. In contrast, C-reactive protein (CRP) levels were significantly lower in patients with poor outcomes ($13.03 \pm 19.62$ in good outcome vs $7.71 \pm 10.23$ in poor outcome), which contradicts previous findings that have associated higher CRP levels with CSU severity \citep{Rabelo-Filardi2013Parameters}. However, this discrepancy could reflect the complexity of CRP as an inflammatory marker that may vary across different disease stages or subgroups of patients. In time dependent data, which is shown in supplementary Table \ref{tab:good_outcome_poor_outcome_time}, CRP presented various trends in different phases of disease, with significantly lower CRP levels in acute phase ($10.21 \pm 10.95$ in good outcome vs $8.95 \pm 8.22$ in poor outcome) and higher CRP levels in chronic phase ($5.39 \pm 4.84$ in good outcome vs $6.47 \pm 8.81$ in poor outcome) in patients with poor outcomes. This finding suggests that the predictive ability of CRP may be influenced by the disease phase, which could explain the inconsistent results observed in the time-independent dataset.
+Table \ref{tab:good_outcome_poor_outcome_origi} delineates the disparities between groups regarding the disease duration of patients in time independent Dataset. Among the 3954 patients, 2027 patients had a visit duration of less than 100 days, while 1927 patients had a visit duration of 100 days or more. The mean visit duration was 25.37 days for the short duration group and 604.32 days for the long duration group. The comparison of clinical characteristics between patients with short and prolonged visit duration in the time-independent dataset (Table \ref{tab:good_outcome_poor_outcome_origi}) highlights several trends that align with findings from previous studies on chronic spontaneous urticaria (CSU). In this analysis, immunoglobulin E (IgE) ($131.65 \pm 242.00$ in good outcome vs $152.28 \pm 346.75$ in poor outcome), eosinophils percentage ($1.55 \pm 2.02$ in good outcome vs $2.31 \pm 2.37$ in poor outcome), eosinophils counts ($128.60 \pm 141.68$ in good outcome vs $162.83 \pm 190.02$ in poor outcome), and basophil percentage ($0.25 \pm 0.22$ in good outcome vs $0.32 \pm 0.24$ in poor outcome) were significantly higher in patients with poor outcomes, which is consistent with previous studies that have linked these markers to CSU severity and duration \citep{SanchezBorges2017Factors,Rabelo-Filardi2013Parameters, Kolkhir2019Eosinopenia}. In contrast, C-reactive protein (CRP) levels were significantly lower in patients with poor outcomes ($13.03 \pm 19.62$ in good outcome vs $7.71 \pm 10.23$ in poor outcome), which contradicts previous findings that have associated higher CRP levels with CSU severity \citep{Rabelo-Filardi2013Parameters}. However, this discrepancy could reflect the complexity of CRP as an inflammatory marker that may vary across different disease stages or subgroups of patients. In time dependent data, which is shown in supplementary Table \ref{tab:good_outcome_poor_outcome_time}, CRP presented various trends in different phases of disease, with significantly lower CRP levels in acute phase ($10.21 \pm 10.95$ in good outcome vs $8.95 \pm 8.22$ in poor outcome) and higher CRP levels in chronic phase ($5.39 \pm 4.84$ in good outcome vs $6.47 \pm 8.81$ in poor outcome) in patients with poor outcomes. This finding suggests that the predictive ability of CRP may be influenced by the disease phase, which could explain the inconsistent results observed in the time-independent dataset.
 
 
 \begin{table}[htbp]\centering\begin{tabular}{lccc}\hline
@@ -326,9 +318,7 @@ Time independent and Time dependent data, combined with 5 different models (XGBo
 
 \subsection{Feature selection and final model}\label{FinalModel}
 
-Xgboost with time dependent data, as the best performing model, was selected for further optimization. Feature importance ranking by Boruta algorithm are shown in Figure \ref{boruta_by_group} and Supplementary Table \ref{tab:boruta_ranking_df}. A total of 38 laboratory items were confirmed as important by Boruta algorithm, as shown in Supplementary Table \ref{tab:boruta_confirmed_vars}.
-
-During the process of reducing features based on the feature importance, the changes in AUCs for the model shows that the model maintain robust performance unitil the number of items reduced to less than 10, as shown in Figure \ref{topn_extval25} A-C. The 25-item model shows the best performance in internal validation set with AUC of 0.914, 0.939, 0.899 for 42, 100, 365 cutoffs, respectively. The 25-item model were selected as the final model, and showed a stable performance in external test set with AUC of 0.887, 0.898, 0.809 for 42, 100, 365 cutoffs, as shown in Figure 3 \ref{topn_extval25} D-F.
+Xgboost with time dependent data, as the best performing model, was selected for further optimization. Feature importance ranking by Boruta algorithm are shown in Figure \ref{boruta_by_group} and Supplementary Table \ref{tab:boruta_ranking_df}. A total of 38 laboratory items were confirmed as important by Boruta algorithm, as shown in Supplementary Table \ref{tab:boruta_confirmed_vars}. During the process of reducing features based on the feature importance, the changes in AUCs for the model shows that the model maintain a robust performance unitil the number of items reduced to less than 10, as shown in Figure \ref{topn_extval25} A-C. The 25-item model shows the best performance in internal validation set with AUC of 0.914, 0.939, 0.899 for 42, 100, 365 cutoffs, respectively. The 25-item model were selected as the final model, and showed a stable performance in external test set with AUC of 0.887, 0.898, 0.809 for 42, 100, 365 cutoffs, as shown in Figure 3 \ref{topn_extval25} D-F.
 
 
 % insert image
@@ -361,7 +351,7 @@ The SHAP analysis was performed on the final model with 25 top items. The heatma
 \subsubsection{SHAP analysis reveals alignment with previous studies while discovering phase-specific trends}
 
 SHAP analysis on well-known markers of CSU severity and duration, such as eosinophils, basophils, and CRP, revealed consistent trends with previous studies while providing insights on how those markers in different phase can have different predicting ability. 
-A high value in Basophils percentage during chronic phase of disease pushed the model output towards a longer visit duration, a trend that was proved by previous studies \citep{SanchezBorges2017Factors},while a high Eosinophils percentage during the preclinical phase of disease had the opposite effect, as shown in Figure \ref{modelexplanation} A.
+A high value in Basophils percentage during chronic phase of disease pushed the model output towards a longer visit duration, a trend that was proved by previous studies \citep{SanchezBorges2017Factors}, while a high Eosinophils percentage during the preclinical phase of disease had the opposite effect, as shown in Figure \ref{modelexplanation} A.
 The increasing CRP levels in the chronic phase of disease was having positive effect on the model output, same as the previous studies that have associated higher CRP levels with CSU severity \citep{Rabelo-Filardi2013Parameters}, while the extreme high CRP levels in the acute phase of disease was having negative effect on the model output, as shown in Figure \ref{modelexplanation} B. 
 High immunoglobulin E levels in the chronic phase of disease was having positive effect on the model output, which is consistent with previous studies that have linked high IgE levels to CSU severity and duration \citep{SanchezBorges2017Factors}, while having no effect in the acute phase of disease, as shown in Figure \ref{modelexplanation} C.
 It has been discovered that lymphocytes count is reduced in acute urticaria compared with healthy control. But wether a lower lymphocytes count is associated with severity and duration of CSU is still unknown. SHAP analysis shows that a low lymphocytes count in the preclinical and acute phase is having positive effect on the model output, while having negative effect in the chronic phase, as shown in Figure \ref{modelexplanation} D.
@@ -377,17 +367,10 @@ Thyroid dysfunction is a common comorbidity in patients with chronic urticaria, 
 \end{figure}
 
 
-\subsubsection{correlation analysis with SHAP values facilitate independent impact of features}
-
-Other than single marker analysis, we also discover relationship between ne
-\begin{figure}[t] 
-    \centering
-    \includegraphics[width=\textwidth]{figures/correlation.png} 
-    \caption{}\label{correlation}
-\end{figure}
-
-
 \subsubsection{SHAP analysis in different age groups shows novel age effect}
+
+By subsetting data into different age groups, we found that the predicting ability of laboratory data can be different in different age groups. For example, we observed that Absolute eosinophil count in the acute phase of disease is having positive effect on the model output in all data. When subsetting the data into different age groups, we found that the predicting ability of Absolute eosinophil count in the acute phase of disease is more significant in the age group of 0-2, and almost no effect when the patient is older thatn 6 years old, as shown in Figure \ref{modelexplanation_age}.
+Another target showing age effect is Absolute lymphocytes count. In Shap analysis on all data, the a high lymphocytes count during acute and preclinical phase is beneficial while a high lymphocytes count during chronic phase is harmful. When subsetting the data into different age groups, we found that the predicting ability presented before is only preserved when patients are older than 6 years old, with no effect in the age group of 0-2, and little effect in the age group of 2-6, as shown in Figure \ref{modelexplanation_age2}.
 % insert image
 \begin{figure}[t]  
     \centering 
@@ -408,12 +391,7 @@ Other than single marker analysis, we also discover relationship between ne
 
 
 
-Although the pathogenesis of CSU is not yet fully understood, it is well established that its signs and symptoms are due to the activation of mast cells and basophils, leading to the release of histamine and other inflammatory mediators\citep{Zuberbier2021The}. 
-
-Based on recent evidence, it is known that the causes of CSU include autoimmunity Type I (CSUaiTI, or “autoallergic CSU”; with IgE autoantibodies to self-antigens) and autoimmunity Type IIb (CSUaiTIIb; with mast cell–directed activating autoantibodies). In CSU due to unknown cause (CSUuc), as of yet unknown mechanisms are relevant for the degranulation of skin mast cell (MC)\citep{sella2023type, Maronese2023IgG}.
-
-The results of the basic tests performed in CSU can point to CSUaiTI vs CSUaiTIIb, with CRP more often elevated and eosinophil and basophil levels more often reduced in CSUaiTIIb\citep{Xiang2023Chronic}.
-Other underlying causes include active thyroid disease, infections, inflammatory processes, food, and drugs but these can be both cause as well as only aggravating factor\citep{Kolkhir2021Autoimmune}
+Although the pathogenesis of CSU is not yet fully understood, it is well established that its signs and symptoms are due to the activation of mast cells and basophils, leading to the release of histamine and other inflammatory mediators\citep{Zuberbier2021The}. Based on recent evidence, it is known that the causes of CSU include autoimmunity Type I (CSUaiTI, or “autoallergic CSU”; with IgE autoantibodies to self-antigens) and autoimmunity Type IIb (CSUaiTIIb; with mast cell–directed activating autoantibodies). In CSU due to unknown cause (CSUuc), as of yet unknown mechanisms are relevant for the degranulation of skin mast cell (MC)\citep{sella2023type, Maronese2023IgG}. The results of the basic tests performed in CSU can point to CSUaiTI vs CSUaiTIIb, with CRP more often elevated and eosinophil and basophil levels more often reduced in CSUaiTIIb\citep{Xiang2023Chronic}.
 
 
 Eosinopenia in chronic spontaneous urticaria patients is associated with type IIb autoimmunity, high disease activity, and poor treatment response. \citep{Kolkhir2019Eosinopenia}, especially in children \citep{A2023Serum}.
@@ -429,6 +407,24 @@ Mean platelet volume levels are higher in patients with chronic urticaria and co
 Neutrophilic urticarial dermatosis is a distinct cutaneous manifestation of neutrophilic aseptic disease, strongly associated with systemic diseases like Schnitzler syndrome, adult-onset Still disease, lupus erythematosus, and hereditary autoinflammatory fever syndromes.\citep{Kieffer2009Neutrophilic} Neutrophilic urticaria is common and not associated with other diseases, but its presence in biopsy samples may indicate rheumatic disease.\citep{Llamas‐Velasco2012Neutrophilic}
 
 
+
+
+
+The SHAP analysis performed in this study provides valuable insights into the prediction of visit duration for chronic spontaneous urticaria (CSU) based on clinical laboratory data, aligning with previous studies while also revealing novel findings. Consistent with prior research, our model demonstrates that elevated basophil percentages during the chronic phase of CSU are associated with longer visit durations, in line with previous findings \citep{SanchezBorges2017Factors}. Similarly, increased CRP levels during the chronic phase were found to have a positive effect on the model's output, corroborating earlier studies that have linked higher CRP levels with CSU severity and prolonged disease duration \citep{Rabelo-Filardi2013Parameters}. However, an unexpected negative effect of extreme CRP levels during the acute phase was identified, indicating that elevated CRP might play a different role in the early stages of the disease. Immunoglobulin E, absolute lymphocytes count, free thyroxine, and mean platelet volume were also found to have significant impacts on the model output, consistent with previous research that has highlighted the importance of these markers in CSU severity and duration \citep{SanchezBorges2017Factors, Aleem2015Correlation, Dunkley2003Thyroid,Magen2010Increased}.
+
+A novel discovery in our analysis is the phase-specific behavior of certain biomarkers. While a high eosinophil percentage in the preclinical phase was associated with shorter visit durations, the same marker in the chronic phase contributed to prolonged visits, highlighting distinct dynamics depending on the disease stage. Additionally, the SHAP analysis revealed that IgE levels, often associated with CSU severity and duration \citep{SanchezBorges2017Factors}, only had a significant impact during the chronic phase, with no effect in the acute phase. This phase-specific difference in the predictive power of laboratory markers represents a significant innovation in understanding CSU's progression.
+
+Our study also uncovered age-specific trends, particularly regarding eosinophil and lymphocyte counts. While eosinophil levels were generally predictive of longer visit durations in the acute phase, this effect was markedly stronger in younger patients (0-2 years) and diminished in older age groups (above 6 years), aligning with previous research that has highlighted age-related variations in eosinophil levels \citep{A2023Serum}.
+
+It has been discovered that acute urticaria patients have lower numbers of CD3+ and CD4+ lymphocytes compared to healthy controls \citep{De-yu2009Determination}. In our study, lymphocyte counts exhibited a dual-phase impact, being beneficial during the acute and preclinical phases but detrimental in the chronic phase. This trend was consistent only in older patients (above 6 years), with minimal effects observed in younger age groups. These age-related variations suggest that laboratory markers may not uniformly predict CSU duration across all age groups, a finding that could inform personalized management strategies based on patient age.
+
+
+In conclusion, our SHAP analysis both validates and extends previous knowledge of CSU biomarkers, particularly by identifying phase-specific and age-specific trends in their predictive power. These findings have the potential to enhance clinical decision-making by providing a more nuanced understanding of how different biomarkers contribute to CSU's disease course across various patient demographics.
+
+
+
+
+
 \section{code availability}\label{code}
 Code for data extraction, model development, and model explanation are available at \url{https://github.com/jabberwockyang/UrticariaPrediction}
 
@@ -438,6 +434,14 @@ Code for data extraction, model development, and model explanation are available
 %% appendix sections are then done as normal sections
 \appendix
 \section{Supplementary data}\label{sec:supplementary}
+\href{run:supplementary/DBschema.dbml}{Supplementary file 1: Database schema}
+\label{file:DBschema}
+
+\href{run:data.sql}{Supplementary file 2: SQL queries for time independent extraction}
+\label{file:sql}
+
+\href{run:data_time.sql}{Supplementary file 3: SQL queries for time dependent extraction}
+\label{file:sql_time}
 
 \href{run:supplementary/latex_data_description_table_train_test_origi.csv}{Supplementary Table1: Comparison of the characteristic between the training set and external testing set data in the time independent dataset}
 \label{tab:train_test_origi}

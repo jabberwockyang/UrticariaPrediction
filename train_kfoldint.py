@@ -29,8 +29,8 @@ def trainbyhyperparam(datapath,
     functionparmas.pop('preprocessor')
 
     # checked processed data
-    if os.path.exists(f'{log_dir}/{experiment_id}/ppshape.jsonl'):
-        with open(f'{log_dir}/{experiment_id}/ppshape.jsonl', 'r') as f:
+    if os.path.exists(f'{log_dir}/{experiment_id}/hyperparameters.jsonl'):
+        with open(f'{log_dir}/{experiment_id}/hyperparameters.jsonl', 'r') as f:
             for line in f:
                 if json.loads(line)['sequence_id'] == sequence_id:
                     logger.warning(f"sequence_id {sequence_id} already processed")

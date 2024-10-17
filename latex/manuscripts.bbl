@@ -1,4 +1,4 @@
-\begin{thebibliography}{30}
+\begin{thebibliography}{28}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\href}[2]{#2}
@@ -46,12 +46,6 @@
 \newblock \bibinfo{title}{Determination of peripheral blood t lymphocytes and their subsets in patients with acute urticaria}.
 \newblock \bibinfo{journal}{China Medical Abstract of Dermatology} .
 %Type = Article
-\bibitem[{Dressler et~al.(2018)Dressler, Werner, Eisert, Zuberbier, Nast and Maurer}]{Dressler2018Chronic}
-\bibinfo{author}{Dressler, C.}, \bibinfo{author}{Werner, R.}, \bibinfo{author}{Eisert, L.}, \bibinfo{author}{Zuberbier, T.}, \bibinfo{author}{Nast, A.}, \bibinfo{author}{Maurer, M.}, \bibinfo{year}{2018}.
-\newblock \bibinfo{title}{Chronic inducible urticaria: A systematic review of treatment options}.
-\newblock \bibinfo{journal}{The Journal of Allergy and Clinical Immunology} \bibinfo{volume}{141}, \bibinfo{pages}{1726--1734}.
-\newblock \DOIprefix\doi{10.1016/j.jaci.2018.01.031}.
-%Type = Article
 \bibitem[{Dunkley and Jawad(2003)}]{Dunkley2003Thyroid}
 \bibinfo{author}{Dunkley, L.}, \bibinfo{author}{Jawad, A.S.M.}, \bibinfo{year}{2003}.
 \newblock \bibinfo{title}{Thyroid function in chronic urticaria and angio-oedema.}
@@ -75,12 +69,6 @@
 \newblock \bibinfo{title}{High waist circumference rather than high body mass index may be a predictive risk factor for the longer disease duration of chronic spontaneous urticaria}.
 \newblock \bibinfo{journal}{Scientific Reports} \bibinfo{volume}{11}.
 \newblock \DOIprefix\doi{10.1038/s41598-021-81484-1}.
-%Type = Article
-\bibitem[{Kolkhir et~al.(2021)Kolkhir, Altrichter, Asero, Daschner, Ferrer, Giménez-Arnau, Hawro, Jakob, Kinaciyan, Kromminga, Konstantinou, Makris, Metz, Skov, Staubach, Sussman, jun Zhang and Maurer}]{Kolkhir2021Autoimmune}
-\bibinfo{author}{Kolkhir, P.}, \bibinfo{author}{Altrichter, S.}, \bibinfo{author}{Asero, R.}, \bibinfo{author}{Daschner, A.}, \bibinfo{author}{Ferrer, M.}, \bibinfo{author}{Giménez-Arnau, A.}, \bibinfo{author}{Hawro, T.}, \bibinfo{author}{Jakob, T.}, \bibinfo{author}{Kinaciyan, T.}, \bibinfo{author}{Kromminga, A.}, \bibinfo{author}{Konstantinou, G.}, \bibinfo{author}{Makris, M.}, \bibinfo{author}{Metz, M.}, \bibinfo{author}{Skov, P.}, \bibinfo{author}{Staubach, P.}, \bibinfo{author}{Sussman, G.}, \bibinfo{author}{jun Zhang, K.}, \bibinfo{author}{Maurer, M.}, \bibinfo{year}{2021}.
-\newblock \bibinfo{title}{Autoimmune diseases are linked to type iib autoimmune chronic spontaneous urticaria}.
-\newblock \bibinfo{journal}{Allergy, Asthma \& Immunology Research} \bibinfo{volume}{13}, \bibinfo{pages}{545--559}.
-\newblock \DOIprefix\doi{10.4168/aair.2021.13.4.545}.
 %Type = Article
 \bibitem[{Kolkhir et~al.(2019)Kolkhir, Church, Altrichter, Skov, Hawro, Frischbutter, Metz and Maurer}]{Kolkhir2019Eosinopenia}
 \bibinfo{author}{Kolkhir, P.}, \bibinfo{author}{Church, M.}, \bibinfo{author}{Altrichter, S.}, \bibinfo{author}{Skov, P.}, \bibinfo{author}{Hawro, T.}, \bibinfo{author}{Frischbutter, S.}, \bibinfo{author}{Metz, M.}, \bibinfo{author}{Maurer, M.}, \bibinfo{year}{2019}.
