@@ -337,4 +337,17 @@ cd ~/UrticariaPrediction
 nnictl create --config config_nni9_2.yml --port 8081
 ```
 
-sxau4nof
+sxau4nof  search space 4
+
+# 241017 further optimization on regression performance using TPE on mannually written searchspace
+```bash
+cd ~/UrticariaPrediction
+nnictl create --config config_nni9_2.yml --port 8081
+```
+43KOTlpS search space 5
+
+```bash
+cd ~/UrticariaPrediction
+nnictl create --config config_nni10_2.yml --port 8081
+```
+D8NuhY3k search space 5
