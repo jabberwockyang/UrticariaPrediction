@@ -1,0 +1,23 @@
+{
+    "model": {"_type": "choice", "_value": ["xgboost"]},
+    
+    "scale_factor": {"_type": "choice", "_value": [1,2, 5]},
+    "log_transform": {"_type": "choice", "_value": ["None","log2"]},
+    "row_na_threshold" : {"_type": "choice", "_value": [0.1635,0.2]},
+    "col_na_threshold" : {"_type": "choice", "_value": [0.0016]},
+  
+    "max_depth": {"_type": "choice", "_value": [2]},
+    "min_child_weight": {"_type": "choice", "_value": [3.0549513175101266]},
+    "gamma": {"_type": "choice", "_value": [5.75]},
+    "colsample_bytree": {"_type": "choice", "_value": [0.01,0.5,1]},
+    "colsample_bylevel": {"_type": "choice", "_value": [0.01,0.5,1]},
+    "colsample_bynode": {"_type": "choice", "_value": [0.01,0.5,1]},
+    "learning_rate": {"_type": "choice", "_value": [0.1]},
+    "alpha": {"_type": "choice", "_value": [0.1, 1, 10]},
+    "lambda": {"_type": "choice", "_value": [0.1, 1, 10]},
+    "objective": {"_type": "choice", "_value": ["reg:squaredlogerror"]},
+    "num_boost_round": {"_type": "choice", "_value": [400]},
+    "custom_metric": {"_type": "choice", "_value": ["default"]},
+    "early_stopping_rounds": {"_type": "choice", "_value": [10000]}
+  }
+  

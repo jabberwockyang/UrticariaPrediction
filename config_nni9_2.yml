@@ -1,0 +1,11 @@
+experimentName: xgboost_tuning
+trialConcurrency: 5
+maxTrialNumber: 3600
+trainingService:
+  platform: local
+searchSpaceFile: search_space_xgboost4.json
+tuner:
+  name: GridSearch
+trialCommand: python3 train_nni.py --filepath output/dataforxgboost_timeseries.csv --target_column VisitDuration --exp_dir nni9_explog --groupingparams groupingsetting.yml
+trialCodeDirectory: .
+experimentWorkingDirectory: nni9_explog

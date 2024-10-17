@@ -185,7 +185,12 @@ cd ~/UrticariaPrediction
 cp mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
 python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid zLCPym1l
 ```
-
+xgboost-timeseries nni9_explog/sxau4nof manuallly written search space
+```bash
+cd ~/UrticariaPrediction
+cp mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
+python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid sxau4nof
+```
 
 
 xgboost-normal nni10_explog/dTBCXYGr
@@ -324,3 +329,12 @@ multicolinearity:
 https://datascience.stackexchange.com/questions/12554/does-xgboost-handle-multicollinearity-by-itself
 https://github.com/shap/shap/issues/1120
 https://github.com/shap/shap/issues/288
+
+
+# 241017 optimization on regression performance using grid search on mannually written searchspace
+```bash
+cd ~/UrticariaPrediction
+nnictl create --config config_nni9_2.yml --port 8081
+```
+
+sxau4nof

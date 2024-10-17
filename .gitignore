@@ -1,8 +1,9 @@
 # only ignore nni1_explog in the root directory .gitignore file   
 /nni*_explog/*/log
 /nni*_explog/*/trials
+/nni*_explog/*/environments
 /nni*_explog/*/*.jsonl
-kde_plots*
+/nni*_explog/_latest
 shap_plots*
 /kfoldint_explog/*top*_gr1
 .vscode
