@@ -51,7 +51,7 @@ def trainbyhyperparam(datapath,
                                                                             pick_key= subsetlabel,
                                                                             topn=topn)
     
-    if X.shape[0] == 0:
+    if X.shape[0] < 800:
         logger.warning(f"No data for {subsetlabel}")
         return
        
@@ -216,7 +216,7 @@ if __name__ == "__main__":
                                                                 pp)
     # 向 NNI 报告结果
     nni.report_final_result({
-        'default': avg_42_roc_auc,
+        'default': avg_loss,
         'loss': avg_loss,
         'avg_42_roc_auc' : avg_42_roc_auc,
         'avg_100_roc_auc' : avg_100_roc_auc

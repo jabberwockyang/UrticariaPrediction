@@ -7,7 +7,7 @@ searchSpaceFile: search_space.json
 tuner:
   name: TPE
   classArgs:
-    optimize_mode: maximize
+    optimize_mode: minimize
 trialCommand: python3 train_nni.py --filepath output/dataforxgboost_timeseries.csv --target_column VisitDuration --exp_dir nni9_explog --groupingparams groupingsetting.yml
 trialCodeDirectory: .
 experimentWorkingDirectory: nni9_explog

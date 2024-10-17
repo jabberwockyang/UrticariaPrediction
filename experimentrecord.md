@@ -53,6 +53,21 @@ cp search_space_xgboost.json search_space.json
 cp /root/UrticariaPrediction/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
 nnictl create --config config_nni9.yml --port 8081
 ```
+xgboost-timeseries  nni9_explog/HDQAuzN8 new search space2
+```bash
+cd ~/UrticariaPrediction
+cp search_space_xgboost2.json search_space.json
+cp /root/UrticariaPrediction/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
+nnictl create --config config_nni9.yml --port 8081
+```
+xgboost-timeseries  nni9_explog/zLCPym1l new search space2 with data less than  800 failed
+```bash
+cd ~/UrticariaPrediction
+cp search_space_xgboost2.json search_space.json
+cp /root/UrticariaPrediction/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
+nnictl create --config config_nni9.yml --port 8081
+```
+
 
 xgboost-normal nni10_explog/dTBCXYGr
 ```bash
@@ -171,12 +186,6 @@ cp mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/datafor
 python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid zLCPym1l
 ```
 
-xgboost-timeseries nni9_explog/nK29TFO3 with new but restricted search space and fail when data < 800 and scaling y disabeld
-```bash
-cd ~/UrticariaPrediction
-cp mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
-python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid nK29TFO3
-```
 
 
 xgboost-normal nni10_explog/dTBCXYGr
