@@ -1,17 +1,88 @@
 import pandas as pd
 import numpy as np
 from scipy import stats
-from utils import load_data, check_y
-from joint_distribution import plot_gaussianmixture
-from preprocessor import Preprocessor, FeatureFilter
-from train_shap import get_model_data_for_shap
-from best_params import opendb, get_params_by_sequence_id
+
 import yaml
 from loguru import logger
 import json
 import xgboost as xgb
 import os
+import seaborn as sns
 from matplotlib import pyplot as plt
+from joint_distribution import plot_gaussianmixture
+
+from utils import custom_sort_key, load_data, check_y, reverse_y_scaling
+from preprocessor import Preprocessor, get_asso_feat
+from train_shap import get_model_data_for_shap
+
+
+def plot_kde_distribution(X, y , exposure):
+    # 如果用户选择保存图像，则检查是否已经存在
+    col2 = 'VisitDuration'
+
+    new_df = pd.DataFrame({
+        exposure: X[exposure],
+        col2: y
+    })
+    # 转换所有列为numerical 如果无法转换 coerce to NaN and drop
+    new_df = new_df.apply(pd.to_numeric, errors='coerce')
+    new_df.replace([np.inf, -np.inf], np.nan, inplace=True)
+    new_df.dropna(inplace=True)
+    # 判断是否任何一列全为空值
+    if new_df[exposure].isnull().all() or new_df[col2].isnull().all() or len(new_df) == 0:
+        logger.debug(f"No data for {exposure} vs {col2}, saving an empty plot.")
+        # 如果两列数据全为空值，则不绘制图形 
+        plt.figure()
+        plt.title(f'KDE plot:  {exposure} vs {col2}')
+
+        return plt.gcf()
+    else:
+        new_df = new_df.assign(VisitDuration_g = pd.cut(new_df[col2], 
+                                              bins=[0, 42, 100, 365, 100000], 
+                                              labels=['<6w', '6w-3m', '3m-1y', '>1y'],
+                                              ordered = True, right =False))
+        fig, ax = plt.subplots()
+        for key, grp in new_df.groupby('VisitDuration_g'):
+            if len(grp[exposure]) > 1 and pd.api.types.is_numeric_dtype(grp[exposure]) and not np.var(grp[exposure])  < 1e-6:
+                
+                # ax = grp[exposure].plot(kind='kde', ax=ax, label=key)
+                # grp_df = pd.DataFrame(grp[exposure])
+                sns.kdeplot(data=grp, x=exposure, ax=ax, label=key, common_norm= False)
+                
+            else:
+                logger.debug(f"Group {key} is empty or has no variability. Skipping.")
+        ax.legend()
+        ax.set_xlabel(f"min-max scaled {exposure}")
+
+        plt.title(f'KDE plot:  {exposure} vs {col2}')
+        return fig
+    
+
+
+def plot_kde_in_group(X, y, kdedir, pp, name, show=False):
+    if not os.path.exists(kdedir):
+        os.makedirs(kdedir)
+    for featgroup in pp.feature_filter.features_list:
+        featlist = get_asso_feat(featgroup, X.columns)
+        # sort featlist by order .split('_')[-1] preclinicals, acute, chronic 
+        sorted_list = sorted(featlist, key=custom_sort_key)
+        logger.debug(f"Plotting KDE for {featgroup} features: {sorted_list}")
+        figs = [plot_kde_distribution(X, y, feat) for feat in sorted_list]
+            
+        # make a big plot with subplots for each feature
+        fig, axs = plt.subplots(1, 3, figsize=(15, 5))
+        for i, feat in enumerate(sorted_list[:3]):  # Only take the first three features
+            figs[i].canvas.draw()  # 渲染figure
+            # 将每个子图的内容画到axs中的对应位置
+            axs[i].imshow(figs[i].canvas.buffer_rgba())  # 将单个图像画到子图中
+            axs[i].axis('off')  # 隐藏坐标轴
+            axs[i].set_title(feat)  # 设置子图标题
+        plt.tight_layout()
+        if show:
+            plt.show()
+        else:
+            plt.savefig(os.path.join(kdedir, f'{featgroup}_{name}.png'))
+        plt.clf()
 
 def get_data_for_des(model, filepath, parmas, 
                       row_na_threshold,
@@ -24,7 +95,7 @@ def get_data_for_des(model, filepath, parmas,
     # 加载数据
     data = load_data(filepath)
     # 预处理数据
-    X, y, _, _, _ = preprocessor.preprocess(data, 
+    X, y, _, _, _ = preprocessor.preprocess(data,  # the unscaled version of data
                                 1,
                                 None,
                                 row_na_threshold,
@@ -33,7 +104,7 @@ def get_data_for_des(model, filepath, parmas,
                                 common_blood_test= True,
                                 disable_scalingX= True
                                 )
-    Xs, ys, _, _, _ = preprocessor.preprocess(data, 
+    Xs, ys, _, _, _ = preprocessor.preprocess(data, # the scaled version of data
                                 scale_factor,
                                 log_transform,
                                 row_na_threshold,
@@ -41,13 +112,16 @@ def get_data_for_des(model, filepath, parmas,
                                 pick_key= pick_key,
                                 common_blood_test= True
                                 )
-    # predict 
-
+    # predict with scaled data get y_pred_by_xs
     dtest = xgb.DMatrix(Xs, label=ys)
-    y_pred = model.predict(dtest)
-    okindex = check_y(ys, y_pred, k, randomrate)
-    X = X[okindex]
-    y = y[okindex]
+    y_pred_by_xs = model.predict(dtest)
+
+    reversed_ys = reverse_y_scaling(ys, scale_factor, log_transform) # reverse y scaling
+    reversed_ys_pred = reverse_y_scaling(y_pred_by_xs, scale_factor, log_transform) # reverse y scaling
+    okindex = check_y(reversed_ys, reversed_ys_pred, k, randomrate) # checky receive original data and return index of ok data
+    X = X[okindex] # subset original X with okindex
+    y = y[okindex] # subset original y with okindex
+    # return X not scaled, y not scaled
     return X, y
 
 def load_sorted_varlist():
@@ -78,15 +152,15 @@ def getranking(var, sortedvarlist):
     
 
 
-def prepare_params(config):
-    with open(config, 'r') as file:
-        config = yaml.safe_load(file)
+# def prepare_params(config):
+#     with open(config, 'r') as file:
+#         config = yaml.safe_load(file)
 
-    # 读取nni实验中最佳超参数
-    expidfolder = config['bestfolder']
-    bestexpid = expidfolder.split('/')[-1]
-    sequenceid = config['bestsequenceid']
-    return bestexpid, sequenceid
+#     # 读取nni实验中最佳超参数
+#     expidfolder = config['bestfolder']
+#     bestexpid = expidfolder.split('/')[-1]
+#     sequenceid = config['bestsequenceid']
+#     return bestexpid, sequenceid
 
 
 
@@ -115,8 +189,8 @@ def generate_summary_statistics(df_all, df_split1, df_split2, binary_threshold=2
     summary = {}
     columns = df_all.columns
 
-    def format_summary(mean, std):
-        return {"mean": mean, "std": std}
+    def format_summary(mean, std,median, q1, q3):
+        return {"mean": mean, "std": std, "median": median, "q1": q1, "q3": q3}
 
     for col in columns:
         if col == "index":
@@ -138,8 +212,8 @@ def generate_summary_statistics(df_all, df_split1, df_split2, binary_threshold=2
         else:
             # 连续变量，使用t检验
             t_stat, p_val = stats.ttest_ind(df_split1[col].dropna(), df_split2[col].dropna())
-            summary[col]["split1"] = format_summary(df_split1[col].mean(), df_split1[col].std())
-            summary[col]["split2"] = format_summary(df_split2[col].mean(), df_split2[col].std())
+            summary[col]["split1"] = format_summary(df_split1[col].mean(), df_split1[col].std(), df_split1[col].median(), df_split1[col].quantile(0.25), df_split1[col].quantile(0.75))
+            summary[col]["split2"] = format_summary(df_split2[col].mean(), df_split2[col].std(), df_split2[col].median(), df_split2[col].quantile(0.25), df_split2[col].quantile(0.75))
         summary[col]["p_value"] = p_val
     
     summary['N'] = {
@@ -193,7 +267,7 @@ def json_to_csv(summary, dataset_name1="Dataset 1", dataset_name2="Dataset 2"):
         var = " ".join(splitedvar)
         csv_table += f"{var},"
         if "mean" in stats["split1"]:
-            # 连续变量
+            # 连续变量 Continuous values were presented as median [interquartile range].
             csv_table += f'{stats["split1"]["mean"]:.2f} ± {stats["split1"]["std"]:.2f},'
             csv_table += f'{stats["split2"]["mean"]:.2f} ± {stats["split2"]["std"]:.2f},'
         else:
@@ -250,7 +324,9 @@ def json_to_latex(summary, dataset_name1="Dataset 1", dataset_name2="Dataset 2")
     return latex_table
 
 
-def calculatecolinearity(df, set_):
+def calculatecolinearity(df, corrdir, set_):
+    if not os.path.exists(corrdir):
+        os.makedirs(corrdir)
     from scipy.stats import spearmanr
 
     if set_ == 'origi':
@@ -267,14 +343,14 @@ def calculatecolinearity(df, set_):
                 corr, p_value = spearmanr(df[col1], df[col2])
                 spearmancorr.append({'var1': col1, 'var2': col2, 'correlation': corr, 'p_value': p_value, 'significant': p_value < 0.01 and abs(corr) > 0.75})
                 
-                if p_value < 0.01 and abs(corr) > 0.75:
+                if p_value < 0.01 and abs(corr) > 0.5:
                     gaus_fig = plot_gaussianmixture(df, col1, col2)
-                    gaus_fig.savefig(f"descriptoontable/gaussian_{col1}_{col2}.png")
+                    gaus_fig.savefig(f"{corrdir}/gaussian_{col1}_{col2}.png")
                     plt.clf()
 
         # 将结果转换为 DataFrame 并保存
         spearmancorr = pd.DataFrame(spearmancorr)
-        spearmancorr.to_csv("descriptoontable/spearman_correlation_origi.csv")
+        spearmancorr.to_csv(f"{corrdir}/spearman_correlation_origi.csv")
 
         
     if set_ == 'time':
@@ -292,21 +368,23 @@ def calculatecolinearity(df, set_):
                     corr, p_value = spearmanr(df_group[col1], df_group[col2])
                     spearmanr_corr.append({'var1': col1, 'var2': col2, 'correlation': corr, 'p_value': p_value, 'significant': p_value < 0.01 and abs(corr) > 0.75})
 
-                    if p_value < 0.01 and abs(corr) > 0.75:
+                    if p_value < 0.01 and abs(corr) > 0.5:
                         gaus_fig = plot_gaussianmixture(df_group, col1, col2)
-                        gaus_fig.savefig(f"descriptoontable/gaussian_{col1}_{col2}.png")
+                        gaus_fig.savefig(f"{corrdir}/gaussian_{col1}_{col2}.png")
                         plt.clf()
 
         spearmanr_corr = pd.DataFrame(spearmanr_corr)
-        spearmanr_corr.to_csv("descriptoontable/spearman_correlation_time.csv")
+        spearmanr_corr.to_csv(F"{corrdir}/spearman_correlation_time.csv")
 
 
 
-def plot_outcome(df, set_):
+def plot_outcome(df, tabledir, set_):
     # calculate percentage of df['Outcome'] under 42 100 365
-    per42 = df[df['Outcome'] < 42].shape[0] / df.shape[0]
-    per100 = df[df['Outcome'] < 100].shape[0] / df.shape[0]
-    per365 = df[df['Outcome'] < 365].shape[0] / df.shape[0]
+    perlessthan42 = df[df['Outcome'] < 42].shape[0] / df.shape[0]
+    per42_100 = df[(df['Outcome'] >= 42) & (df['Outcome'] < 100)].shape[0] / df.shape[0]
+    per100_365 = df[(df['Outcome'] >= 100) & (df['Outcome'] < 365)].shape[0] / df.shape[0]
+    per365_5y = df[(df['Outcome'] >= 365) & (df['Outcome'] < 1825)].shape[0] / df.shape[0]
+    permorethan5y = df[df['Outcome'] >= 1825].shape[0] / df.shape[0]
 
     # plot histogram of outcome
     fig, ax = plt.subplots()
@@ -317,11 +395,12 @@ def plot_outcome(df, set_):
     ax.axvline(x=42, color='red', linestyle='--', label='42 days')
     ax.axvline(x=100, color='green', linestyle='--', label='100 days')
     ax.axvline(x=365, color='purple', linestyle='--', label='365 days')
+    ax.axvline(x=1825, color='orange', linestyle='--', label='5 years')
     ax.legend(
-        title=f"Percentage of Outcome < threshold\n< 42 days: {per42:.2f}\n< 100 days: {per100:.2f}\n< 365 days: {per365:.2f}",
+        title=f"Percentage of Outcome \n < 6w: {perlessthan42:.2f} \n 6w-3m: {per42_100:.2f} \n 3m-1y: {per100_365:.2f} \n 1-5 years: {per365_5y:.2f} \n > 5 years: {permorethan5y:.2f}",
         loc='upper right'
     )
-    plt.savefig(f"descriptoontable/outcome_distribution_{set_}.png")
+    plt.savefig(f"{tabledir}/outcome_distribution_{set_}.png")
         
 
 
@@ -331,55 +410,20 @@ if __name__ == '__main__':
         'good_outcome_poor_outcome_time': 'Comparison of the characteristics between patients with good and poor outcomes in the time dependent dataset \\\ continuous variables are presented as mean ± standard deviation, categorical variables are presented as number (percentage) \\\ good outcome is defined as visit duration < 100 days, poor outcome is defined as visit duration $\geq$ 100 days',
         'train_test_origi': 'Comparison of the characteristics between the training and testing datasets in the time independent dataset \\\ continuous variables are presented as mean ± standard deviation, categorical variables are presented as number (percentage)',
         'train_test_time': 'Comparison of the characteristics between the training and testing datasets in the time dependent dataset \\\ continuous variables are presented as mean ± standard deviation, categorical variables are presented as number (percentage)'
-
     }
+
     # nni9/beA3o82D 1112
-    for config_plot, config_train, set_ in [('plot_distribution_normal.yaml','trainshap_normal.yaml','origi'),
-                          ('plot_distribution_time.yaml','trainshap_timeseries.yaml', 'time')]:
-        logger.info(f"Processing {config_plot} with {set_}")
-        bestexpid, sequenceid = prepare_params(config_plot)
+    tabledir = f"data_description_tables"
+    if not os.path.exists(tabledir):
+        os.makedirs(tabledir)
+
+    for bestexpid, sequenceid, config_train, set_ in [('dTBCXYGr', 429, 'trainshap_normal.yaml','origi'),
+                                                      ('beA3o82D', 1112, 'trainshap_timeseries.yaml', 'time')]:
+        logger.info(f"Processing {bestexpid} {sequenceid} with {set_}")
+        
         fmodel, params, pp, fp= get_model_data_for_shap(config_train, bestexpid, sequenceid)
 
-        # rowna = 0.3
-        # k = 100
-        # X, y = get_data_for_des(fmodel, fp, params.copy(), 
-        #                         rowna,
-        #                         pp, k = k, randomrate= 0.2,
-        #                         pick_key= 'all')
-        # logger.info(f"X shape: {X.shape}")
-        
-        # df = pd.DataFrame(X)
-        # df['Outcome'] = y
-
-        # df_all, good_outcome, poor_outcome ,train_df, test_df= split_data(df, outcome_col='Outcome')
-        # 生成统计总结
-        # logger.info("outcome summary")
-        # status = 'outcome'
-        # if not os.path.exists('descriptoontable'):
-        #     os.makedirs('descriptoontable')
-
-        # summary = generate_summary_statistics(df_all, good_outcome, poor_outcome)
-        # latex_code = json_to_latex(summary, dataset_name1="Good Outcome", dataset_name2="Poor Outcome")
-        # with open (f"descriptoontable/latex_data_description_table_outcome_{set_}.tex", "w") as f:
-        #     f.write(latex_code)
-
-        # csvtables = json_to_csv(summary, dataset_name1="Good Outcome", dataset_name2="Poor Outcome")
-        # with open (f"descriptoontable/csv_data_description_table_outcome_{set_}.csv", "w") as f:
-        #     f.write(csvtables)
-
-        # logger.info("train test summary")
-        # status = 'train_test'
-
-        # summary = generate_summary_statistics(df_all, train_df, test_df)
-        # latex_code = json_to_latex(summary, dataset_name1="Train", dataset_name2="Test")
-        # with open (f"descriptoontable/latex_data_description_table_train_test_{set_}.tex", "w") as f:
-        #     f.write(latex_code)
-
-        # csvtables = json_to_csv(summary, dataset_name1="Train", dataset_name2="Test")
-        # with open (f"descriptoontable/csv_data_description_table_train_test_{set_}.csv", "w") as f:
-        #     f.write(csvtables)
-
-        rowna = 0.5
+        rowna = 0.3
         k = 100
         X, y = get_data_for_des(fmodel, fp, params.copy(), 
                                 rowna,
@@ -390,5 +434,63 @@ if __name__ == '__main__':
         df = pd.DataFrame(X)
         df['Outcome'] = y
 
-        # calculatecolinearity(df, set_)
-        plot_outcome(df, set_)
+        def generate_description():
+            df_all, good_outcome, poor_outcome ,train_df, test_df= split_data(df, outcome_col='Outcome')
+            # 生成统计总结
+            logger.info("outcome summary")
+            status = 'outcome'
+
+            summary = generate_summary_statistics(df_all, good_outcome, poor_outcome)
+            latex_code = json_to_latex(summary, dataset_name1="Good Outcome", dataset_name2="Poor Outcome")
+            with open (f"{tabledir}/latex_data_description_table_outcome_{set_}.tex", "w") as f:
+                f.write(latex_code)
+
+            csvtables = json_to_csv(summary, dataset_name1="Good Outcome", dataset_name2="Poor Outcome")
+            with open (f"{tabledir}/csv_data_description_table_outcome_{set_}.csv", "w") as f:
+                f.write(csvtables)
+
+            logger.info("train test summary")
+            status = 'train_test'
+
+            summary = generate_summary_statistics(df_all, train_df, test_df)
+            latex_code = json_to_latex(summary, dataset_name1="Train", dataset_name2="Test")
+            with open (f"{tabledir}/latex_data_description_table_train_test_{set_}.tex", "w") as f:
+                f.write(latex_code)
+
+            csvtables = json_to_csv(summary, dataset_name1="Train", dataset_name2="Test")
+            with open (f"{tabledir}/csv_data_description_table_train_test_{set_}.csv", "w") as f:
+                f.write(csvtables)
+
+            plot_outcome(df, tabledir, set_)
+
+
+        generate_description()
+
+
+        rowna = 0.5
+        k = 100
+        corrdir = f'correlation_plots_all_rowna{rowna}_k{k}_{set_}'
+        corrdir = os.path.join(tabledir, corrdir)
+        X, y = get_data_for_des(fmodel, fp, params.copy(), 
+                                rowna,
+                                pp, k = k, randomrate= 0.2,
+                                pick_key= 'all')
+        logger.info(f"X shape: {X.shape}")
+
+        df = pd.DataFrame(X)
+        df['Outcome'] = y
+
+        calculatecolinearity(df, corrdir, set_)
+        
+
+        if set_ == 'time':
+            rowna = 0.5
+            k = 100
+            kdedir = f'kde_plots_all_rowna{rowna}_k{k}'
+            kdedir = os.path.join(tabledir, kdedir)
+            X, y = get_data_for_des(fmodel, fp, params.copy(), 
+                                    rowna, 
+                                    pp, k = k, randomrate= 0.2,
+                                    pick_key= 'all')
+            logger.debug(f"Data shape: {X.shape}, {y.shape}")
+            plot_kde_in_group(X, y, kdedir, pp, 'all')

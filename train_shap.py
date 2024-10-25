@@ -5,7 +5,7 @@ import yaml
 from loguru import logger
    
 from best_params import opendb, get_params_by_sequence_id
-from utils import load_data, custom_eval_roc_auc_factory,check_y, reverse_y_scaling
+from utils import load_data, custom_eval_roc_auc_factory, reverse_y_scaling
 from preprocessor import Preprocessor, FeatureFilter
 
 from sklearn.ensemble import RandomForestRegressor
@@ -116,34 +116,6 @@ def load_config(config_path):
         train_config = config['train']
     return config, nni_config, train_config
 
-def get_data_for_Shap(model, filepath, parmas, 
-                      row_na_threshold,
-                      preprocessor: Preprocessor, k, randomrate, pick_key):
-    # filter x, y for shap explainer
-    scale_factor = parmas['scale_factor'] # 用于线性缩放目标变量
-    log_transform = parmas['log_transform'] # 是否对目标变量进行对数变换
-    col_na_threshold = parmas['col_na_threshold'] # 用于删除缺失值过多的列
-
-    # 加载数据
-    data = load_data(filepath)
-    # 预处理数据
-    X, y, sampleweight, _, _ = preprocessor.preprocess(data, 
-                                scale_factor,
-                                log_transform,
-                                row_na_threshold,
-                                col_na_threshold,
-                                pick_key= pick_key,
-                                common_blood_test= True
-                                )
-    
-    # predict 
-
-    dtest = xgb.DMatrix(X, label=y)
-    y_pred = model.predict(dtest)
-    okindex = check_y(y, y_pred, k, randomrate)
-    X = X[okindex]
-    y = y[okindex]
-    return X, y
 
 
 def get_model_data_for_shap(config, expid, sequenceid):
@@ -188,8 +160,13 @@ class ModelReversingY():
         self.scale_factor = params['scale_factor']
         self.log_transform = params['log_transform']
     def predict(self, X_test):
-        dtest = xgb.DMatrix(X_test)
-        y = self.model.predict(dtest)
+        # RECEIVED SCALED X AND RETURN REVERSED Y
+        model_type = self.params['model']
+        if model_type == "xgboost":
+            dtest = xgb.DMatrix(X_test)
+            y = self.model.predict(dtest)
+        else:
+            y = self.model.predict(X_test)
         ry = reverse_y_scaling(y, self.scale_factor, self.log_transform)
         return ry
 

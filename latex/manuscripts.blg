@@ -4,44 +4,44 @@ The top-level auxiliary file: manuscripts.aux
 The style file: elsarticle-harv.bst
 Database file #1: references.bib
 Reallocated singl_function (elt_size=4) to 100 items from 50.
-You've used 28 entries,
+You've used 23 entries,
             2990 wiz_defined-function locations,
-            838 strings with 13904 characters,
-and the built_in function-call counts, 24163 in all, are:
-= -- 1603
-> -- 1552
-< -- 7
-+ -- 595
-- -- 561
-* -- 3046
-:= -- 3613
-add.period$ -- 104
-call.type$ -- 28
-change.case$ -- 327
-chr.to.int$ -- 28
-cite$ -- 28
-duplicate$ -- 1585
-empty$ -- 1398
-format.name$ -- 651
-if$ -- 4278
-int.to.chr$ -- 1
+            800 strings with 12322 characters,
+and the built_in function-call counts, 20763 in all, are:
+= -- 1358
+> -- 1382
+< -- 6
++ -- 531
+- -- 501
+* -- 2657
+:= -- 3099
+add.period$ -- 84
+call.type$ -- 23
+change.case$ -- 282
+chr.to.int$ -- 22
+cite$ -- 23
+duplicate$ -- 1333
+empty$ -- 1174
+format.name$ -- 578
+if$ -- 3658
+int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 366
-newline$ -- 175
-num.names$ -- 112
-pop$ -- 578
+missing$ -- 315
+newline$ -- 145
+num.names$ -- 92
+pop$ -- 492
 preamble$ -- 1
-purify$ -- 299
+purify$ -- 259
 quote$ -- 0
-skip$ -- 397
+skip$ -- 321
 stack$ -- 0
-substring$ -- 641
-swap$ -- 1385
+substring$ -- 563
+swap$ -- 1199
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 252
+type$ -- 207
 warning$ -- 0
-while$ -- 107
+while$ -- 91
 width$ -- 0
-write$ -- 444
+write$ -- 364

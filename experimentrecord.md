@@ -67,6 +67,19 @@ cp search_space_xgboost2.json search_space.json
 cp /root/UrticariaPrediction/mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
 nnictl create --config config_nni9.yml --port 8081
 ```
+### 241017 optimization on regression performance using grid search on mannually written searchspace  search space 4
+```bash
+cd ~/UrticariaPrediction
+nnictl create --config config_nni9_2.yml --port 8081
+```
+sxau4nof  search space 4
+
+### 241017 further optimization on regression performance using TPE on mannually written searchspace  search space 5
+```bash
+cd ~/UrticariaPrediction
+nnictl create --config config_nni9_2.yml --port 8081
+```
+43KOTlpS search space 5
 
 
 xgboost-normal nni10_explog/dTBCXYGr
@@ -76,6 +89,13 @@ cp search_space_xgboost.json search_space.json
 cp /root/UrticariaPrediction/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
 nnictl create --config config_nni10.yml --port 8081
 ```
+### 241017 further optimization on regression performance using TPE on mannually written searchspace  search space 5
+```bash
+cd ~/UrticariaPrediction
+nnictl create --config config_nni10_2.yml --port 8081
+```
+D8NuhY3k search space 5
+
 
 rf-timeseries nni9_explog/1aTxj7zc
 ```bash
@@ -185,12 +205,21 @@ cd ~/UrticariaPrediction
 cp mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
 python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid zLCPym1l
 ```
-xgboost-timeseries nni9_explog/sxau4nof manuallly written search space
+xgboost-timeseries nni9_explog/sxau4nof manuallly written search space 4
 ```bash
 cd ~/UrticariaPrediction
 cp mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
 python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid sxau4nof
 ```
+xgboost-timeseries nni9_explog/43KOTlpS manuallly written search space 5
+default minimize
+```bash
+cd ~/UrticariaPrediction
+cp mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/dataforxgboost_timeseries.csv
+python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid 43KOTlpS
+```
+
+
 
 
 xgboost-normal nni10_explog/dTBCXYGr
@@ -199,6 +228,15 @@ cd ~/UrticariaPrediction
 cp /root/UrticariaPrediction/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
 python3 train_kfoldint.py --config kfoldint_normal.yaml --expfolder nni10_explog --expid dTBCXYGr
 ```
+
+xgboost-normal nni10_explog/D8NuhY3k
+```bash
+cd ~/UrticariaPrediction
+cp /root/UrticariaPrediction/mysql/output-20240929/dataforxgboost_2024-09-29.csv output/dataforxgboost.csv
+python3 train_kfoldint.py --config kfoldint_normal.yaml --expfolder nni10_explog --expid D8NuhY3k
+```
+
+
 
 rf-timeseries nni9_explog/1aTxj7zc
 ```bash
@@ -270,6 +308,7 @@ xgboost-timeseries nni9_explog/beA3o82D
 cd ~/UrticariaPrediction
 python3 runboruta.py --filepath output/dataforxgboost_timeseries.csv --best_db_path nni9_explog/beA3o82D/db/nni.sqlite --best_sequence_id 1112 --target_column VisitDuration --log_dir boruta_explog --groupingparams groupingsetting.yml
 ```
+
 ```bash
 cd ~/UrticariaPrediction
 python3 plot_boruta.py --log_dir boruta_explog --experiment_name e2f721e9
@@ -282,30 +321,64 @@ xgboost-timeseries nni9_explog/beA3o82D
 cd ~/UrticariaPrediction
 python3 train_ext_validation.py --config extval_timeseries.yaml --expid beA3o82D --sequenceid 1112 --featurelistfolder boruta_explog/e2f721e9
 ```
-CWQJ9nlD_1052_1_all
+CWQJ9nlD_1052_1_all roc
 ```bash
 cd ~/UrticariaPrediction
 python3 train_ext_validation.py --config extval_timeseries.yaml --expid CWQJ9nlD --sequenceid 1052 --featurelistfolder boruta_explog/e2f721e9
 ```
+CWQJ9nlD_165_1_all loss
+```bash
+cd ~/UrticariaPrediction
+python3 train_ext_validation.py --config extval_timeseries.yaml --expid CWQJ9nlD --sequenceid 165 --featurelistfolder boruta_explog/e2f721e9
+```
 
-HDQAuzN8_4866_1_all
+HDQAuzN8_528_1_all loss
+```bash
+cd ~/UrticariaPrediction
+python3 train_ext_validation.py --config extval_timeseries.yaml --expid HDQAuzN8 --sequenceid 528 --featurelistfolder boruta_explog/e2f721e9
+```
+HDQAuzN8_4866_1_all roc
 ```bash
 cd ~/UrticariaPrediction
 python3 train_ext_validation.py --config extval_timeseries.yaml --expid HDQAuzN8 --sequenceid 4866 --featurelistfolder boruta_explog/e2f721e9
 ```
+zLCPym1l_314_1_all loss
+```bash
+cd ~/UrticariaPrediction
+python3 train_ext_validation.py --config extval_timeseries.yaml --expid zLCPym1l --sequenceid 314 --featurelistfolder boruta_explog/e2f721e9
+```
 
-zLCPym1l_374_1_all
+zLCPym1l_374_1_all roc
 ```bash
 cd ~/UrticariaPrediction
 python3 train_ext_validation.py --config extval_timeseries.yaml --expid zLCPym1l --sequenceid 374 --featurelistfolder boruta_explog/e2f721e9
 ```
 
 
+sxau4nof_734_1_all loss
 ```bash
 cd ~/UrticariaPrediction
-python3 train_ext_validation.py --config extval_timeseries.yaml --expid 1aTxj7zc --sequenceid 266 --featurelistfolder boruta_explog/e2f721e9
+python3 train_ext_validation.py --config extval_timeseries.yaml --expid sxau4nof --sequenceid 734 --featurelistfolder boruta_explog/e2f721e9
 ```
 
+sxau4nof_735_1_all roc
+```bash
+cd ~/UrticariaPrediction
+python3 train_ext_validation.py --config extval_timeseries.yaml --expid sxau4nof --sequenceid 735 --featurelistfolder boruta_explog/e2f721e9
+```
+
+43KOTlpS_180_1_all loss
+```bash
+cd ~/UrticariaPrediction
+python3 train_ext_validation.py --config extval_timeseries.yaml --expid 43KOTlpS --sequenceid 180 --featurelistfolder boruta_explog/e2f721e9
+```
+
+43KOTlpS_186_1_all roc***
+```bash
+cd ~/UrticariaPrediction
+python3 train_ext_validation.py --config extval_timeseries.yaml --expid 43KOTlpS --sequenceid 186 --featurelistfolder boruta_explog/e2f721e9
+```
+lKesaFNR_31_1_all
 ```bash
 cd ~/UrticariaPrediction
 python3 train_ext_validation.py --config extval_timeseries.yaml --expid lKesaFNR --sequenceid 31 --featurelistfolder boruta_explog/e2f721e9
@@ -330,24 +403,3 @@ https://datascience.stackexchange.com/questions/12554/does-xgboost-handle-multic
 https://github.com/shap/shap/issues/1120
 https://github.com/shap/shap/issues/288
 
-
-# 241017 optimization on regression performance using grid search on mannually written searchspace
-```bash
-cd ~/UrticariaPrediction
-nnictl create --config config_nni9_2.yml --port 8081
-```
-
-sxau4nof  search space 4
-
-# 241017 further optimization on regression performance using TPE on mannually written searchspace
-```bash
-cd ~/UrticariaPrediction
-nnictl create --config config_nni9_2.yml --port 8081
-```
-43KOTlpS search space 5
-
-```bash
-cd ~/UrticariaPrediction
-nnictl create --config config_nni10_2.yml --port 8081
-```
-D8NuhY3k search space 5

@@ -1,7 +1,7 @@
 nni:
   metric_to_optimize: 
     - ["default", "minimize"]
-  number_of_trials: 10
+  number_of_trials: 25
   sequence_id:
 train:
   exp_stp: 'kfoldint_explog'

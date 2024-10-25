@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex manuscripts"] 1729001931.67847 "manuscripts.aux" "manuscripts.bbl" "manuscripts" 1729002308.0894 0
-  "./references.bib" 1728966995.35113 12635 4c5c59c1728d826aa643c529f2c5d25a ""
+["bibtex manuscripts"] 1729823447.98966 "manuscripts.aux" "manuscripts.bbl" "manuscripts" 1729823452.40262 0
+  "./references.bib" 1729577126.69262 14652 32676edf78af364ce568efcdc797d6f4 ""
   "/usr/local/texlive/2024/texmf-dist/bibtex/bst/elsarticle/elsarticle-harv.bst" 1712688483 30002 58b59416722968003776982d370174f4 ""
-  "manuscripts.aux" 1729002307.68482 15770 b0aff78acda517dd735b27329531da48 "pdflatex"
+  "manuscripts.aux" 1729823451.98406 17948 39c4b98fd713fe80b3c7c2b9ec450d3a "pdflatex"
   (generated)
   "manuscripts.bbl"
   "manuscripts.blg"
   (rewritten before read)
-["pdflatex"] 1729002304.1177 "/mnt/yangyijun/UrticariaPrediction/latex/manuscripts.tex" "manuscripts.pdf" "manuscripts" 1729002308.08972 0
-  "/mnt/yangyijun/UrticariaPrediction/latex/manuscripts.tex" 1729002303.66267 45046 07d57a5e3025c7abf21da41e4a181fa8 ""
+["pdflatex"] 1729823448.15195 "/mnt/yangyijun/UrticariaPrediction/latex/manuscripts.tex" "manuscripts.pdf" "manuscripts" 1729823452.40295 0
+  "/mnt/yangyijun/UrticariaPrediction/latex/manuscripts.tex" 1729823443.42673 57757 14776aa02f7c00c09e6610f0a68271f6 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -132,18 +132,18 @@
   "/usr/local/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1728071925 3325972 086b88f17793df733628568aa12c802f ""
   "/usr/local/texlive/2024/texmf.cnf" 1728071750.12661 455 5b996dcaa0eb4ef14a83b026bc0a008c ""
   "figures/boruta_by_group.png" 1728710537.1538 229843 470acf9b5d1bf12ea3e1d650d782ff92 ""
+  "figures/extvaltopn.png" 1729429547.89596 560629 49a2cb19d58eedb383c3bb8f974bd835 ""
   "figures/heatmap_all_orderx.png" 1728738203.40855 172120 75a822e840f6eeb41b521ea9223fb39d ""
-  "figures/kfoldfirst3.png" 1728710519.21513 823025 84d62eb61f62d9c7f5bb18ec1e2c684d ""
-  "figures/modelexplanation.png" 1728832221.82236 870003 63a6035b41b04da7231497b9575905e7 ""
-  "figures/modelexplanation_age.png" 1728828075.22866 548026 d6a708ee4ab94bd4f357b60c65c13051 ""
-  "figures/modelexplanation_age2.png" 1728999409.17816 605408 65f8097768874d94dceb8d5cc5fb953d ""
-  "figures/protocol.png" 1728813435.30264 785954 cce38ea86929cc9536cbee761e6125bd ""
-  "figures/topn_extval25.png" 1728723851.84656 658613 666cb64b8a7d1dc0dd6f0083c3e90f18 ""
-  "manuscripts.aux" 1729002307.68482 15770 b0aff78acda517dd735b27329531da48 "pdflatex"
-  "manuscripts.bbl" 1729001931.83186 18538 0a8f60c11147541d92387c4e7626a251 "bibtex manuscripts"
-  "manuscripts.out" 1729002307.68582 3818 f43f25170c40ab78016b43ab2b4a1cb1 "pdflatex"
-  "manuscripts.spl" 1729002304.4107 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "manuscripts.tex" 1729002303.66267 45046 07d57a5e3025c7abf21da41e4a181fa8 ""
+  "figures/kfoldfirst3.png" 1729403676.28132 1362222 4a5971e3a014ae5419239047f50e7d07 ""
+  "figures/modelexplanation.png" 1729697815.85903 1003098 797a1d09d307660988652c60de5502d2 ""
+  "figures/modelexplanation_age.png" 1729403674.00224 549119 510cf5e9a0198b31b34179dc88ad393c ""
+  "figures/outcome_distribution.png" 1729170252.74215 44023 534b4e9f92133d766dcabf07ae2e0ee6 ""
+  "figures/protocol.png" 1729428348.71283 1431832 2103d704af5eaddfc30dcaf49b0b8de8 ""
+  "manuscripts.aux" 1729823451.98406 17948 39c4b98fd713fe80b3c7c2b9ec450d3a "pdflatex"
+  "manuscripts.bbl" 1729823448.14591 15605 27847a2f1820064a371b6051a477b0c6 "bibtex manuscripts"
+  "manuscripts.out" 1729823451.98506 4203 3e1d01c552ac8e21871b21e0fe871b64 "pdflatex"
+  "manuscripts.spl" 1729823448.49292 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "manuscripts.tex" 1729823443.42673 57757 14776aa02f7c00c09e6610f0a68271f6 ""
   (generated)
   "manuscripts.aux"
   "manuscripts.log"

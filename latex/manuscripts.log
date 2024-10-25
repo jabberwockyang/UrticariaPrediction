@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.5)  15 OCT 2024 22:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.5)  25 OCT 2024 10:30
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -709,95 +709,95 @@ Package hyperref Info: Link coloring OFF on input line 56.
 
 LaTeX Font Info:    Font shape `T1/txr/b/n' in size <10> not available
 (Font)              Font shape `T1/txr/bx/n' tried instead on input line 134.
-LaTeX Font Info:    Trying to load font information for TS1+txr on input line 152.
+LaTeX Font Info:    Trying to load font information for TS1+txr on input line 154.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/txfonts/ts1txr.fd
 File: ts1txr.fd 2000/12/15 v3.1
 )
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<let>-command' on input line 167.
+(hyperref)                removing `\<let>-command' on input line 169.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\comma' on input line 167.
+(hyperref)                removing `\comma' on input line 169.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<def>-command' on input line 167.
+(hyperref)                removing `\<def>-command' on input line 169.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@fnmark' on input line 167.
+(hyperref)                removing `\@fnmark' on input line 169.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<let>-command' on input line 167.
+(hyperref)                removing `\<let>-command' on input line 169.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\comma' on input line 167.
+(hyperref)                removing `\comma' on input line 169.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<def>-command' on input line 167.
+(hyperref)                removing `\<def>-command' on input line 169.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@fnmark' on input line 167.
+(hyperref)                removing `\@fnmark' on input line 169.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<def>-command' on input line 167.
+(hyperref)                removing `\<def>-command' on input line 169.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\cnotenum' on input line 167.
+(hyperref)                removing `\cnotenum' on input line 169.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<def>-command' on input line 167.
+(hyperref)                removing `\<def>-command' on input line 169.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@corref' on input line 167.
+(hyperref)                removing `\@corref' on input line 169.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<def>-command' on input line 167.
+(hyperref)                removing `\<def>-command' on input line 169.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\cnotenum' on input line 167.
+(hyperref)                removing `\cnotenum' on input line 169.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\<def>-command' on input line 167.
+(hyperref)                removing `\<def>-command' on input line 169.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\@corref' on input line 167.
+(hyperref)                removing `\@corref' on input line 169.
 
 [1
 
 {/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc}]
-LaTeX Font Info:    Trying to load font information for OT1+txr on input line 167.
+LaTeX Font Info:    Trying to load font information for OT1+txr on input line 169.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/txfonts/ot1txr.fd
 File: ot1txr.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    Trying to load font information for U+txmia on input line 167.
+LaTeX Font Info:    Trying to load font information for U+txmia on input line 169.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/txfonts/utxmia.fd
 File: utxmia.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 167.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 169.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 167.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 169.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+txsyc on input line 167.
+LaTeX Font Info:    Trying to load font information for U+txsyc on input line 169.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/txfonts/utxsyc.fd
 File: utxsyc.fd 2000/12/15 v3.1
 )
@@ -806,7 +806,7 @@ File: utxsyc.fd 2000/12/15 v3.1
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.186 
+l.182 
        [1
 
 
@@ -815,106 +815,97 @@ l.186
 [2]
 
 [3]
-<figures/protocol.png, id=188, 580.3281pt x 786.0567pt>
+<figures/outcome_distribution.png, id=204, 462.528pt x 346.896pt>
+File: figures/outcome_distribution.png Graphic file (type png)
+<use figures/outcome_distribution.png>
+Package pdftex.def Info: figures/outcome_distribution.png  used on input line 240.
+(pdftex.def)             Requested size: 374.40143pt x 280.81483pt.
+<figures/protocol.png, id=209, 850.377pt x 600.3228pt>
 File: figures/protocol.png Graphic file (type png)
 <use figures/protocol.png>
-Package pdftex.def Info: figures/protocol.png  used on input line 236.
-(pdftex.def)             Requested size: 468.0pt x 633.91978pt.
-
-
-LaTeX Warning: Float too large for page by 33.15178pt on input line 238.
-
-<figures/kfoldfirst3.png, id=203, 473.8503pt x 459.8781pt>
-File: figures/kfoldfirst3.png Graphic file (type png)
-<use figures/kfoldfirst3.png>
-Package pdftex.def Info: figures/kfoldfirst3.png  used on input line 314.
-(pdftex.def)             Requested size: 468.0pt x 454.20007pt.
+Package pdftex.def Info: figures/protocol.png  used on input line 253.
+(pdftex.def)             Requested size: 374.40143pt x 264.31688pt.
 
 
 [4]
-
-[5]
-<figures/boruta_by_group.png, id=222, 1806.75pt x 578.16pt>
-File: figures/boruta_by_group.png Graphic file (type png)
-<use figures/boruta_by_group.png>
-Package pdftex.def Info: figures/boruta_by_group.png  used on input line 327.
-(pdftex.def)             Requested size: 468.0pt x 149.75343pt.
-<figures/topn_extval25.png, id=224, 688.7331pt x 459.8781pt>
-File: figures/topn_extval25.png Graphic file (type png)
-<use figures/topn_extval25.png>
-Package pdftex.def Info: figures/topn_extval25.png  used on input line 335.
-(pdftex.def)             Requested size: 468.0pt x 312.49544pt.
-<figures/heatmap_all_orderx.png, id=226, 787.743pt x 609.9588pt>
-File: figures/heatmap_all_orderx.png Graphic file (type png)
-<use figures/heatmap_all_orderx.png>
-Package pdftex.def Info: figures/heatmap_all_orderx.png  used on input line 346.
-(pdftex.def)             Requested size: 468.0pt x 362.38553pt.
-<figures/modelexplanation.png, id=240, 493.845pt x 668.4975pt>
-File: figures/modelexplanation.png Graphic file (type png)
-<use figures/modelexplanation.png>
-Package pdftex.def Info: figures/modelexplanation.png  used on input line 365.
-(pdftex.def)             Requested size: 468.0pt x 633.50836pt.
+<figures/kfoldfirst3.png, id=230, 844.3545pt x 546.1203pt>
+File: figures/kfoldfirst3.png Graphic file (type png)
+<use figures/kfoldfirst3.png>
+Package pdftex.def Info: figures/kfoldfirst3.png  used on input line 338.
+(pdftex.def)             Requested size: 374.40143pt x 242.16028pt.
 
 
-LaTeX Warning: Float too large for page by 32.74036pt on input line 367.
-
-<figures/modelexplanation_age.png, id=243, 404.712pt x 474.8139pt>
-File: figures/modelexplanation_age.png Graphic file (type png)
-<use figures/modelexplanation_age.png>
-Package pdftex.def Info: figures/modelexplanation_age.png  used on input line 377.
-(pdftex.def)             Requested size: 468.0pt x 549.08917pt.
-<figures/modelexplanation_age2.png, id=244, 404.712pt x 474.8139pt>
-File: figures/modelexplanation_age2.png Graphic file (type png)
-<use figures/modelexplanation_age2.png>
-Package pdftex.def Info: figures/modelexplanation_age2.png  used on input line 385.
-(pdftex.def)             Requested size: 468.0pt x 549.08917pt.
-
+[5 <./figures/outcome_distribution.png>]
 
 [6]
+<figures/boruta_by_group.png, id=247, 1806.75pt x 578.16pt>
+File: figures/boruta_by_group.png Graphic file (type png)
+<use figures/boruta_by_group.png>
+Package pdftex.def Info: figures/boruta_by_group.png  used on input line 355.
+(pdftex.def)             Requested size: 374.40143pt x 119.80275pt.
+<figures/extvaltopn.png, id=248, 556.2381pt x 555.2745pt>
+File: figures/extvaltopn.png Graphic file (type png)
+<use figures/extvaltopn.png>
+Package pdftex.def Info: figures/extvaltopn.png  used on input line 363.
+(pdftex.def)             Requested size: 374.40143pt x 373.76044pt.
+<figures/heatmap_all_orderx.png, id=250, 787.743pt x 609.9588pt>
+File: figures/heatmap_all_orderx.png Graphic file (type png)
+<use figures/heatmap_all_orderx.png>
+Package pdftex.def Info: figures/heatmap_all_orderx.png  used on input line 374.
+(pdftex.def)             Requested size: 374.40143pt x 289.91028pt.
 
-[7]
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 429.
+
+[7 <./figures/protocol.png>]
+<figures/modelexplanation.png, id=283, 697.6464pt x 526.1256pt>
+File: figures/modelexplanation.png Graphic file (type png)
+<use figures/modelexplanation.png>
+Package pdftex.def Info: figures/modelexplanation.png  used on input line 407.
+(pdftex.def)             Requested size: 374.40143pt x 282.35349pt.
+
+
+[8 <./figures/kfoldfirst3.png>]
+<figures/modelexplanation_age.png, id=296, 402.5439pt x 472.8867pt>
+File: figures/modelexplanation_age.png Graphic file (type png)
+<use figures/modelexplanation_age.png>
+Package pdftex.def Info: figures/modelexplanation_age.png  used on input line 420.
+(pdftex.def)             Requested size: 234.0pt x 274.89502pt.
+
+
+[9 <./figures/boruta_by_group.png>]
+
+[10 <./figures/extvaltopn.png>]
+
+[11 <./figures/heatmap_all_orderx.png>]
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 498.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
-) (./manuscripts.bbl
+)
 
-[8{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}])
+[12{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc} <./figures/modelexplanation.png>] (./manuscripts.bbl
 
-[9]
+[13 <./figures/modelexplanation_age.png>])
 
-[10 <./figures/protocol.png>]
-
-[11 <./figures/kfoldfirst3.png>]
-
-[12 <./figures/boruta_by_group.png> <./figures/topn_extval25.png>]
-
-[13 <./figures/heatmap_all_orderx.png>]
-
-[14 <./figures/modelexplanation.png>]
-
-[15 <./figures/modelexplanation_age.png>]
-
-[16 <./figures/modelexplanation_age2.png>] (./manuscripts.aux)
+[14] (./manuscripts.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-09-10>
  ***********
 Package rerunfilecheck Info: File `manuscripts.out' has not changed.
-(rerunfilecheck)             Checksum: F43F25170C40AB78016B43AB2B4A1CB1;3818.
+(rerunfilecheck)             Checksum: 3E1D01C552AC8E21871B21E0FE871B64;4203.
  ) 
 Here is how much of TeX's memory you used:
- 12634 strings out of 473579
- 190013 string characters out of 5728234
- 604563 words of memory out of 5000000
- 35250 multiletter control sequences out of 15000+600000
+ 12618 strings out of 473579
+ 189535 string characters out of 5728234
+ 600774 words of memory out of 5000000
+ 35240 multiletter control sequences out of 15000+600000
  604598 words of font info for 121 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,15n,79p,2536b,608s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,15n,79p,2265b,594s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/rtcxr.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/rtxi.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/rtxmi.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/rtxr.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/txfonts/txsy.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on manuscripts.pdf (17 pages, 4873655 bytes).
+Output written on manuscripts.pdf (15 pages, 5486712 bytes).
 PDF statistics:
- 469 PDF objects out of 1000 (max. 8388607)
- 415 compressed objects within 5 object streams
- 79 named destinations out of 1000 (max. 500000)
- 193 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 446 PDF objects out of 1000 (max. 8388607)
+ 394 compressed objects within 4 object streams
+ 73 named destinations out of 1000 (max. 500000)
+ 201 words of extra memory for PDF output out of 10000 (max. 10000000)
 

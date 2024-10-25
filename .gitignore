@@ -4,7 +4,7 @@
 /nni*_explog/*/environments
 /nni*_explog/*/*.jsonl
 /nni*_explog/_latest
-shap_plots*
+shap*/shap_plots*
 /kfoldint_explog/*top*_gr1
 .vscode
 mysql/db/urticaria.db

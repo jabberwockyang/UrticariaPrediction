@@ -204,7 +204,7 @@ def write_kfoldint_results(data, log_dir, label_set, ppthreshold = 1000):
             y_pred_array = y_pred_array[okindex]
 
             loss = mean_squared_error(y_array, y_pred_array)
-            for binary_threshold in [42, 100, 365,1000]:
+            for binary_threshold in [100, 365,1000]:
                 y_bi = np.where(y_array > binary_threshold, 1, 0)
                 fpr, tpr, thresholds = roc_curve(y_bi, y_pred_array)
                 roc_auc = auc(fpr, tpr)
@@ -240,8 +240,11 @@ def main(log_dir, plotdir, colors_set, label_set, group_set, ppthreshold = 1000)
     data = {}
 
     for experiment_id in colors_set.keys():
-        sequence_id = best_sequence_id_byloss(log_dir, experiment_id, ppshape_threshold = ppthreshold)
-        # sequence_id = best_sequence_id_byroc(log_dir, experiment_id, ppshape_threshold = ppthreshold)
+        if RNAK == 'roc':
+            sequence_id = best_sequence_id_byroc(log_dir, experiment_id, ppshape_threshold = ppthreshold)
+        elif RNAK == 'loss':
+            sequence_id = best_sequence_id_byloss(log_dir, experiment_id, ppshape_threshold = ppthreshold)
+        
         result = get_result_by_sequence_id(log_dir, experiment_id, sequence_id)
         data[experiment_id] = {
             'sequence_id': sequence_id,
@@ -255,7 +258,7 @@ def main(log_dir, plotdir, colors_set, label_set, group_set, ppthreshold = 1000)
         json.dump(data, f, ensure_ascii=False, indent=4)
 
     
-    for binary_threshold in [42, 100, 365,1000]:
+    for binary_threshold in [100, 365,1000]:
         for group in group_set.keys():
             subset_data = {experiment_id: data[experiment_id] for experiment_id in group_set[group]}
             plot_roc(subset_data, group, plotdir, binary_threshold, colors_set, label_set, ppthreshold = ppthreshold)
@@ -267,47 +270,53 @@ def main(log_dir, plotdir, colors_set, label_set, group_set, ppthreshold = 1000)
 
 if __name__ == "__main__":
     log_dir = 'kfoldint_explog'
-    plotdir = 'kfoldint_plot_sxau4nof_default_top10_gr1'
+    for exp in ['43KOTlpS_default_top25_gr1']:
+    # for exp in ["CWQJ9nlD_default_top200_gr1", 'sxau4nof_default_top10_gr1','zLCPym1l_default_top200_gr1','HDQAuzN8_default_top200_gr1']:
+        for RNAK in ['loss','roc']:
+            plotdir = f'kfoldint_plot_{exp}_{RNAK}'
 
-    K = 5
-    color_set = {
-        "dTBCXYGr_default_top100_gr1": "blue",
-        # "beA3o82D_default_top100_gr1": "red",
-        "sxau4nof_default_top10_gr1": "red",
-        "XE0MhN5r_default_top100_gr1": "blue",
-        "1aTxj7zc_default_top100_gr1": "red",
-        "FAbyiLmG_default_top100_gr1": "blue",
-        "25m9QoAi_default_top250_gr1": "red",
-        "YR1DQb9A_default_top100_gr1": "blue",
-        "lKesaFNR_default_top100_gr1": "red",
-        "7mJ4VYe5_default_top100_gr1": "blue",
-        "NKgRQfcV_default_top25_gr1": "red"
-    }
-    
+            K = 5
+            color_set = {
+                # "dTBCXYGr_default_top100_gr1": "blue",
+                "D8NuhY3k_default_top25_gr1": "blue",
+                # "beA3o82D_default_top100_gr1": "red",
+                exp: "red",
+                "XE0MhN5r_default_top100_gr1": "blue",
+                "1aTxj7zc_default_top100_gr1": "red",
+                "FAbyiLmG_default_top100_gr1": "blue",
+                "25m9QoAi_default_top250_gr1": "red",
+                "YR1DQb9A_default_top100_gr1": "blue",
+                "lKesaFNR_default_top100_gr1": "red",
+                "7mJ4VYe5_default_top100_gr1": "blue",
+                "NKgRQfcV_default_top25_gr1": "red"
+            }
+            
 
-    label_set = {
-        "dTBCXYGr_default_top100_gr1": "Xgboost + time independent",
-        # "beA3o82D_default_top100_gr1": "Xgboost + time dependent",
-        "sxau4nof_default_top10_gr1": "Xgboost + time dependent",
-        "XE0MhN5r_default_top100_gr1": "random forest + time independent",
-        "1aTxj7zc_default_top100_gr1": "random forest + time dependent",
-        "FAbyiLmG_default_top100_gr1": "Adaboost + time independent",
-        "25m9QoAi_default_top250_gr1": "Adaboost + time dependent",
-        "YR1DQb9A_default_top100_gr1": "GBM + time independent",
-        "lKesaFNR_default_top100_gr1": "GBM + time dependent",
-        "7mJ4VYe5_default_top100_gr1": "SVM + time independent",
-        "NKgRQfcV_default_top25_gr1": "SVM + time dependent"
-    }
+            label_set = {
+                # "dTBCXYGr_default_top100_gr1": "Xgboost + time independent",
+                "D8NuhY3k_default_top25_gr1": "Xgboost + time independent",
+                # "beA3o82D_default_top100_gr1": "Xgboost + time dependent",
+                exp: "Xgboost + time dependent",
+                "XE0MhN5r_default_top100_gr1": "random forest + time independent",
+                "1aTxj7zc_default_top100_gr1": "random forest + time dependent",
+                "FAbyiLmG_default_top100_gr1": "Adaboost + time independent",
+                "25m9QoAi_default_top250_gr1": "Adaboost + time dependent",
+                "YR1DQb9A_default_top100_gr1": "GBM + time independent",
+                "lKesaFNR_default_top100_gr1": "GBM + time dependent",
+                "7mJ4VYe5_default_top100_gr1": "SVM + time independent",
+                "NKgRQfcV_default_top25_gr1": "SVM + time dependent"
+            }
 
 
-    group_set = {
-        # "Xgboost": ["dTBCXYGr_default_top100_gr1", "beA3o82D_default_top100_gr1"],
-        "Xgboost": ["dTBCXYGr_default_top100_gr1", "sxau4nof_default_top10_gr1"],
-        "random forest": ["XE0MhN5r_default_top100_gr1", "1aTxj7zc_default_top100_gr1"],
-        "Adaboost": ["FAbyiLmG_default_top100_gr1", "25m9QoAi_default_top250_gr1"],
-        "GBM": ["YR1DQb9A_default_top100_gr1", "lKesaFNR_default_top100_gr1"],
-        "SVM": ["7mJ4VYe5_default_top100_gr1", "NKgRQfcV_default_top25_gr1"]
-    }
+            group_set = {
+                # "Xgboost": ["dTBCXYGr_default_top100_gr1", "beA3o82D_default_top100_gr1"],
+                # "Xgboost": ["dTBCXYGr_default_top100_gr1", exp],
+                "Xgboost": ["D8NuhY3k_default_top25_gr1", exp], # 
+                "random forest": ["XE0MhN5r_default_top100_gr1", "1aTxj7zc_default_top100_gr1"],
+                "Adaboost": ["FAbyiLmG_default_top100_gr1", "25m9QoAi_default_top250_gr1"],
+                "GBM": ["YR1DQb9A_default_top100_gr1", "lKesaFNR_default_top100_gr1"],
+                "SVM": ["7mJ4VYe5_default_top100_gr1", "NKgRQfcV_default_top25_gr1"]
+            }
 
-    for threshold in [1000]:
-        main(log_dir, plotdir, color_set, label_set, group_set, ppthreshold = threshold)
+            for threshold in [1000]:
+                main(log_dir, plotdir, color_set, label_set, group_set, ppthreshold = threshold)

@@ -390,6 +390,12 @@ def load_feature_list_from_boruta_file(boruta_file:str):
     logger.info(f"Found {len(intersected_vars)} common variables in all the lists")
     return list(intersected_vars)
 
+def custom_sort_key(string):
+    order = {'preclinical': 0, 'acute': 1, 'chronic': 2}
+    for key in order:
+        if key in string:
+            return order[key]
+    return float('inf')  # 如果字符串不包含任何key，放在最后
 if __name__ == '__main__':
     l = load_feature_list_from_boruta_file('boruta_explog/09647097-60b1-4c47-bc04-47eb678f73ea/confirmed_vars.txt')
     print('boruta selection with no derived features')

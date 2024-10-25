@@ -125,7 +125,7 @@ def write_extval_result(fold_result_list, log_dir, experiment_id, label_set):
 
 
         loss = mean_squared_error(y_array, y_pred_array)
-        for binary_threshold in [42, 100, 365]:
+        for binary_threshold in [100, 365]:
             y_bi = np.where(y_array > binary_threshold, 1, 0)
             fpr, tpr, thresholds = roc_curve(y_bi, y_pred_array)
             roc_auc = auc(fpr, tpr)
@@ -177,37 +177,59 @@ def main(logdir, expid, evalset):
         colors_set[sequence_id] = plt.cm.tab10(idx)
         label_set[sequence_id] = sequence_id.split('_')[-1]
 
-    # for binary_threshold in [42,100, 365]:
-    #     plot_roc(fold_result_list, os.path.join(logdir, expid,evalset), binary_threshold, colors_set, label_set)
-    #     plot_roc(fold_result_list, os.path.join(logdir, expid,evalset), binary_threshold, colors_set, label_set, topn='top25')
+    for binary_threshold in [100, 365]:
+        plot_roc(fold_result_list, os.path.join(logdir, expid,evalset), binary_threshold, colors_set, label_set)
+        plot_roc(fold_result_list, os.path.join(logdir, expid,evalset), binary_threshold, colors_set, label_set, topn='top25')
     plot_y_predy(fold_result_list, os.path.join(logdir, expid,evalset), colors_set, label_set)
 
-    # write_extval_result(fold_result_list, os.path.join(logdir, expid,evalset), expid,label_set)
+    write_extval_result(fold_result_list, os.path.join(logdir, expid,evalset), expid,label_set)
 
 
 
 if __name__ == '__main__':
     K = 5
 
-    main('extval_explog', 'beA3o82D_1112_extval_gr1', 'deriva')
-    main('extval_explog', 'beA3o82D_1112_extval_gr1', 'test_ext')
+    # main('extval_explog', 'beA3o82D_1112_extval_gr1', 'deriva')
+    # main('extval_explog', 'beA3o82D_1112_extval_gr1', 'test_ext')
     # # --expid CWQJ9nlD --sequenceid 1052
-    main('extval_explog', 'CWQJ9nlD_1052_extval_gr1', 'deriva')
-    main('extval_explog', 'CWQJ9nlD_1052_extval_gr1', 'test_ext')
-    # #  --expid 1aTxj7zc --sequenceid 266 
-    # main('extval_explog', '1aTxj7zc_266_extval_gr1', 'deriva')
-    # main('extval_explog', '1aTxj7zc_266_extval_gr1', 'test_ext')
-    # # --expid lKesaFNR --sequenceid 31 
-    # main('extval_explog', 'lKesaFNR_31_extval_gr1', 'deriva')
-    # main('extval_explog', 'lKesaFNR_31_extval_gr1', 'test_ext')
+    # main('extval_explog', 'CWQJ9nlD_1052_extval_gr1', 'deriva')
+    # main('extval_explog', 'CWQJ9nlD_1052_extval_gr1', 'test_ext')
+    # CWQJ9nlD_165_1_all
+    # main('extval_explog', 'CWQJ9nlD_165_extval_gr1', 'deriva')
+    # main('extval_explog', 'CWQJ9nlD_165_extval_gr1', 'test_ext')
 
     # HDQAuzN8_4866_extval_gr1
-    main('extval_explog', 'HDQAuzN8_4866_extval_gr1', 'deriva')
-    main('extval_explog', 'HDQAuzN8_4866_extval_gr1', 'test_ext')
+    # main('extval_explog', 'HDQAuzN8_4866_extval_gr1', 'deriva')
+    # main('extval_explog', 'HDQAuzN8_4866_extval_gr1', 'test_ext')
+    # HDQAuzN8_528_1_all
+    # main('extval_explog', 'HDQAuzN8_528_extval_gr1', 'deriva')
+    # main('extval_explog', 'HDQAuzN8_528_extval_gr1', 'test_ext')
 
     # zLCPym1l_374_1_all
-    main('extval_explog', 'zLCPym1l_374_extval_gr1', 'deriva')
-    main('extval_explog', 'zLCPym1l_374_extval_gr1', 'test_ext')
+    # main('extval_explog', 'zLCPym1l_374_extval_gr1', 'deriva')
+    # main('extval_explog', 'zLCPym1l_374_extval_gr1', 'test_ext')
+
+    # zLCPym1l_314_1_all
+    # main('extval_explog', 'zLCPym1l_314_extval_gr1', 'deriva')
+    # main('extval_explog', 'zLCPym1l_314_extval_gr1', 'test_ext')
 
 
+    # # sxau4nof_734_1_all
+    # main('extval_explog', 'sxau4nof_734_extval_gr1', 'deriva')
+    # main('extval_explog', 'sxau4nof_734_extval_gr1', 'test_ext')
 
+    # # sxau4nof_735_1_all
+    # main('extval_explog', 'sxau4nof_735_extval_gr1', 'deriva')
+    # main('extval_explog', 'sxau4nof_735_extval_gr1', 'test_ext')
+
+    # # 43KOTlpS_180_1_all
+    # main('extval_explog', '43KOTlpS_180_extval_gr1', 'deriva')
+    # main('extval_explog', '43KOTlpS_180_extval_gr1', 'test_ext')
+
+    # # 43KOTlpS_186_1_all
+    main('extval_explog', '43KOTlpS_186_extval_gr1', 'deriva')
+    main('extval_explog', '43KOTlpS_186_extval_gr1', 'test_ext')
+
+    # lKesaFNR_31_1_all
+    # main('extval_explog', 'lKesaFNR_31_extval_gr1', 'deriva')
+    # main('extval_explog', 'lKesaFNR_31_extval_gr1', 'test_ext')

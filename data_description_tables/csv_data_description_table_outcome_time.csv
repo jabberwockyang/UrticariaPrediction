@@ -1,0 +1,72 @@
+Characteristic,Good Outcome,Poor Outcome,P-value
+Number of patients,1200,746,Outcome,14.69 ± 22.62,631.42 ± 448.34,0.000
+Gender,0: 83.7%, 1: 16.3%, 0: 77.3%, 1: 22.7%,0.001
+First Visit Age,22.54 ± 21.64,22.26 ± 23.12,0.793
+CI nd U,0: 99.2%, 1: 0.8%, 0: 98.5%, 1: 1.5%,0.190
+Lymphocytes Percentage preclinical,38.05 ± 14.64,40.34 ± 15.16,0.001
+Lymphocytes Percentage acute,32.43 ± 14.10,34.65 ± 13.91,0.001
+Lymphocytes Percentage chronic,35.43 ± 9.37,36.50 ± 11.95,0.027
+Neutrophils Percentage acute,59.37 ± 15.62,56.92 ± 14.85,0.001
+Neutrophils Percentage preclinical,51.15 ± 16.08,48.94 ± 16.49,0.003
+Neutrophils Percentage chronic,54.25 ± 10.27,53.71 ± 12.76,0.304
+Monocytes Percentage chronic,6.53 ± 0.77,6.53 ± 1.22,0.968
+Monocytes Percentage preclinical,6.65 ± 1.02,6.70 ± 0.82,0.275
+Monocytes Percentage acute,6.23 ± 1.09,6.23 ± 1.04,0.992
+Mean Corpuscular Hemoglobin Concentration preclinical,343.23 ± 7.04,343.88 ± 7.38,0.052
+Mean Corpuscular Hemoglobin Concentration acute,336.53 ± 11.91,338.59 ± 12.85,0.000
+Mean Corpuscular Hemoglobin Concentration chronic,333.81 ± 4.61,334.04 ± 8.74,0.442
+Platelet Count acute,260.20 ± 68.67,258.81 ± 62.12,0.652
+Platelet Count preclinical,251.41 ± 52.19,255.30 ± 50.00,0.104
+Platelet Count chronic,253.78 ± 31.51,257.54 ± 57.28,0.062
+White Blood Cell Count chronic,8.44 ± 1.00,8.67 ± 2.31,0.003
+White Blood Cell Count preclinical,8.59 ± 1.91,8.52 ± 1.81,0.447
+White Blood Cell Count acute,9.99 ± 3.06,9.56 ± 2.56,0.001
+Mean Corpuscular Hemoglobin acute,28.57 ± 2.02,28.64 ± 2.04,0.462
+Mean Corpuscular Hemoglobin preclinical,28.45 ± 1.65,28.30 ± 1.73,0.055
+Mean Corpuscular Hemoglobin chronic,28.92 ± 1.42,28.79 ± 1.75,0.085
+Mean Corpuscular Volume preclinical,83.06 ± 5.46,82.44 ± 5.83,0.017
+Mean Corpuscular Volume chronic,86.60 ± 4.35,86.02 ± 5.27,0.009
+Mean Corpuscular Volume acute,84.90 ± 6.24,84.57 ± 5.81,0.236
+Hemoglobin chronic,130.21 ± 4.80,129.84 ± 7.44,0.178
+Hemoglobin acute,128.85 ± 9.78,129.41 ± 7.91,0.187
+Hemoglobin preclinical,128.09 ± 7.01,127.20 ± 8.29,0.011
+Eosinophils Percentage acute,1.73 ± 2.28,1.60 ± 1.71,0.164
+Eosinophils Percentage preclinical,2.79 ± 2.61,2.74 ± 2.41,0.676
+Eosinophils Percentage chronic,2.32 ± 1.35,2.29 ± 1.87,0.712
+Basophils Percentage preclinical,0.27 ± 0.13,0.27 ± 0.14,0.717
+Basophils Percentage acute,0.22 ± 0.19,0.22 ± 0.17,0.893
+Basophils Percentage chronic,0.30 ± 0.14,0.30 ± 0.21,0.987
+Absolute Eosinophil Count preclinical,0.22 ± 0.33,0.23 ± 0.31,0.879
+Absolute Eosinophil Count acute,0.15 ± 0.24,0.14 ± 0.16,0.160
+Absolute Eosinophil Count chronic,0.18 ± 0.12,0.18 ± 0.16,0.910
+Absolute Lymphocyte Count chronic,2.68 ± 0.85,2.85 ± 1.10,0.000
+Absolute Lymphocyte Count acute,2.96 ± 1.31,3.03 ± 1.29,0.269
+Absolute Lymphocyte Count preclinical,3.14 ± 1.28,3.35 ± 1.44,0.001
+Mean Platelet Volume acute,9.84 ± 1.16,9.60 ± 1.10,0.000
+Mean Platelet Volume preclinical,9.55 ± 0.84,9.51 ± 0.79,0.328
+Mean Platelet Volume chronic,9.11 ± 0.87,9.21 ± 1.21,0.042
+Platelet Distribution Width acute,12.04 ± 2.06,11.85 ± 1.79,0.034
+Platelet Distribution Width chronic,12.04 ± 1.16,12.05 ± 1.74,0.855
+Platelet Distribution Width preclinical,11.86 ± 1.46,11.75 ± 1.60,0.124
+Eosinophil Count Absolute acute,128.37 ± 129.51,124.36 ± 126.04,0.502
+Eosinophil Count Absolute chronic,179.06 ± 89.80,183.78 ± 140.98,0.368
+Eosinophil Count Absolute preclinical,230.82 ± 183.40,246.76 ± 272.94,0.124
+CR eactive Protein chronic,5.37 ± 4.82,6.47 ± 8.81,0.000
+CR eactive Protein preclinical,8.95 ± 7.76,8.81 ± 7.16,0.704
+CR eactive Protein acute,10.24 ± 11.41,8.95 ± 8.22,0.007
+Immunoglobulin E acute,149.02 ± 107.38,166.20 ± 113.25,0.001
+Immunoglobulin E chronic,220.22 ± 163.73,219.37 ± 444.66,0.952
+Free Thyroxine chronic,16.16 ± 0.83,16.21 ± 1.04,0.207
+Free Thyroxine acute,15.39 ± 0.76,15.31 ± 0.79,0.020
+SMRNP chronic,1.24 ± 1.70,1.24 ± 0.68,0.990
+SMRNP acute,1.32 ± 0.70,1.38 ± 0.59,0.058
+Anti SSA chronic,1.29 ± 2.79,1.40 ± 2.79,0.394
+Anti SSA acute,1.11 ± 2.90,1.26 ± 4.29,0.359
+Anti Jo 1 chronic,1.07 ± 0.99,1.06 ± 0.45,0.899
+Anti Jo 1 acute,0.81 ± 0.44,0.84 ± 0.43,0.274
+Nucleosome chronic,0.53 ± 0.43,0.54 ± 0.46,0.526
+Nucleosome acute,1.15 ± 0.76,1.12 ± 0.72,0.304
+Ribosomal PP rotein chronic,1.15 ± 0.23,1.30 ± 3.20,0.117
+Ribosomal PP rotein acute,1.08 ± 0.27,1.10 ± 0.29,0.174
+Ro 52 chronic,1.79 ± 1.92,1.92 ± 3.52,0.294
+Ro 52 acute,1.80 ± 2.05,1.91 ± 4.32,0.439
