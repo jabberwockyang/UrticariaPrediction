@@ -257,10 +257,12 @@ Of 9921 patients recruited for this study, 3954 patients were selected for time-
 The comparison of clinical characteristics between patients with short and prolonged visit duration in the time-independent dataset (Table \ref{tab:good_outcome_poor_outcome_origi}) highlights several trends that align with findings from previous studies on chronic spontaneous urticaria (CSU).
 Patients with visiting duration more than 100 days were defined as poor outcome group, and patients with visiting duration less than 100 days were defined as good outcome group. In this analysis, immunoglobulin E (IgE) ($131.65 \pm 242.00$ in good outcome vs $152.28 \pm 346.75$ in poor outcome), and basophil percentage ($0.25 \pm 0.22$ in good outcome vs $0.32 \pm 0.24$ in poor outcome) were significantly higher in patients with poor outcomes, which is consistent with previous studies that have linked these markers to CSU severity and duration \citep{SanchezBorges2017Factors,Rabelo-Filardi2013Parameters}. 
 
-In contrast, C-reactive protein (CRP) levels were significantly lower in patients with poor outcomes ($13.03 \pm 19.62$ in good outcome vs $7.71 \pm 10.23$ in poor outcome), which contradicts previous findings that have associated higher CRP levels with CSU severity \citep{Rabelo-Filardi2013Parameters}. However, this discrepancy could reflect the complexity of CRP as an inflammatory marker that may vary across different disease stages or subgroups of patients. In time-dependent data, which is shown in supplementary Table \ref{tab:good_outcome_poor_outcome_time}, CRP presented various trends in different phases of disease, with significantly lower CRP levels in acute phase ($10.21 \pm 10.95$ in good outcome vs $8.95 \pm 8.22$ in poor outcome) and higher CRP levels in chronic phase ($5.39 \pm 4.84$ in good outcome vs $6.47 \pm 8.81$ in poor outcome) in patients with poor outcomes. This finding suggests that the predictive ability of CRP may be influenced by the disease phase, which could explain the inconsistent results observed in the time-independent dataset.
+In contrast, C-reactive protein (CRP) levels were significantly lower in patients with poor outcomes ($13.03 \pm 19.62$ in good outcome vs $7.71 \pm 10.23$ in poor outcome), which contradicts previous findings that have associated higher CRP levels with CSU severity \citep{Rabelo-Filardi2013Parameters}. However, this discrepancy could reflect the complexity of CRP as an inflammatory marker that may vary across different disease stages or subgroups of patients. In time-dependent data, which is shown in supplementary Table \ref{tab:good_outcome_poor_outcome_time}, CRP presented various trends in different phases of disease, with significantly lower CRP levels in acute phase ($10.24 \pm 11.41$ in good outcome vs $8.95 \pm 8.22$ in poor outcome) and higher CRP levels in chronic phase ($5.37 \pm 4.82$ in good outcome vs $6.47 \pm 8.81$ in poor outcome) in patients with poor outcomes. This finding suggests that the predictive ability of CRP may be influenced by the disease phase, which could explain the inconsistent results observed in the time-independent dataset.
 
 
-\begin{table}[htbp]\centering\begin{tabular}{lccc}\hline
+\begin{table}[htbp]\centering
+    \begin{tabular}{lccc}
+    \hline
     Characteristic & Good Outcome & Poor Outcome & P-value \\
     \hline
     Number of patients & 2027 & 1927 & \\
@@ -305,7 +307,7 @@ In contrast, C-reactive protein (CRP) levels were significantly lower in patient
     
     \makecell[l]{Eosinophil Count \\ Absolute} & $128.60 \pm 141.68$ & $162.83 \pm 190.02$ & 0.000 $\uparrow$ \\
     
-    \makecell[l]{C-reactive Protein} & $13.03 \pm 19.62$ & $7.71 \pm 10.23$ & 0.000 $\downarrow$ \\
+    \makecell[l]{CR eactive Protein} & $13.03 \pm 19.62$ & $7.71 \pm 10.23$ & 0.000 $\downarrow$ \\
     
     \makecell[l]{Immunoglobulin E} & $131.65 \pm 242.00$ & $152.28 \pm 346.75$ & 0.029  \\
     
@@ -320,11 +322,11 @@ In contrast, C-reactive protein (CRP) levels were significantly lower in patient
     \makecell[l]{Ribosomal PP rotein} & $1.07 \pm 0.71$ & $1.17 \pm 2.13$ & 0.050  \\
     
     \makecell[l]{Ro 52} & $2.10 \pm 5.90$ & $2.23 \pm 6.81$ & 0.515  \\
-    \hline\end{tabular}\caption{Comparison of the characteristics between patients with good and poor outcomes in the time-independent dataset \\ continuous variables are presented as mean ± standard deviation, categorical variables are presented as number (percentage) \\ good outcome is defined as visit duration < 100 days, poor outcome is defined as visit duration $\geq$ 100 days} \label{tab:good_outcome_poor_outcome_origi}
-    \end{table}
+    \hline
+    \end{tabular}\caption{Comparison of the characteristics between patients with good and poor outcomes in the time independent dataset \\ continuous variables are presented as mean ± standard deviation, categorical variables are presented as number (percentage) \\ good outcome is defined as visit duration < 100 days, poor outcome is defined as visit duration $\geq$ 100 days} 
+    \label{tab:good_outcome_poor_outcome_origi}
+\end{table}
 
-\subsection{Comparison of multiple models on time-dependent and time-independent data}\label{ModelComparison}
-% xgboost + time-dependent datasset is the best model in 42 100 365 cutoffs
 
 Time-independent and Time-dependent data, combined with 5 different models (XGBoost, Random Forest, AdaBoost, GBM, SVM), were used to generate 10 machine learning models to predict the visiting duration of urticaria. Among the 10 models, the XGBoost model with time-dependent data (AUC = $0.932 \pm 0.016$ for 100, AUC = $0.860 \pm 0.028$ for 365) has the best predictive effect for visiting duration, followed by the Random Forest model with time-dependent data (AUC = $0.922 \pm 0.028$ for 100, AUC = $0.837 \pm 0.037$ for 365) as shown in Figure \ref{kfoldfirst3}. 
 
@@ -397,7 +399,7 @@ Thyroid dysfunction is a common comorbidity in patients with chronic urticaria, 
 
 At last, autoimmunity markers, such as Anti Jo 1 and Ro 52, are having positive effect on the model output, as shown in Figure \ref{modelexplanation} I and J.
 
-Other features that were not mentioned in the previous studies, such as mean corpuscular hemoglobin concentration, mean corpuscular volume, and platelet distribution width, also showed significant effects on the model output, as shown in Supplementary Figure \ref{modelexplanation2}.
+Other features that were not mentioned in the previous studies, such as hemoglobin associated lab markers, also showed significant effects on the model output, as shown in Supplementary Figure \ref{modelexplanation2}.
 
 KDE plots of features mentioned above in different phases of disease are shown in Supplementary Figure \ref{modelexplanation_kde} to illustrate the feature effect from the data perspective.
 

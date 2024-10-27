@@ -18,7 +18,7 @@ from train_shap import get_model_data_for_shap, ModelReversingY
 def get_shap_values(X, model, k=300):
     
     if X.shape[0] > k:
-        X100 = shap.utils.sample(X, k) 
+        X100 = shap.utils.sample(X, k, random_state=25)
     else:
         X100 = X
 
@@ -61,9 +61,9 @@ def get_data_for_Shap(model, filepath, parmas,
     return X, y
 
 
-def plot_beeswarm_in_group(shap_values, X, ageggroup, show=False):
-    if not os.path.exists(SHAPDIR):
-        os.makedirs(SHAPDIR)
+def plot_beeswarm_in_group(shap_values, ageggroup, shapdir, show=False):
+    if not os.path.exists(shapdir):
+        os.makedirs(shapdir)
     for index, featgroup in enumerate(pp.feature_filter.features_list):
         print(featgroup)
         featlist = get_asso_feat(featgroup, X.columns)
@@ -74,31 +74,69 @@ def plot_beeswarm_in_group(shap_values, X, ageggroup, show=False):
         if show:
             plt.show()
         else:
-            fig.savefig(f"{SHAPDIR}/{featgroup}_{ageggroup}.png",bbox_inches = 'tight')
+            fig.savefig(f"{shapdir}/{featgroup}_{ageggroup}.png",bbox_inches = 'tight')
 
         logger.debug(f"Saved shap plot for {featgroup} in {ageggroup} age group")
         plt.clf()
 
+def plot_beeswarm_in_group_by_cohort(shap_values, shapdir, show=False):
+    if not os.path.exists(f"{shapdir}/top10"):
+        os.makedirs(f"{shapdir}/top10")
+    cohorts = shap.Cohorts(
+        age_0_2=shap_values[shap_values[:, "FirstVisitAge"].data < 2],
+        age_2_6=shap_values[(shap_values[:, "FirstVisitAge"].data >= 2) & (shap_values[:, "FirstVisitAge"].data < 6)],
+        age_6_12=shap_values[(shap_values[:, "FirstVisitAge"].data >= 6) & (shap_values[:, "FirstVisitAge"].data < 12)],
+        age_12_plus=shap_values[shap_values[:, "FirstVisitAge"].data >= 12]
+    )
+    for co in cohorts.cohorts.keys():
+        
+        shap.plots.beeswarm(cohorts.cohorts[co],show=False)
+        fig = plt.gcf()
+        fig.suptitle(f"top 10 features in {co} group")
+        if show:
+            plt.show()
+        else:
+            fig.savefig(f"{shapdir}/top10/top10_coho_{co}.png",bbox_inches = 'tight')
+        logger.debug(f"Saved shap plot for {co} age group")
+        plt.clf()
 
-def plot_shap_summary(plotshap_config):
+        for index, featgroup in enumerate(pp.feature_filter.features_list):
+            print(featgroup)
+            featlist = get_asso_feat(featgroup, X.columns)
+            sorted_list = sorted(featlist, key=custom_sort_key)
+
+            shap.plots.beeswarm(cohorts.cohorts[co][:,sorted_list],show=False)
+            fig = plt.gcf()
+            fig.suptitle(f"{featgroup} in {co} group")
+            if show:
+                plt.show()
+            else:
+                fig.savefig(f"{shapdir}/{featgroup}_coho_{co}.png",bbox_inches = 'tight')
+            logger.debug(f"Saved shap plot for {featgroup} in {co} age group")
+            plt.clf()
+    
+
+        
+def plot_shap_summary(model_explanation, rowna):
     pic_df = pd.DataFrame(columns=['expid', 'keyname','itemname', 'pic_dir'])
-    for expid, _ in [('beA3o82D', 1112),( '43KOTlpS', 186),('lKesaFNR', 31)]:
-        for plotparams in plotshap_config:
-            key = plotparams['key']
-            keyname = plotparams['keyname']
-            rowna = plotparams['rowna']
-            k = plotparams['k']
-            shapdir = f'shap_plots_{keyname}_rowna{rowna}_k{k}_{TOPN}_{expid}'
-            pics_dirs = [d for d in os.listdir(shapdir) if d.endswith('.png')]
-            for pic_dir in pics_dirs:
-                itemname = pic_dir.split('_')[0]
-                pic_dir = os.path.join(shapdir, pic_dir)
-                pic_df = pic_df._append({'expid': expid, 'keyname': keyname, 'itemname': itemname, 'pic_dir': pic_dir}, ignore_index=True)
-    # sort by itemname then keyname
-    # sort keyname by ['all', '0-2', '2-6', '6-12', '6+', '12+']
-    pic_df['keyname'] = pd.Categorical(pic_df['keyname'], ['all', '0-2', '2-6', '6-12', '6+', '12+'])
-    pic_df = pic_df.sort_values(by=['itemname', 'keyname'])
+    for expid, _ in [('beA3o82D', 1112),( '43KOTlpS', 186)]:
+        keyname = 'all'
+        rowna = rowna
+        k = 100
 
+        shapdir = f'{SHAPFOLDER}/shap_plots_{keyname}_rowna{rowna}_k{k}_{TOPN}_{expid}'     
+        pics_dirs = [d for d in os.listdir(shapdir) if d.endswith('.png')]
+        for pic_dir in pics_dirs:
+            itemname = pic_dir.split('_')[0]
+            if 'coho' in pic_dir:
+                agegroup = pic_dir.split('_coho_')[1].split('.')[0]
+            else:
+                agegroup = 'all'
+            pic_dir = os.path.join(shapdir, pic_dir)
+            pic_df = pic_df._append({'expid': expid, 'itemname': itemname, 'agegroup':agegroup, 'pic_dir': pic_dir}, ignore_index=True)
+
+    pic_df['agegroup'] = pd.Categorical(pic_df['agegroup'], ['all','age_0_2', 'age_2_6', 'age_6_12', 'age_12_plus'])
+    pic_df = pic_df.sort_values(by=['itemname', 'agegroup'])
     pic_df.to_csv('pic_df.csv', index=False)
 
     # merge pics by itemname
@@ -106,66 +144,91 @@ def plot_shap_summary(plotshap_config):
         os.makedirs(SHAPSUMDIR)
     for itemname in pic_df['itemname'].unique():
         item_df = pic_df[pic_df['itemname'] == itemname]
-        
-        # Create a figure with 6 rows and 3 columns, adjusting the size
-        fig, axs = plt.subplots(6, 3, figsize=(15, 10))
+        # nrows with number of agegroup
+        nrows = len(item_df['agegroup'].unique())
+        # ncols with number of expid
+        ncols = len(item_df['expid'].unique())
+
+        # Create a figure with 6 rows and 3 columns, adjusting the size the unit figure size is 10 in width and 3 in height
+        fig, axs = plt.subplots(ncols=ncols, nrows=nrows, figsize = (10*ncols, 3*nrows))
         
         # Loop through the pic_dir for each item and add images to the grid
         for i, pic_dir in enumerate(item_df['pic_dir']):
             img = plt.imread(pic_dir)
-            row = i // 3  # Determine the row index
-            col = i % 3   # Determine the column index
-            
-            # Display the image in the corresponding subplot
-            axs[row, col].imshow(img)
-            axs[row, col].axis('off')  # Turn off axis
+            if ncols == 1:
+                axs[i].imshow(img)
+                axs[i].axis('off')
+            else:
+                # Get the row and column index of the subplot
+                row = i // ncols
+                col = i % ncols
+                
+                # Display the image in the corresponding subplot
+                axs[row, col].imshow(img)
+                axs[row, col].axis('off')  # Turn off axis
 
         # Save the combined figure for each itemname
         plt.tight_layout()
         plt.savefig(f'{SHAPSUMDIR}/{itemname}_summary.png')
         plt.close(fig)
 
+    # combine itemname in list for a certain expid
+    for expid in pic_df['expid'].unique():
+        for figtype in model_explanation.keys():
+            # 2 columns and rows depending on the number of itemnames
+            nrows = (len(model_explanation[figtype]) + 1) // 2
+            fig, axs = plt.subplots(nrows, 2, figsize=(20, 3*nrows))
+            for i, itemname in enumerate(model_explanation[figtype]):
+                pic_dir = pic_df[(pic_df['expid'] == expid) & (pic_df['itemname'] == itemname) & (pic_df['agegroup'] == 'all')]['pic_dir'].values[0]
+                img = plt.imread(pic_dir)
+                row = i // 2
+                col = i % 2
+                axs[row, col].imshow(img)
+                axs[row, col].axis('off')
+            plt.tight_layout()
+            plt.savefig(f'{SHAPSUMDIR}/{expid}_{figtype}_summary.png')
+            plt.close(fig)
+
+
 
 
 if __name__ == '__main__':
-    
+    SHAPFOLDER = 'shap'
     config_path = 'trainshap_timeseries.yaml'
     with open(config_path, 'r') as file:
         config = yaml.safe_load(file)
     featurelist = config['train']['feature_list']
     TOPN = featurelist.split('/')[-1].split('_')[0]
 
-    plotshap_param = 'plot_shap.json'
-    with open(plotshap_param, 'r') as file:
-        plotshap_config = json.load(file)
-
-    for expid, seqid in [('beA3o82D', 1112),( '43KOTlpS', 186),('lKesaFNR', 31)]:
+    for expid, seqid in [('beA3o82D', 1112), ('43KOTlpS', 186)]:
         fmodel, params, pp, fp= get_model_data_for_shap(config_path, expid, seqid)
-        joblib.dump(fmodel, 'fmodel.pkl')
 
-        for plotparams in plotshap_config:
-            key = plotparams['key']
-            keyname = plotparams['keyname']
-            rowna = plotparams['rowna']
-            k = plotparams['k']
-            
-            SHAPDIR = f'shap/shap_plots_{keyname}_rowna{rowna}_k{k}_{TOPN}_{expid}'
-            
-            X, y = get_data_for_Shap(fmodel, fp, params.copy(), 
-                                    rowna, 
-                                    pp, k = k, randomrate= 0.2,
-                                    pick_key= key)
-            # SCALED X, y only x is used for shap values
-            logger.debug(f"Data shape: {X.shape}, {y.shape}")
-            # shap requires a model receive scaled X and original y
-            shap_values, X = get_shap_values(X, ModelReversingY(fmodel, params), 300) 
-            print(f"shapdir  {SHAPDIR}")
-            print(f"shap_values base value: {shap_values.base_values[0]}")
-            plot_beeswarm_in_group(shap_values, X, keyname)
-            # plot_correlation_main(shap_values)
+        key = 'all'
+        keyname = 'all'
+        rowna = 0.3
+        k = 100
 
-    SHAPSUMDIR = f'shap/shap_summary_{TOPN}'
-    plot_shap_summary(plotshap_config)
+        shapdir = f'{SHAPFOLDER}/shap_plots_{keyname}_rowna{rowna}_k{k}_{TOPN}_{expid}'
+        
+        X, y = get_data_for_Shap(fmodel, fp, params.copy(), 
+                                rowna, 
+                                pp, k = k, randomrate= 0.2,
+                                pick_key= key)
+        # SCALED X, y only x is used for shap values
+        logger.debug(f"{expid} {seqid} {keyname} {rowna} {k}")
+        logger.debug(f"Data shape: {X.shape}, {y.shape}")            
+        # shap requires a model receive scaled X and original y
+        shap_values, X = get_shap_values(X, ModelReversingY(fmodel, params), 30000) 
+        print(f"shapdir  {shapdir}")
+        print(f"shap_values base value: {shap_values.base_values[0]}")
 
+        plot_beeswarm_in_group(shap_values, ageggroup = keyname, shapdir = shapdir)
+        plot_beeswarm_in_group_by_cohort(shap_values, shapdir = shapdir)
+
+    SHAPSUMDIR = f'{SHAPFOLDER}/shap_summary_{TOPN}_rowna{rowna}'
+    with open('model_explanation.json', 'r') as file:
+        model_explanation = json.load(file)
+
+    plot_shap_summary(model_explanation, rowna)
 
             

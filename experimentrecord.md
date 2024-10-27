@@ -219,6 +219,12 @@ cp mysql/output-20240927/dataforxgboost_timeseries_2024-09-27.csv output/datafor
 python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid 43KOTlpS
 ```
 
+```bash
+cd ~/UrticariaPrediction
+cp mysql/output-20241027/dataforxgboost_timeseries_2024-10-27.csv output/dataforxgboost_timeseries.csv
+
+python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid 43KOTlpS
+```
 
 
 
@@ -236,6 +242,11 @@ cp /root/UrticariaPrediction/mysql/output-20240929/dataforxgboost_2024-09-29.csv
 python3 train_kfoldint.py --config kfoldint_normal.yaml --expfolder nni10_explog --expid D8NuhY3k
 ```
 
+```bash
+cd ~/UrticariaPrediction
+cp mysql/output-20241027/dataforxgboost_2024-10-27.csv output/dataforxgboost.csv
+python3 train_kfoldint.py --config kfoldint_normal.yaml --expfolder nni10_explog --expid D8NuhY3k
+```
 
 
 rf-timeseries nni9_explog/1aTxj7zc
@@ -309,11 +320,21 @@ cd ~/UrticariaPrediction
 python3 runboruta.py --filepath output/dataforxgboost_timeseries.csv --best_db_path nni9_explog/beA3o82D/db/nni.sqlite --best_sequence_id 1112 --target_column VisitDuration --log_dir boruta_explog --groupingparams groupingsetting.yml
 ```
 
+xgboost-timeseries nni9_explog/43KOTlpS 
+```bash
+cd ~/UrticariaPrediction
+python3 runboruta.py --filepath output/dataforxgboost_timeseries.csv --best_db_path nni9_explog/43KOTlpS/db/nni.sqlite --best_sequence_id 186 --target_column VisitDuration --log_dir boruta_explog --groupingparams groupingsetting.yml
+```
+
 ```bash
 cd ~/UrticariaPrediction
 python3 plot_boruta.py --log_dir boruta_explog --experiment_name e2f721e9
 ```
 
+```bash
+cd ~/UrticariaPrediction
+python3 plot_boruta.py --log_dir boruta_explog --experiment_name 224f07c6
+```
 ## external validation and topn exploration
 xgboost-timeseries nni9_explog/beA3o82D
 
@@ -378,6 +399,11 @@ python3 train_ext_validation.py --config extval_timeseries.yaml --expid 43KOTlpS
 cd ~/UrticariaPrediction
 python3 train_ext_validation.py --config extval_timeseries.yaml --expid 43KOTlpS --sequenceid 186 --featurelistfolder boruta_explog/e2f721e9
 ```
+43KOTlpS_186_1_all roc*** 224f07c6
+```bash
+cd ~/UrticariaPrediction
+python3 train_ext_validation.py --config extval_timeseries.yaml --expid 43KOTlpS --sequenceid 186 --featurelistfolder boruta_explog/224f07c6
+```
 lKesaFNR_31_1_all
 ```bash
 cd ~/UrticariaPrediction
@@ -403,3 +429,27 @@ https://datascience.stackexchange.com/questions/12554/does-xgboost-handle-multic
 https://github.com/shap/shap/issues/1120
 https://github.com/shap/shap/issues/288
 
+
+
+# try df with visitduration > 42
+
+## kfoldint
+xgboost-timeseries nni9_explog/43KOTlpS manuallly written search space 5
+default minimize
+
+```bash
+cd ~/UrticariaPrediction
+cp mysql/output-20241027/dataforxgboost_timeseries_2024-10-27.csv output/dataforxgboost_timeseries.csv
+python3 train_kfoldint.py --config kfoldint_timeseries.yaml --expfolder nni9_explog --expid 43KOTlpS
+```
+
+
+xgboost-normal nni10_explog/D8NuhY3k
+```bash
+cd ~/UrticariaPrediction
+cp mysql/output-20241027/dataforxgboost_2024-10-27.csv output/dataforxgboost.csv
+python3 train_kfoldint.py --config kfoldint_normal.yaml --expfolder nni10_explog --expid D8NuhY3k
+```
+
+## plot description
+```bash

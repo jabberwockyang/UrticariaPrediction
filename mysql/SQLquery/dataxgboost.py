@@ -13,7 +13,7 @@ FROM
 LEFT JOIN 
     NewPatientExaminations npe ON p.PatientID = npe.PatientID
 WHERE 
-    p.TotalVisits > 2
+    p.VisitDuration > 42
 GROUP BY 
     p.PatientID;
 

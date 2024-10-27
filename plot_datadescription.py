@@ -152,18 +152,6 @@ def getranking(var, sortedvarlist):
     
 
 
-# def prepare_params(config):
-#     with open(config, 'r') as file:
-#         config = yaml.safe_load(file)
-
-#     # 读取nni实验中最佳超参数
-#     expidfolder = config['bestfolder']
-#     bestexpid = expidfolder.split('/')[-1]
-#     sequenceid = config['bestsequenceid']
-#     return bestexpid, sequenceid
-
-
-
 
 
 # ① 数据拆分函数
@@ -402,6 +390,20 @@ def plot_outcome(df, tabledir, set_):
     )
     plt.savefig(f"{tabledir}/outcome_distribution_{set_}.png")
         
+def plot_kde_summary(kdedir, name, modelexplanation):
+    featurelist = modelexplanation['main']
+
+    picdirs = [os.path.join(kdedir, f'{featgroup}_{name}.png') for featgroup in featurelist]
+    fig, axs = plt.subplots(5 , 2, figsize=(30, 24))
+    for i, picdir in enumerate(picdirs):
+        img = plt.imread(picdir)
+        row = i // 2
+        col = i % 2
+        axs[row, col].imshow(img)
+        axs[row, col].axis('off')
+    plt.tight_layout()
+    plt.savefig(os.path.join(kdedir, f'kde_summary_{name}.png'))
+    plt.clf()
 
 
 if __name__ == '__main__':
@@ -418,7 +420,7 @@ if __name__ == '__main__':
         os.makedirs(tabledir)
 
     for bestexpid, sequenceid, config_train, set_ in [('dTBCXYGr', 429, 'trainshap_normal.yaml','origi'),
-                                                      ('beA3o82D', 1112, 'trainshap_timeseries.yaml', 'time')]:
+                                                      ('43KOTlpS', 186, 'trainshap_timeseries.yaml', 'time')]:
         logger.info(f"Processing {bestexpid} {sequenceid} with {set_}")
         
         fmodel, params, pp, fp= get_model_data_for_shap(config_train, bestexpid, sequenceid)
@@ -438,7 +440,6 @@ if __name__ == '__main__':
             df_all, good_outcome, poor_outcome ,train_df, test_df= split_data(df, outcome_col='Outcome')
             # 生成统计总结
             logger.info("outcome summary")
-            status = 'outcome'
 
             summary = generate_summary_statistics(df_all, good_outcome, poor_outcome)
             latex_code = json_to_latex(summary, dataset_name1="Good Outcome", dataset_name2="Poor Outcome")
@@ -450,7 +451,6 @@ if __name__ == '__main__':
                 f.write(csvtables)
 
             logger.info("train test summary")
-            status = 'train_test'
 
             summary = generate_summary_statistics(df_all, train_df, test_df)
             latex_code = json_to_latex(summary, dataset_name1="Train", dataset_name2="Test")
@@ -494,3 +494,9 @@ if __name__ == '__main__':
                                     pick_key= 'all')
             logger.debug(f"Data shape: {X.shape}, {y.shape}")
             plot_kde_in_group(X, y, kdedir, pp, 'all')
+            with open('model_explanation.json', 'r') as f:
+                modelexplanation = json.load(f)
+
+            plot_kde_summary(kdedir, 'all', modelexplanation)
+
+            # plot_kde_summary('descriptoontable/kde_plots_all_rowna0.5_k100_top25', 'all', modelexplanation)

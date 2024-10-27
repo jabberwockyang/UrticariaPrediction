@@ -1,0 +1,30 @@
+{
+  "main": [
+    "EosinophilsPercentage",
+    "LymphocytesPercentage",
+    "AbsoluteEosinophilCount",
+    "AbsoluteLymphocyteCount",
+    "BasophilsPercentage",
+    "ImmunoglobulinE",
+    "CReactiveProtein",
+    "MeanPlateletVolume",
+    "AntiJo1",
+    "Ro52"
+  ],
+  "supplementary": [
+    "WhiteBloodCellCount",
+    "NeutrophilsPercentage",
+    "MonocytesPercentage",
+    "Hemoglobin",
+    "MeanCorpuscularHemoglobinConcentration",
+    "MeanCorpuscularHemoglobin",
+    "MeanCorpuscularVolume",
+    "Nucleosome",
+    "SMRNP",
+    "AntiSSA",
+    "RibosomalPProtein",
+    "PlateletCount",
+    "PlateletDistributionWidth",
+    "FreeThyroxine"
+  ]
+}

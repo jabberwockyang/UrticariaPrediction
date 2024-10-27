@@ -37,9 +37,9 @@ def trainbyhyperparam(datapath,  params,
                                                         pick_key= subsetlabel,
                                                         topn=topn)
     
-    if X.shape[0] < 800:
-        logger.warning(f"less than 800 data for {subsetlabel}")
-        return None, None, None
+    # if X.shape[0] < 800:
+    #     logger.warning(f"less than 800 data for {subsetlabel}")
+    #     return None, None, None
        
     
     # external test set split

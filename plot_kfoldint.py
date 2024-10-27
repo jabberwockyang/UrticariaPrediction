@@ -85,7 +85,7 @@ def plot_roc(data, groupname, log_dir, binary_threshold, colors_set, label_set, 
         aucs = []
         thr = []
         result = data[experiment_id]['results']
-
+        # print(result)
         for fold_result in result['fold_results']:
             # to array and check y
             y_array = np.array(fold_result['ry'])
@@ -270,17 +270,24 @@ def main(log_dir, plotdir, colors_set, label_set, group_set, ppthreshold = 1000)
 
 if __name__ == "__main__":
     log_dir = 'kfoldint_explog'
-    for exp in ['43KOTlpS_default_top25_gr1']:
-    # for exp in ["CWQJ9nlD_default_top200_gr1", 'sxau4nof_default_top10_gr1','zLCPym1l_default_top200_gr1','HDQAuzN8_default_top200_gr1']:
+    for exp_ori, exp_time in [
+                            # ("D8NuhY3k_default_top25_gr1",  '43KOTlpS_default_top25_gr1'),
+                              ("D8NuhY3k_default_top50_gr1",  '43KOTlpS_default_top50_gr1'),
+                            #   ("dTBCXYGr_default_top100_gr1", 'beA3o82D_default_top100_gr1'),
+                            #   ("dTBCXYGr_default_top100_gr1", "CWQJ9nlD_default_top200_gr1"),
+                            #   ("dTBCXYGr_default_top100_gr1", "sxau4nof_default_top10_gr1"),
+                            #   ("dTBCXYGr_default_top100_gr1", "zLCPym1l_default_top200_gr1"),
+                            #   ("dTBCXYGr_default_top100_gr1", "HDQAuzN8_default_top200_gr1")
+                              ]:
         for RNAK in ['loss','roc']:
-            plotdir = f'kfoldint_plot_{exp}_{RNAK}'
+            plotdir = f'kfoldint_plot_{exp_time}_{RNAK}'
 
             K = 5
             color_set = {
                 # "dTBCXYGr_default_top100_gr1": "blue",
-                "D8NuhY3k_default_top25_gr1": "blue",
+                exp_ori: "blue",
                 # "beA3o82D_default_top100_gr1": "red",
-                exp: "red",
+                exp_time: "red",
                 "XE0MhN5r_default_top100_gr1": "blue",
                 "1aTxj7zc_default_top100_gr1": "red",
                 "FAbyiLmG_default_top100_gr1": "blue",
@@ -294,9 +301,9 @@ if __name__ == "__main__":
 
             label_set = {
                 # "dTBCXYGr_default_top100_gr1": "Xgboost + time independent",
-                "D8NuhY3k_default_top25_gr1": "Xgboost + time independent",
+                exp_ori: "Xgboost + time independent",
                 # "beA3o82D_default_top100_gr1": "Xgboost + time dependent",
-                exp: "Xgboost + time dependent",
+                exp_time: "Xgboost + time dependent",
                 "XE0MhN5r_default_top100_gr1": "random forest + time independent",
                 "1aTxj7zc_default_top100_gr1": "random forest + time dependent",
                 "FAbyiLmG_default_top100_gr1": "Adaboost + time independent",
@@ -310,8 +317,7 @@ if __name__ == "__main__":
 
             group_set = {
                 # "Xgboost": ["dTBCXYGr_default_top100_gr1", "beA3o82D_default_top100_gr1"],
-                # "Xgboost": ["dTBCXYGr_default_top100_gr1", exp],
-                "Xgboost": ["D8NuhY3k_default_top25_gr1", exp], # 
+                "Xgboost": [exp_ori, exp_time], # 
                 "random forest": ["XE0MhN5r_default_top100_gr1", "1aTxj7zc_default_top100_gr1"],
                 "Adaboost": ["FAbyiLmG_default_top100_gr1", "25m9QoAi_default_top250_gr1"],
                 "GBM": ["YR1DQb9A_default_top100_gr1", "lKesaFNR_default_top100_gr1"],

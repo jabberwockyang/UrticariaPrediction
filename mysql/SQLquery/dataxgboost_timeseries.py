@@ -12,6 +12,8 @@ FROM
     Patients p
 LEFT JOIN 
     NewPatientExaminations npe ON p.PatientID = npe.PatientID
+WHERE 
+    p.VisitDuration > 42
 GROUP BY 
     p.PatientID;
 
